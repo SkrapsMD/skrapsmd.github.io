@@ -1,0 +1,39 @@
+/*
+This file contains the colors used by my favorite graphics company (US Graphics Company -- USGC). 
+
+See usgraphics.com -- Unfortunately I can't afford their fonts, but they are also very nice. 
+
+BLACK AND WHITE ARE DEFINED IN THE MAIN STYLE SHEET
+*/
+:root{
+    /* USGC BEIGE */
+    --usgc-beige: #f8eac7;
+    /* Primary Palette */
+    --usgc-red: #ed1c24;
+    --usgc-green: #00a651;
+    --usgc-blue: #2e3192;
+    --usgc-cyan: #00aeef;
+    --usgc-yellow: #fff200;
+    --usgc-magenta: #ec008c;
+    /* Secondary Palette */ 
+    --usc-lime: #658d3c;
+    --usgc-green-2: #007a61;
+    --usgc-blue-2: #184898;
+    --usgc-purple: #613393;
+    --usgc-magenta-2: #a42067;
+    --usgc-red-2: #c22032;
+    --usgc-orange: #bc4c27;
+    --usgc-light-yellow: #fff5b1;
+    --usgc-light-blue: #c9e5ff;
+    /* Gray Palette */
+    --usgc-gray-1: #e6e7e8;
+    --usgc-gray-2: #d1d3d4;
+    --usgc-gray-3: #bcbec0;
+    --usgc-gray-4: #a7a9ac;
+    --usgc-gray-5: #939598;
+    --usgc-gray-6: #808285;
+    --usgc-gray-7: #6d6e71;
+    --usgc-gray-8: #58595b;
+    --usgc-gray-9: #414042;
+    --usgc-gray-10: #231f20;
+}

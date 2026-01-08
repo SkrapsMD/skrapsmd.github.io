@@ -1,0 +1,1 @@
+1. Create font swatch page, as well as a color swatch page. 

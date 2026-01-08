@@ -1,0 +1,23 @@
+/*
+Description: Main Stylesheet for the project. Contains global styles, and the generic component specific styles (i.e. buttons). 
+
+1/7/2026
+Michael Dwight Sparks 
+*/
+
+:root{
+    /* Black and White */ 
+    --black: #000000;
+    --white: #ffffff;
+
+    /* Text Colors */
+    --text-primary: var(--black);
+    --text-secondary: var(--usgc-gray-8);
+
+    --text-emph: var(--usgc-blue-2);
+    --text-emph-2: var(--usgc-orange);
+
+    /* Background Highlights */
+    --text-highlight: var(--usgc-light-yellow); 
+    --text-highlight-2: var(--usgc-light-blue);
+}
