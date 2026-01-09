@@ -1,0 +1,60 @@
+/* BASELINE REMOVE AS WE IMPROVE */ /* Buttons */
+.btn{
+  border: var(--border);
+  background: transparent;
+  color: var(--text-primary);
+  padding: 4px 8px;
+  font-size: var(--font-small);
+}
+
+.btn--primary{
+  background: var(--text-emph);
+  color: var(--white);
+  border-color: var(--text-emph);
+}
+
+.btn--ghost{
+  background: transparent;
+  color: var(--text-emph);
+  border-color: var(--text-emph);
+}
+
+.btn:disabled{
+  opacity: 0.5;
+}
+
+/* Inputs */
+.field{ display: grid; gap: 4px; }
+.field-label{ font-size: var(--font-small); color: var(--text-secondary); }
+
+.input{
+  border: var(--border);
+  background: transparent;
+  color: var(--text-primary);
+  padding: 4px 6px;
+  font-size: var(--font-body);
+}
+
+/* Tables */
+.table{
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-small);
+}
+
+.table th,
+.table td{
+  border: var(--border);
+  padding: 6px 8px;
+  vertical-align: top;
+  text-align: left;
+}
+
+.table thead th{
+  background: var(--text-highlight);
+}
+
+.table--compact th,
+.table--compact td{
+  padding: 4px 6px;
+}

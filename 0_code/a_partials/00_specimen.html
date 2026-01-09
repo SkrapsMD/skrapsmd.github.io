@@ -1,0 +1,232 @@
+<!-- partials/specimen.html -->
+
+<section style="display:grid;grid-template-columns:1fr 360px;gap:16px;align-items:start;margin-bottom:16px;">
+  <div>
+    <div style="font-size:12px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.08em;">
+      Font Datasheet
+    </div>
+
+    <div class="mono" style="margin-top:6px;font-weight:600;">
+      FS-0001
+    </div>
+
+    <div style="margin-top:2px;font-weight:600;">
+      Typeface & Scale Specification
+    </div>
+
+    <div class="muted small" style="margin-top:6px;">
+      Primary families: IBM Plex Sans (UI/Text) + IBM Plex Mono (Code/Tokens).
+      Weights: 300 / 400 / 600.
+    </div>
+  </div>
+
+  <div>
+    <table class="table table--compact">
+      <tbody>
+        <tr><th scope="row">Document</th><td>Specimen</td></tr>
+        <tr><th scope="row">Scope</th><td>Fonts · Weights · Sizes</td></tr>
+        <tr><th scope="row">Version</th><td class="mono">0.1</td></tr>
+        <tr><th scope="row">Date</th><td class="mono">2026-01-08</td></tr>
+        <tr><th scope="row">Families</th><td>Sans + Mono</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section class="panel">
+  <h2 class="panel-title">1. Typeface Inventory</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Role</th>
+        <th>CSS Token</th>
+        <th>Family</th>
+        <th>Weights</th>
+        <th>Primary Use</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Sans</td>
+        <td class="mono">--font-sans</td>
+        <td style="font-family:var(--font-sans);">IBM Plex Sans</td>
+        <td class="mono">300 / 400 / 600</td>
+        <td>Body, headings, navigation, tables</td>
+      </tr>
+      <tr>
+        <td>Mono</td>
+        <td class="mono">--font-mono</td>
+        <td style="font-family:var(--font-mono);">IBM Plex Mono</td>
+        <td class="mono">300 / 400 / 600</td>
+        <td>Tokens, code, identifiers</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="rule"></div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div>
+      <div style="font-size:12px;font-weight:600;margin-bottom:6px;">Sans samples</div>
+
+      <div style="font-family:var(--font-sans);font-weight:300;font-size:16px;line-height:1.25;margin-bottom:6px;">
+        IBM Plex Sans · weight 300
+      </div>
+      <div style="font-family:var(--font-sans);font-weight:400;font-size:16px;line-height:1.25;margin-bottom:6px;">
+        IBM Plex Sans · weight 400
+      </div>
+      <div style="font-family:var(--font-sans);font-weight:600;font-size:16px;line-height:1.25;margin-bottom:6px;">
+        IBM Plex Sans · weight 600
+      </div>
+
+      <div style="font-family:var(--font-sans);font-weight:400;font-size:14px;line-height:1.35;color:var(--text-secondary);">
+        Pangram: The quick brown fox jumps over the lazy dog. 0123456789
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:12px;font-weight:600;margin-bottom:6px;">Mono samples</div>
+
+      <div style="font-family:var(--font-mono);font-weight:300;font-size:15px;line-height:1.25;margin-bottom:6px;">
+        IBM Plex Mono · weight 300
+      </div>
+      <div style="font-family:var(--font-mono);font-weight:400;font-size:15px;line-height:1.25;margin-bottom:6px;">
+        IBM Plex Mono · weight 400
+      </div>
+      <div style="font-family:var(--font-mono);font-weight:600;font-size:15px;line-height:1.25;margin-bottom:6px;">
+        IBM Plex Mono · weight 600
+      </div>
+
+      <div style="font-family:var(--font-mono);font-weight:400;font-size:12px;line-height:1.35;color:var(--text-secondary);">
+        Sample: const alpha = 3.14159; // token, code, identifier
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">2. Weight Specification</h2>
+
+  <div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;">
+    Only three weights are used for discipline and legibility. Avoid intermediate weights unless required.
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Weight</th>
+        <th>Name</th>
+        <th>Use</th>
+        <th>Sans Example</th>
+        <th>Mono Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="mono">300</td>
+        <td>Light</td>
+        <td>Long-form reading; secondary emphasis</td>
+        <td style="font-family:var(--font-sans);font-weight:300;">Long-form paragraph text</td>
+        <td style="font-family:var(--font-mono);font-weight:300;">token_name = "value"</td>
+      </tr>
+      <tr>
+        <td class="mono">400</td>
+        <td>Regular</td>
+        <td>Default body text; nav labels</td>
+        <td style="font-family:var(--font-sans);font-weight:400;">Default body and UI</td>
+        <td style="font-family:var(--font-mono);font-weight:400;">--text-primary</td>
+      </tr>
+      <tr>
+        <td class="mono">600</td>
+        <td>SemiBold</td>
+        <td>Headings, labels, table headers</td>
+        <td style="font-family:var(--font-sans);font-weight:600;">Section heading / label</td>
+        <td style="font-family:var(--font-mono);font-weight:600;">FS-0001</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="panel">
+  <h2 class="panel-title">3. Size Scale</h2>
+
+  <div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;">
+    Stable scale. Prefer these sizes over one-off values.
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>px</th>
+        <th>Role</th>
+        <th>Sans sample</th>
+        <th>Mono sample</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="mono">12</td>
+        <td>Meta / captions / nav</td>
+        <td style="font-family:var(--font-sans);font-size:12px;">Meta / caption / label</td>
+        <td style="font-family:var(--font-mono);font-size:12px;">--fs-12</td>
+      </tr>
+      <tr>
+        <td class="mono">14</td>
+        <td>Body default</td>
+        <td style="font-family:var(--font-sans);font-size:14px;">Body text sample</td>
+        <td style="font-family:var(--font-mono);font-size:14px;">const x = 14;</td>
+      </tr>
+      <tr>
+        <td class="mono">16</td>
+        <td>Readable body / lead</td>
+        <td style="font-family:var(--font-sans);font-size:16px;">Lead paragraph sample</td>
+        <td style="font-family:var(--font-mono);font-size:16px;">/* readable */</td>
+      </tr>
+      <tr>
+        <td class="mono">18</td>
+        <td>Subhead</td>
+        <td style="font-family:var(--font-sans);font-size:18px;font-weight:600;">Subhead sample</td>
+        <td style="font-family:var(--font-mono);font-size:18px;font-weight:600;">SUBHEAD</td>
+      </tr>
+      <tr>
+        <td class="mono">22</td>
+        <td>Page title</td>
+        <td style="font-family:var(--font-sans);font-size:22px;font-weight:600;">Page title sample</td>
+        <td style="font-family:var(--font-mono);font-size:22px;font-weight:600;">PAGE</td>
+      </tr>
+      <tr>
+        <td class="mono">30</td>
+        <td>Display (rare)</td>
+        <td style="font-family:var(--font-sans);font-size:30px;font-weight:600;">Display sample</td>
+        <td style="font-family:var(--font-mono);font-size:30px;font-weight:600;">DISPLAY</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="rule"></div>
+
+  <div style="font-size:12px;font-weight:600;margin-bottom:6px;">Waterfall (Sans)</div>
+  <div style="display:grid;gap:2px;">
+    <div style="font-family:var(--font-sans);font-weight:600;font-size:48px;line-height:1.05;">ENGINEERING GRAPHICS</div>
+    <div style="font-family:var(--font-sans);font-weight:600;font-size:30px;line-height:1.05;">ENGINEERING GRAPHICS</div>
+    <div style="font-family:var(--font-sans);font-weight:600;font-size:22px;line-height:1.05;">ENGINEERING GRAPHICS</div>
+    <div style="font-family:var(--font-sans);font-weight:400;font-size:18px;line-height:1.05;">ENGINEERING GRAPHICS</div>
+    <div style="font-family:var(--font-sans);font-weight:400;font-size:14px;line-height:1.05;">ENGINEERING GRAPHICS</div>
+    <div style="font-family:var(--font-sans);font-weight:400;font-size:12px;line-height:1.05;">ENGINEERING GRAPHICS</div>
+  </div>
+
+  <div class="rule"></div>
+
+  <div style="font-size:12px;font-weight:600;margin-bottom:6px;">Waterfall (Mono)</div>
+  <div style="display:grid;gap:2px;">
+    <div style="font-family:var(--font-mono);font-weight:600;font-size:48px;line-height:1.05;">TOKEN_SPECIFICATION</div>
+    <div style="font-family:var(--font-mono);font-weight:600;font-size:30px;line-height:1.05;">TOKEN_SPECIFICATION</div>
+    <div style="font-family:var(--font-mono);font-weight:600;font-size:22px;line-height:1.05;">TOKEN_SPECIFICATION</div>
+    <div style="font-family:var(--font-mono);font-weight:400;font-size:18px;line-height:1.05;">TOKEN_SPECIFICATION</div>
+    <div style="font-family:var(--font-mono);font-weight:400;font-size:14px;line-height:1.05;">TOKEN_SPECIFICATION</div>
+    <div style="font-family:var(--font-mono);font-weight:400;font-size:12px;line-height:1.05;">TOKEN_SPECIFICATION</div>
+  </div>
+</section>
