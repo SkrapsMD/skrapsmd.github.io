@@ -1,60 +1,213 @@
-/* BASELINE REMOVE AS WE IMPROVE */ /* Buttons */
-.btn{
-  border: var(--border);
-  background: transparent;
-  color: var(--text-primary);
-  padding: 4px 8px;
-  font-size: var(--font-small);
+/*
+03_components.css
+Reusable UI Components: Buttons, forms, tables, panels, and other
+interactive or display elements used across multiple pages.
+
+1/17/2026
+Michael Dwight Sparks
+*/
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: var(--border);
+    background: transparent;
+    color: var(--text-primary);
+    padding: 4px 8px;
+    font-family: var(--font-sans);
+    font-size: var(--font-xs);
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
-.btn--primary{
-  background: var(--text-emph);
-  color: var(--white);
-  border-color: var(--text-emph);
+.btn:hover {
+    background: var(--bg-muted);
 }
 
-.btn--ghost{
-  background: transparent;
-  color: var(--text-emph);
-  border-color: var(--text-emph);
+.btn--primary {
+    background: var(--text-emph);
+    color: var(--white);
+    border-color: var(--text-emph);
 }
 
-.btn:disabled{
-  opacity: 0.5;
+.btn--primary:hover {
+    background: var(--text-emph-hover);
+    border-color: var(--text-emph-hover);
 }
 
-/* Inputs */
-.field{ display: grid; gap: 4px; }
-.field-label{ font-size: var(--font-small); color: var(--text-secondary); }
-
-.input{
-  border: var(--border);
-  background: transparent;
-  color: var(--text-primary);
-  padding: 4px 6px;
-  font-size: var(--font-body);
+.btn--ghost {
+    background: transparent;
+    color: var(--text-emph);
+    border-color: var(--text-emph);
 }
 
-/* Tables */
-.table{
-  width: 100%;
-  border-collapse: collapse;
-  font-size: var(--font-small);
+.btn--ghost:hover {
+    background: var(--text-highlight-2);
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   FORM INPUTS
+   ======================================== */
+.field {
+    display: grid;
+    gap: 4px;
+}
+
+.field-label {
+    font-size: var(--font-xs);
+    color: var(--text-secondary);
+}
+
+.input {
+    border: var(--border);
+    background: transparent;
+    color: var(--text-primary);
+    padding: 4px 6px;
+    font-family: var(--font-sans);
+    font-size: var(--font-sm);
+}
+
+.input:focus {
+    outline: 2px solid var(--text-emph);
+    outline-offset: 1px;
+}
+
+.input::placeholder {
+    color: var(--text-secondary);
+}
+
+/* ========================================
+   TABLES
+   ======================================== */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-xs);
 }
 
 .table th,
-.table td{
-  border: var(--border);
-  padding: 6px 8px;
-  vertical-align: top;
-  text-align: left;
+.table td {
+    border: var(--border);
+    padding: 6px 8px;
+    vertical-align: top;
+    text-align: left;
 }
 
-.table thead th{
-  background: var(--text-highlight);
+.table thead th {
+    background: var(--text-highlight);
+    font-weight: 600;
+}
+
+.table tbody tr:hover {
+    background: var(--bg-muted);
 }
 
 .table--compact th,
-.table--compact td{
-  padding: 4px 6px;
+.table--compact td {
+    padding: 4px 6px;
+}
+
+.table--borderless th,
+.table--borderless td {
+    border: none;
+    border-bottom: var(--border-muted);
+}
+
+/* ========================================
+   PANELS (Boxed Content Areas)
+   ======================================== */
+.panel {
+    border: var(--border);
+    padding: 10px;
+    margin-bottom: 16px;
+}
+
+.panel-title {
+    font-size: var(--font-xs);
+    font-weight: 600;
+    margin: 0 0 10px 0;
+}
+
+.panel--muted {
+    background: var(--bg-muted);
+    border-color: var(--ink-muted);
+}
+
+/* ========================================
+   CARDS (For Research Items, etc.)
+   ======================================== */
+.card {
+    border: var(--border);
+    padding: var(--pad);
+    margin-bottom: var(--pad);
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: var(--font-sm);
+    margin-bottom: 4px;
+}
+
+.card-meta {
+    font-size: var(--font-xs);
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.card-body {
+    font-size: var(--font-sm);
+}
+
+/* ========================================
+   BADGES & TAGS
+   ======================================== */
+.badge {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: var(--font-xs);
+    font-weight: 600;
+    border: var(--border);
+}
+
+.badge--highlight {
+    background: var(--text-highlight);
+}
+
+.badge--info {
+    background: var(--text-highlight-2);
+}
+
+.badge--success {
+    background: var(--text-highlight-3);
+}
+
+/* ========================================
+   CODE BLOCKS
+   ======================================== */
+.code-block {
+    font-family: var(--font-mono);
+    font-size: var(--font-xs);
+    background: var(--bg-muted);
+    border: var(--border);
+    padding: var(--pad-sm);
+    overflow-x: auto;
+    white-space: pre;
+}
+
+/* Inline code styling (font-family set in 01_base.css) */
+code {
+    font-size: 0.9em;
+    background: var(--bg-muted);
+    padding: 1px 4px;
 }

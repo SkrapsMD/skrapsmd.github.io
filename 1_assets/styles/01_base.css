@@ -1,0 +1,84 @@
+/*
+01_base.css
+Base styles: Resets, element defaults, and utility classes.
+
+This file establishes the foundation that everything else builds on.
+No component-specific styles here—just sensible defaults.
+
+1/17/2026
+Michael Dwight Sparks
+*/
+
+/* ========================================
+   RESET
+   ======================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* ========================================
+   DOCUMENT DEFAULTS
+   ======================================== */
+html {
+    font-size: var(--font-sm);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-sans);
+    font-size: var(--font-sm);
+    line-height: 1.35;
+    color: var(--ink);
+    background: var(--bg);
+}
+
+/* ========================================
+   TYPOGRAPHY DEFAULTS
+   ======================================== */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+a {
+    color: var(--text-emph);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+code, pre, kbd, samp {
+    font-family: var(--font-mono);
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+.mono {
+    font-family: var(--font-mono);
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

@@ -1,0 +1,164 @@
+/*
+02_shell.css
+Page Shell: The structural skeleton shared by every page.
+
+This includes the frame container, masthead, navigation, section headers,
+and footer. Everything here appears on every page of the site.
+
+1/17/2026
+Michael Dwight Sparks
+*/
+
+/* ========================================
+   FRAME (Main Container)
+   ======================================== */
+.frame {
+    max-width: var(--frame-width);
+    margin: 32px auto;
+    border: var(--border);
+    padding: var(--pad);
+    background: var(--bg);
+}
+
+/* ========================================
+   MASTHEAD (Header)
+   ======================================== */
+.masthead {
+    margin-bottom: var(--pad-sm);
+}
+
+.masthead-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.brand-title {
+    font-weight: 600;
+    font-size: var(--font-sm);
+}
+
+/* Color swatches in header */
+.swatches {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 2px;
+    align-items: center;
+}
+
+.swatch {
+    width: 16px;
+    height: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+/* Swatch colors - mapped to FRBA palette */
+.s1  { background: var(--atlRed600, #ce5158); }
+.s2  { background: var(--atlGold200, #f3bb00); }
+.s3  { background: var(--atlTeal400, #25acca); }
+.s4  { background: var(--atlBlue600, #3581b4); }
+.s5  { background: var(--atlIndigo600, #7d70c1); }
+.s6  { background: var(--charcoal, #1a1a1a); }
+.s7  { background: var(--medGray, #d0d0d0); }
+.s8  { background: var(--white, #ffffff); }
+.s9  { background: var(--atlFuchsia700, #c5266a); }
+.s10 { background: var(--atlTeal800, #006278); }
+.s11 { background: var(--atlBlue300, #88b7d4); }
+.s12 { background: var(--atlGold50, #ffe89a); }
+
+/* ========================================
+   NAVIGATION
+   ======================================== */
+.navbars {
+    display: flex;
+    gap: var(--pad-sm);
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.navbtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: var(--border);
+    padding: 4px 10px;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: var(--font-xs);
+    line-height: 1;
+    background: transparent;
+    transition: background-color 0.15s ease;
+}
+
+.navbtn:hover {
+    background: var(--bg-muted);
+    text-decoration: none;
+}
+
+.navbtn .dot {
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    background: transparent;
+}
+
+.navbtn.active .dot {
+    background: var(--active-indicator);
+}
+
+/* ========================================
+   SECTION HEADER
+   ======================================== */
+.section-head {
+    margin-top: 6px;
+    margin-bottom: 8px;
+}
+
+.section-title {
+    font-weight: 600;
+    font-size: var(--font-xs);
+}
+
+/* ========================================
+   RULES (Horizontal Dividers)
+   ======================================== */
+.rule {
+    border: 0;
+    border-top: var(--border-muted);
+    height: 0;
+    margin: 10px 0;
+}
+
+.rule.dotted {
+    border-top-style: dotted;
+}
+
+.rule.solid {
+    border-top: var(--border);
+}
+
+/* ========================================
+   CONTENT AREA
+   ======================================== */
+.content {
+    padding-top: 4px;
+    padding-bottom: 12px;
+    min-height: 200px;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.foot {
+    margin-top: var(--pad);
+}
+
+.foot-meta {
+    display: flex;
+    gap: var(--pad-sm);
+    color: var(--text-secondary);
+    font-size: var(--font-xs);
+}

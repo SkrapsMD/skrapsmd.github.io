@@ -1,0 +1,90 @@
+/*
+00_tokens.css
+Design Tokens: CSS custom properties that define the design system.
+
+"Tokens" is the industry-standard term from design systems (Salesforce Lightning,
+Material Design, IBM Carbon). A token is a named design decision—not raw CSS, but
+an abstraction: "this is our primary blue" rather than "#3581b4". Tokens are:
+
+  1. Platform-agnostic: Same names work in CSS, Figma, iOS, Android
+  2. Semantic: --text-primary tells you *purpose*, not just value
+  3. Single source of truth: Change once, update everywhere
+
+The FRBA_scheme.css contains your raw color palette (the "primitives").
+This file maps those primitives to semantic tokens for actual use.
+
+1/17/2026
+Michael Dwight Sparks
+*/
+
+:root {
+    /* ========================================
+       SYSTEM
+       ======================================== */
+    color-scheme: light dark;
+
+    /* ========================================
+       TYPOGRAPHY
+       ======================================== */
+    --font-sans: "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+    /* Font sizes */
+    --font-xs: 12px;
+    --font-sm: 14px;
+    --font-base: 16px;
+    --font-md: 18px;
+    --font-lg: 22px;
+    --font-xl: 30px;
+    --font-2xl: 32px;
+    --font-3xl: 48px;
+    --font-4xl: 72px;
+
+    /* ========================================
+       COLORS - Primitives
+       ======================================== */
+    --black: #000000;
+    --white: #ffffff;
+
+    /* ========================================
+       COLORS - Semantic Tokens
+       ======================================== */
+    /* Surface colors */
+    --bg: light-dark(var(--white), var(--charcoal));
+    --bg-muted: light-dark(var(--marbleColumn), var(--darkGray));
+
+    /* Ink colors (text and borders) */
+    --ink: light-dark(var(--charcoal), var(--white));
+    --ink-muted: light-dark(var(--darkGray), var(--medGray));
+
+    /* Text colors */
+    --text-primary: var(--ink);
+    --text-secondary: var(--ink-muted);
+    --text-emph: light-dark(var(--atlBlue600), var(--atlBlue400));
+    --text-emph-hover: light-dark(var(--atlBlue700), var(--atlBlue300));
+    --text-emph-2: light-dark(var(--atlOrange600), var(--atlOrange400));
+    --text-emph-2-hover: light-dark(var(--atlOrange700), var(--atlOrange300));
+
+    /* Background highlights */
+    --text-highlight: light-dark(var(--atlGold50), var(--atlGold800));
+    --text-highlight-2: light-dark(var(--atlBlue50), var(--atlBlue900));
+    --text-highlight-3: light-dark(var(--atlGreen50), var(--atlGreen800));
+
+    /* UI state colors */
+    --active-indicator: light-dark(var(--atlRed600), var(--atlRed400));
+
+    /* ========================================
+       SPACING & LAYOUT
+       ======================================== */
+    --frame-width: 980px;
+    --pad: 14px;
+    --pad-sm: 8px;
+    --pad-lg: 24px;
+
+    /* ========================================
+       BORDERS
+       ======================================== */
+    --border: 1px solid var(--ink);
+    --border-muted: 1px solid var(--ink-muted);
+    --border-radius: 0; /* Engineering aesthetic: sharp corners */
+}
