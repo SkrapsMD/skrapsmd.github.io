@@ -71,6 +71,14 @@ code, pre, kbd, samp {
     font-family: var(--font-mono);
 }
 
+.muted {
+    color: var(--text-secondary);
+}
+
+.small {
+    font-size: var(--font-xs);
+}
+
 .visually-hidden {
     position: absolute;
     width: 1px;

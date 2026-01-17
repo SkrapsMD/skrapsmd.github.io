@@ -98,7 +98,7 @@ Michael Dwight Sparks
 
 .table th,
 .table td {
-    border: var(--border);
+    border: var(--border-muted);
     padding: 6px 8px;
     vertical-align: top;
     text-align: left;
@@ -107,6 +107,10 @@ Michael Dwight Sparks
 .table thead th {
     background: var(--text-highlight);
     font-weight: 600;
+    border: var(--border-muted);
+    border-top-style: dotted;
+    border-top-width: 2px;
+    border-bottom: var(--border);
 }
 
 .table tbody tr:hover {
@@ -118,10 +122,27 @@ Michael Dwight Sparks
     padding: 4px 6px;
 }
 
+/* Borderless: no horizontal lines, vertical lines only (including edges) */
 .table--borderless th,
 .table--borderless td {
-    border: none;
-    border-bottom: var(--border-muted);
+    border-top: none;
+    border-bottom: none;
+    border-left: var(--border-muted);
+    border-right: none;
+}
+
+.table--borderless th:last-child,
+.table--borderless td:last-child {
+    border-right: var(--border-muted);
+}
+
+.table--borderless thead th {
+    border-left: var(--border-muted);
+    border-right: none;
+}
+
+.table--borderless thead th:last-child {
+    border-right: var(--border-muted);
 }
 
 /* ========================================
