@@ -23,11 +23,12 @@ Michael Dwight Sparks
     font-size: var(--font-xs);
     line-height: 1;
     cursor: pointer;
-    transition: background-color 0.15s ease, border-color 0.15s ease;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .btn:hover {
     background: var(--bg-muted);
+    color: var(--text-emph);
 }
 
 .btn--primary {
@@ -39,6 +40,7 @@ Michael Dwight Sparks
 .btn--primary:hover {
     background: var(--text-emph-hover);
     border-color: var(--text-emph-hover);
+    color: var(--white);
 }
 
 .btn--ghost {
@@ -49,11 +51,17 @@ Michael Dwight Sparks
 
 .btn--ghost:hover {
     background: var(--text-highlight-2);
+    color: var(--text-emph);
 }
 
 .btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.btn:disabled:hover {
+    color: var(--text-primary);
+    background: transparent;
 }
 
 /* ========================================
@@ -244,7 +252,8 @@ Michael Dwight Sparks
 .code-block {
     font-family: var(--font-mono);
     font-size: var(--font-xs);
-    background: var(--bg-muted);
+    background: var(--code-block-bg);
+    color: var(--code-text);
     border: var(--border);
     padding: var(--pad-sm);
     overflow-x: auto;
@@ -254,6 +263,7 @@ Michael Dwight Sparks
 /* Inline code styling (font-family set in 01_base.css) */
 code {
     font-size: 0.9em;
-    background: var(--bg-muted);
+    background: var(--code-bg);
+    color: var(--code-text);
     padding: 1px 4px;
 }

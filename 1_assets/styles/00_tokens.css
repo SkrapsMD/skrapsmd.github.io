@@ -63,18 +63,33 @@ Michael Dwight Sparks
     /* Text colors */
     --text-primary: var(--ink);
     --text-secondary: var(--ink-muted);
-    --text-emph: light-dark(var(--atlBlue600), var(--atlBlue400));
-    --text-emph-hover: light-dark(var(--atlBlue700), var(--atlBlue300));
-    --text-emph-2: light-dark(var(--atlOrange600), var(--atlOrange400));
-    --text-emph-2-hover: light-dark(var(--atlOrange700), var(--atlOrange300));
+    --text-emph: light-dark(var(--atlBlue900), var(--atlBlue300));
+    --text-emph-hover: light-dark(var(--atlBlue700), var(--atlBlue400));
+    --text-emph-2: light-dark(var(--atlOrange900), var(--atlOrange300));
+    --text-emph-2-hover: light-dark(var(--atlOrange700), var(--atlOrange400));
+
+    /* Inline text styles */
+    --text-strong: var(--text-emph);
+    --text-italic: var(--text-secondary);
+    --text-link: var(--text-emph);
+    --text-link-hover: var(--text-emph-hover);
+
+    /* Code styling */
+    --code-bg: var(--bg-muted);
+    --code-text: var(--text-primary);
+    --code-block-bg: var(--bg-muted);
+
+    /* Blockquote styling */
+    --blockquote-border: var(--text-emph);
+    --blockquote-text: var(--text-secondary);
 
     /* Background highlights */
-    --text-highlight: light-dark(var(--atlGold50), var(--atlGold800));
-    --text-highlight-2: light-dark(var(--atlBlue50), var(--atlBlue900));
-    --text-highlight-3: light-dark(var(--atlGreen50), var(--atlGreen800));
+    --text-highlight: light-dark(var(--atlGold100), var(--atlGold800));
+    --text-highlight-2: light-dark(var(--atlBlue100), var(--atlBlue900));
+    --text-highlight-3: light-dark(var(--atlGreen100), var(--atlGreen800));
 
     /* UI state colors */
-    --active-indicator: light-dark(var(--atlRed600), var(--atlRed400));
+    --active-indicator: light-dark(var(--atlRed800), var(--atlRed300));
 
     /* ========================================
        SPACING & LAYOUT

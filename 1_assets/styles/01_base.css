@@ -52,12 +52,23 @@ p {
 }
 
 a {
-    color: var(--text-emph);
+    color: var(--text-link);
     text-decoration: none;
 }
 
 a:hover {
+    color: var(--text-link-hover);
     text-decoration: underline;
+}
+
+strong, b {
+    color: var(--text-strong);
+    font-weight: 600;
+}
+
+em, i {
+    color: var(--text-italic);
+    font-style: italic;
 }
 
 code, pre, kbd, samp {

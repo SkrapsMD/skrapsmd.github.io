@@ -89,11 +89,12 @@ Michael Dwight Sparks
     font-size: var(--font-xs);
     line-height: 1;
     background: transparent;
-    transition: background-color 0.15s ease;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .navbtn:hover {
     background: var(--bg-muted);
+    color: var(--text-emph);
     text-decoration: none;
 }
 

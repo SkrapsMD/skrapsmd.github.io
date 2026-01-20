@@ -17,9 +17,14 @@ Then open http://localhost:8000 in a browser.
 ## Architecture
 
 **Single Page Application (SPA)** using hash-based routing:
-- `index.html` - Main container with navigation shell
-- `0_code/b_scripts/0_app.js` - Router that fetches HTML partials and injects page-specific CSS
+- `index.html` - Main container with navigation shell and global CSS imports
+- `0_code/b_scripts/0_app.js` - Router that:
+  - Listens for `hashchange` events
+  - Fetches HTML partials via `fetch()`
+  - Dynamically injects/removes page-specific CSS using `<link data-page-css>`
+  - Contains page-specific interactive logic (e.g., `setupColorCopyListeners()` for specimen page)
 - Routes: `#home`, `#research`, `#code`, `#specimen`, `#sitemap`
+- Navigation: Clicking `.navbtn` links triggers hash change, router handles the rest
 
 **Directory Structure:**
 - `0_code/a_partials/` - HTML page templates loaded dynamically
@@ -29,19 +34,42 @@ Then open http://localhost:8000 in a browser.
 - `2_docs/` - Documentation, papers, CV, templates
 
 **CSS Layer System:**
-1. `01_style.css` - CSS custom properties, base styles
-2. `02_layout.css` - Frame, masthead, footer, navigation
-3. `03_components.css` - Buttons, forms, tables
-4. `a_partials/*.css` - Page-specific overrides
+1. `00_tokens.css` - Design tokens (semantic CSS custom properties)
+2. `01_base.css` - Resets, element defaults, utilities
+3. `02_shell.css` - Frame, masthead, footer, navigation
+4. `03_components.css` - Buttons, forms, tables
+5. `a_partials/*.css` - Page-specific overrides dynamically loaded by router
 
 ## Design System
 
-**Typography:** IBM Plex Sans (UI) and IBM Plex Mono (code). Three weights only: Light (300), Regular (400), SemiBold (600). Size scale: 12, 14, 16, 18, 22, 30, 32, 48, 72. 
+**Typography:** IBM Plex Sans (UI) and IBM Plex Mono (code). Three weights only: Light (300), Regular (400), SemiBold (600). Size scale defined in `00_tokens.css`: `--font-xs` (12px) through `--font-4xl` (72px). Font files hosted locally in `1_assets/styles/b_palettes_and_fonts/FONTS/`.
 
-**Colors:** Federal Reserve Bank of Atlanta (FRBA) palette defined in `FRBA_scheme.css`. 140+ CSS custom property tokens with scales from 50-1100.
+**Colors:**
+- **Primitives:** Federal Reserve Bank of Atlanta (FRBA) palette in `FRBA_scheme.css` (140+ raw color values with scales 50-1100)
+- **Tokens:** Semantic mappings in `00_tokens.css` (e.g., `--text-primary`, `--bg`, `--ink-muted`)
+- Design philosophy: tokens reference primitives for maintainability
 
-**Light/Dark Mode:** Uses CSS `light-dark()` function with `color-scheme` property.
+**Light/Dark Mode:** Uses CSS `light-dark()` function with `color-scheme: light dark`. All color tokens automatically adapt to user's preferred color scheme.
+
+## Important Patterns
+
+**Adding New Routes:**
+1. Create partial in `0_code/a_partials/XX_name.html`
+2. Create stylesheet in `1_assets/styles/a_partials/XX_name.css`
+3. Add route object to `routes` map in `0_app.js`
+4. Add navigation link to `index.html` with matching `data-page` attribute
+
+**Adding Interactive Features:**
+- Place page-specific JS functions in `0_app.js`
+- Initialize them in `loadPage()` after content injection (see `setupColorCopyListeners()` example)
+- Use `data-*` attributes for JS hooks rather than classes
+
+**Styling Guidelines:**
+- Never use inline styles - use CSS custom properties
+- New semantic tokens go in `00_tokens.css`, not in component files
+- Page-specific overrides only - don't duplicate base styles
+- Prefer composition over specificity
 
 ## Current State
 
-The specimen page (`00_specimen.html`) is a working test file -- to be updated as I continue adding elements and testing out their appearance. Other pages (Home, Research, Code, Sitemap) display WIP placeholder content.
+The specimen page (`00_specimen.html`) is a working test file displaying design system elements (colors, typography, tables, etc.). Other pages (Home, Research, Code, Sitemap) display WIP placeholder content loaded from `template/wip.html`.

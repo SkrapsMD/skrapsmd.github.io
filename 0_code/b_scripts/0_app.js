@@ -1,5 +1,5 @@
 const app = document.getElementById("app");
-const navLinks = Array.from(document.querySelectorAll(".nav-link"));
+const navLinks = Array.from(document.querySelectorAll(".navbtn"));
 
 const routes = {
   specimen: { file: "0_code/a_partials/00_specimen.html", css: "1_assets/styles/a_partials/00_specimen.css"},
