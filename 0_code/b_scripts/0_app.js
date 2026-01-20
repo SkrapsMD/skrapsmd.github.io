@@ -45,3 +45,51 @@ function currentPage(){
 
 window.addEventListener("hashchange", () => loadPage(currentPage()));
 loadPage(currentPage());
+
+
+
+
+/*
+===========================
+0_Specimen.html Functions
+===========================
+*/
+
+// Function 1: Copy color hex to clipboard on click
+// Copy color hex to clipboard on click
+function setupColorCopyListeners() {
+  document.querySelectorAll('[data-color]').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.title = 'Click to copy hex code';
+    
+    el.addEventListener('click', async () => {
+      const color = el.dataset.color;
+      try {
+        await navigator.clipboard.writeText(color);
+        
+        // Visual feedback
+        const originalContent = el.innerHTML;
+        el.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:white;text-shadow:1px 1px 2px black;font-weight:600;font-size:12px;">Copied!</div>`;
+        
+        setTimeout(() => {
+          el.innerHTML = originalContent;
+        }, 800);
+      } catch (err) {
+        console.error('Failed to copy:', err);
+      }
+    });
+  });
+}
+
+async function loadPage(page){
+  const route = routes[page] || routes.home;
+
+  setActive(page in routes ? page : "home");
+  ensurePageCSS(route.css);
+
+  const res = await fetch(route.file, { cache: "no-store" });
+  app.innerHTML = await res.text();
+  
+  // Setup color copy listeners after content is loaded
+  setupColorCopyListeners();
+}

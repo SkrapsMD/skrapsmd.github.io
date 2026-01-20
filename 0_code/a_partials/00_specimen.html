@@ -11,15 +11,19 @@
     </div>
 
     <div class="muted small" style="margin-top:6px;">
-      Comprehensive display of IBM Plex Sans and IBM Plex Mono typefaces, showing all available weights, sizes, and styles used throughout the design system.
+      Blah Blah this is an explanation for why I choose to use the IBM Plex Mono here , I will tighten this up later. 
+      
+
+      Typographic examples of the included font-types used throughout this site. Both fonts are members of IBM's beautiful "Plex" family. Chosen for their clarity, 
+      legibility, versatility, and timeless design, it has become a favorite font of mine both for screen and print. Read more about the "Plex" typeface family <a href="https://github.com/IBM/plex/releases/tag/%40ibm%2Fplex-mono%401.1.0" target=_blank;style="color:var(--text-emph);">here</a>.
     </div>
   </div>
 
   <div>
     <table class="table table--compact">
       <tbody>
-        <tr><th scope="row">Fonts</th><td><a href="https://fonts.google.com/specimen/IBM+Plex+Sans" style="color:var(--text-emph);text-decoration:underline;">IBM Plex Sans</a><br><a href="https://fonts.google.com/specimen/IBM+Plex+Mono" style="color:var(--text-emph);text-decoration:underline;">IBM Plex Mono</a></td></tr>
-        <tr><th scope="row">Weights</th><td>100 · 200 · 300 · 400 · 450 · 500 · 600 · 700</td></tr>
+        <tr><th scope="row">Fonts</th><td><a href="https://github.com/IBM/plex/releases/tag/@ibm/plex-sans@1.1.0"target=_blank; style="color:var(--text-emph);">IBM Plex Sans</a><br><a href="https://github.com/IBM/plex/releases/tag/%40ibm%2Fplex-mono%401.1.0" target=_blank;style="color:var(--text-emph);">IBM Plex Mono</a></td></tr>
+        <tr><th scope="row">Weights</th><td>100 · 200 · 300 ·  600 · 450 · 500 · 600 · 700</td></tr>
         <tr><th scope="row">Sizes</th><td class="mono">12·14·16·18·24·30·36·48·72</td></tr>
         <tr><th scope="row">Styles</th><td>Normal · Italic</td></tr>
         <tr><th scope="row">Date</th><td class="mono">2026-01-17</td></tr>
@@ -226,3 +230,414 @@
     </tr>
   </tbody>
 </table>
+
+<div class="rule" style="margin-top:32px;"></div>
+<section style="margin-top:40px;">
+<div class="table-caption">
+  <span class="table-caption__category">Color Specimen</span> | <span class="table-caption__title">Text Styling in Light & Dark Mode</span>
+</div>
+
+<div style="display:grid;grid-template-columns:200px repeat(2, 1fr);gap:0;border:var(--border-muted);">
+  <!-- Header Row -->
+  <div style="background:var(--text-highlight);padding:12px;font-weight:600;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;">Variable</div>
+  <div style="background:var(--text-highlight);color:var(--white);padding:12px;text-align:center;font-weight:600;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;">Light Mode</div>
+  <div style="background:var(--text-highlight);color:var(--white);padding:12px;text-align:center;font-weight:600;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;">Dark Mode</div>
+
+  <!-- --ink / --text-primary (Primary Text) -->
+  <div style="background:var(--bg);padding:16px;border:var(--border-muted);">
+    <div class="mono" style="font-size:var(--font-xs);">--ink / --text-primary</div>
+  </div>
+  <div style="background:var(--white);padding:16px;border:var(--border-muted);">
+    <div style="color:var(--black);font-size:var(--font-base);">Primary text content</div>
+  </div>
+  <div style="background:var(--charcoal);padding:16px;border:var(--border-muted);">
+    <div style="color:var(--white);font-size:var(--font-base);">Primary text content</div>
+  </div>
+
+  <!-- --ink-muted / --text-secondary (Secondary Text) -->
+  <div style="background:var(--bg);padding:16px;border:var(--border-muted);">
+    <div class="mono" style="font-size:var(--font-xs);">--ink-muted / --text-secondary</div>
+  </div>
+  <div style="background:var(--white);padding:16px;border:var(--border-muted);">
+    <div style="color:var(--darkGray);font-size:var(--font-base);">Secondary text content</div>
+  </div>
+  <div style="background:var(--charcoal);padding:16px;border:var(--border-muted);">
+    <div style="color:var(--medGray);font-size:var(--font-base);">Secondary text content</div>
+  </div>
+
+  <!-- --text-emph (Emphasized Text) -->
+  <div style="background:var(--bg);padding:16px;border:var(--border-muted);">
+    <div class="mono" style="font-size:var(--font-xs);">--text-emph</div>
+  </div>
+  <div style="background:var(--white);padding:16px;border:var(--border-muted);">
+    <div style="color:var(--atlBlue600);font-size:var(--font-base);">Emphasized text</div>
+  </div>
+  <div style="background:var(--charcoal);padding:16px;border:var(--border-muted);">
+    <div style="color:var(--atlBlue400);font-size:var(--font-base);">Emphasized text</div>
+  </div>
+
+  <!-- --text-emph-hover (Emphasized Text Hover) -->
+  <div style="background:var(--bg);padding:16px;border:var(--border-muted);">
+    <div class="mono" style="font-size:var(--font-xs);">--text-emph-hover</div>
+  </div>
+  <div style="background:var(--white);padding:16px;border:var(--border-muted);">
+    <div style="color:var(--atlBlue700);font-size:var(--font-base);">Emphasized text (hover)</div>
+  </div>
+  <div style="background:var(--charcoal);padding:16px;border:var(--border-muted);">
+    <div style="color:var(--atlBlue300);font-size:var(--font-base);">Emphasized text (hover)</div>
+  </div>
+
+  <!-- --text-emph-2 (Secondary Emphasis) -->
+  <div style="background:var(--bg);padding:16px;border:var(--border-muted);">
+    <div class="mono" style="font-size:var(--font-xs);">--text-emph-2</div>
+  </div>
+  <div style="background:var(--white);padding:16px;border:var(--border-muted);">
+    <div style="color:var(--atlOrange600);font-size:var(--font-base);">Secondary emphasis</div>
+  </div>
+  <div style="background:var(--charcoal);padding:16px;border:var(--border-muted);">
+    <div style="color:var(--atlOrange400);font-size:var(--font-base);">Secondary emphasis</div>
+  </div>
+
+  <!-- --text-emph-2-hover (Secondary Emphasis Hover) -->
+  <div style="background:var(--bg);padding:16px;border:var(--border-muted);">
+    <div class="mono" style="font-size:var(--font-xs);">--text-emph-2-hover</div>
+  </div>
+  <div style="background:var(--white);padding:16px;border:var(--border-muted);">
+    <div style="color:var(--atlOrange700);font-size:var(--font-base);">Secondary emphasis (hover)</div>
+  </div>
+  <div style="background:var(--charcoal);padding:16px;border:var(--border-muted);">
+    <div style="color:var(--atlOrange300);font-size:var(--font-base);">Secondary emphasis (hover)</div>
+  </div>
+
+  <!-- Hyperlink (default) -->
+  <div style="background:var(--bg);padding:16px;border:var(--border-muted);">
+    <div class="mono" style="font-size:var(--font-xs);">Hyperlink</div>
+  </div>
+  <div style="background:var(--white);padding:16px;border:var(--border-muted);">
+    <div style="font-size:var(--font-base);"><span style="color:var(--atlBlue600);text-decoration:underline;">This is a link</span></div>
+  </div>
+  <div style="background:var(--charcoal);padding:16px;border:var(--border-muted);">
+    <div style="font-size:var(--font-base);"><span style="color:var(--atlBlue400);text-decoration:underline;">This is a link</span></div>
+  </div>
+
+  <!-- --text-highlight (Background Highlight) -->
+  <div style="background:var(--bg);padding:16px;border:var(--border-muted);">
+    <div class="mono" style="font-size:var(--font-xs);">--text-highlight</div>
+  </div>
+  <div style="background:var(--white);padding:16px;border:var(--border-muted);">
+    <div style="font-size:var(--font-base);"><span style="background:var(--atlGold50);padding:2px 4px;">Highlighted text</span></div>
+  </div>
+  <div style="background:var(--charcoal);padding:16px;border:var(--border-muted);">
+    <div style="font-size:var(--font-base);color:var(--white);"><span style="background:var(--atlGold800);padding:2px 4px;">Highlighted text</span></div>
+  </div>
+
+  <!-- --text-highlight-2 (Background Highlight 2) -->
+  <div style="background:var(--bg);padding:16px;border:var(--border-muted);">
+    <div class="mono" style="font-size:var(--font-xs);">--text-highlight-2</div>
+  </div>
+  <div style="background:var(--white);padding:16px;border:var(--border-muted);">
+    <div style="font-size:var(--font-base);"><span style="background:var(--atlBlue50);padding:2px 4px;">Highlighted text</span></div>
+  </div>
+  <div style="background:var(--charcoal);padding:16px;border:var(--border-muted);">
+    <div style="font-size:var(--font-base);color:var(--white);"><span style="background:var(--atlBlue900);padding:2px 4px;">Highlighted text</span></div>
+  </div>
+
+  <!-- --text-highlight-3 (Background Highlight 3) -->
+  <div style="background:var(--bg);padding:16px;border:var(--border-muted);">
+    <div class="mono" style="font-size:var(--font-xs);">--text-highlight-3</div>
+  </div>
+  <div style="background:var(--white);padding:16px;border:var(--border-muted);">
+    <div style="font-size:var(--font-base);"><span style="background:var(--atlGreen50);padding:2px 4px;">Highlighted text</span></div>
+  </div>
+  <div style="background:var(--charcoal);padding:16px;border:var(--border-muted);">
+    <div style="font-size:var(--font-base);color:var(--white);"><span style="background:var(--atlGreen800);padding:2px 4px;">Highlighted text</span></div>
+  </div>
+
+  <!-- --active-indicator (Active State) -->
+  <div style="background:var(--bg);padding:16px;border:var(--border-muted);">
+    <div class="mono" style="font-size:var(--font-xs);">--active-indicator</div>
+  </div>
+  <div style="background:var(--white);padding:16px;border:var(--border-muted);">
+    <div style="color:var(--atlRed600);font-size:var(--font-base);">Active state</div>
+  </div>
+  <div style="background:var(--charcoal);padding:16px;border:var(--border-muted);">
+    <div style="color:var(--atlRed400);font-size:var(--font-base);">Active state</div>
+  </div>
+</div>
+</section>
+
+<div class="rule" style="margin-top:32px;"></div>
+
+<div class="rule" style="margin-top:32px;"></div>
+
+<!--
+=======================================================================
+COLOR SPECIMEN -- COLORS AND COLORS + FONTS
+=======================================================================
+-->
+
+<section style="display:grid;grid-template-columns:1fr 360px;gap:16px;align-items:start;margin-bottom:16px;">
+  <div>
+    <div class="mono" style="margin-top:6px;font-weight:600;">
+      CS-0001
+    </div>
+
+    <div style="margin-top:2px;font-weight:600;">
+      Color Specimen
+    </div>
+
+    <div class="muted small" style="margin-top:6px;">
+      Blah Blah this is an explanation for why I choose the ATL Fed color palette. I'll write this later: #TODO
+
+    </div>
+  </div>
+
+  <div>
+    <table class="table table--compact">
+      <tbody>
+        <tr><th scope="row">Source</th><td><a href="https://www.atlantafed.org/" target="_blank" style="color:var(--text-emph);">Federal Reserve Bank of Atlanta</a></td></tr>
+        <tr><th scope="row">Palettes</th><td>Standard (v1.1) · Research (v0.9)</td></tr>
+        <tr><th scope="row">Date</th><td class="mono">2026-01-20</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+
+<section style="margin-top:40px;">
+<div class="table-caption">
+  <span class="table-caption__category">Color Specimen</span> | <span class="table-caption__title">Full Color Palette </span>
+</div>
+  <div style="display:grid;grid-template-columns:120px repeat(12, 1fr);gap:0;border:var(--border-muted);border-top:none;">
+    <!-- Header Row (Empty cell + scale labels) -->
+    <div style="background:var(--text-highlight);padding:6px 8px;font-weight:600;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);"></div>
+    <div style="background:var(--text-highlight);padding:6px 2px;text-align:center;font-size:10px;font-weight:600;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);">50</div>
+    <div style="background:var(--text-highlight);padding:6px 2px;text-align:center;font-size:10px;font-weight:600;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);">100</div>
+    <div style="background:var(--text-highlight);padding:6px 2px;text-align:center;font-size:10px;font-weight:600;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);">200</div>
+    <div style="background:var(--text-highlight);padding:6px 2px;text-align:center;font-size:10px;font-weight:600;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);">300</div>
+    <div style="background:var(--text-highlight);padding:6px 2px;text-align:center;font-size:10px;font-weight:600;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);">400</div>
+    <div style="background:var(--text-highlight);padding:6px 2px;text-align:center;font-size:10px;font-weight:600;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);">500</div>
+    <div style="background:var(--text-highlight);padding:6px 2px;text-align:center;font-size:10px;font-weight:600;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);">600</div>
+    <div style="background:var(--text-highlight);padding:6px 2px;text-align:center;font-size:10px;font-weight:600;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);">700</div>
+    <div style="background:var(--text-highlight);padding:6px 2px;text-align:center;font-size:10px;font-weight:600;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);">800</div>
+    <div style="background:var(--text-highlight);padding:6px 2px;text-align:center;font-size:10px;font-weight:600;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);">900</div>
+    <div style="background:var(--text-highlight);padding:6px 2px;text-align:center;font-size:10px;font-weight:600;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);">1000</div>
+    <div style="background:var(--text-highlight);padding:6px 2px;text-align:center;font-size:10px;font-weight:600;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);">1100</div>
+
+    <!-- Blue -->
+    <div data-color="NA" style="background:var(--bg);padding:8px;font-size:var(--font-sm);font-weight:600;border-right:var(--border-muted);">Blue</div>
+    <div data-color="e2edf4" style="background:var(--atlBlue50);height:40px;"></div>
+    <div data-color="c2D9e8" style="background:var(--atlBlue100);height:40px;"></div>
+    <div data-color="a6c7de" style="background:var(--atlBlue200);height:40px;"></div>
+    <div data-color="88b7d4" style="background:var(--atlBlue300);height:40px;"></div>
+    <div data-color="6da4c9" style="background:var(--atlBlue400);height:40px;"></div>
+    <div data-color="5393bf" style="background:var(--atlBlue500);height:40px;"></div>
+    <div data-color="3581b4" style="background:var(--atlBlue600);height:40px;"></div>
+    <div data-color="176FA9" style="background:var(--atlBlue700);height:40px;"></div>
+    <div data-color="005d9b" style="background:var(--atlBlue800);height:40px;"></div>
+    <div data-color="004c7f" style="background:var(--atlBlue900);height:40px;"></div>
+    <div data-color="003c65" style="background:var(--atlBlue1000);height:40px;"></div>
+    <div data-color="002d4c" style="background:var(--atlBlue1100);height:40px;"></div>
+
+    <!-- ATL Red -->
+    <div data-color="NA" style="background:var(--bg);padding:8px;font-size:var(--font-sm);font-weight:600;border-right:var(--border-muted);">Red</div>
+    <div data-color="f8e5e6" style="background:var(--atlRed50);height:40px;"></div>
+    <div data-color="f1ced0" style="background:var(--atlRed100);height:40px;"></div>
+    <div data-color="eab6b8" style="background:var(--atlRed200);height:40px;"></div>
+    <div data-color="e39fa2" style="background:var(--atlRed300);height:40px;"></div>
+    <div data-color="dd858a" style="background:var(--atlRed400);height:40px;"></div>
+    <div data-color="d66d73" style="background:var(--atlRed500);height:40px;"></div>
+    <div data-color="ce5158" style="background:var(--atlRed600);height:40px;"></div>
+    <div data-color="c53139" style="background:var(--atlRed700);height:40px;"></div>
+    <div data-color="b11921" style="background:var(--atlRed800);height:40px;"></div>
+    <div data-color="93151b" style="background:var(--atlRed900);height:40px;"></div>
+    <div data-color="751115" style="background:var(--atlRed1000);height:40px;"></div>
+    <div data-color="NA" style="background:var(--bg);height:40px;"></div>
+
+    <!-- ATL Fuchsia -->
+    <div data-color="NA" style="background:var(--bg);padding:8px;font-size:var(--font-sm);font-weight:600;border-right:var(--border-muted);">Fuchsia</div>
+    <div data-color="fe0ea" style="background:var(--atlFuchsia50);height:40px;"></div>
+    <div data-color="f3ccdd" style="background:var(--atlFuchsia100);height:40px;"></div>
+    <div data-color="edb3cc" style="background:var(--atlFuchsia200);height:40px;"></div>
+    <div data-color="e79bbc" style="background:var(--atlFuchsia300);height:40px;"></div>
+    <div data-color="e17fa9" style="background:var(--atlFuchsia400);height:40px;"></div>
+    <div data-color="db6598" style="background:var(--atlFuchsia500);height:40px;"></div>
+    <div data-color="d34682" style="background:var(--atlFuchsia600);height:40px;"></div>
+    <div data-color="c5266a" style="background:var(--atlFuchsia700);height:40px;"></div>
+    <div data-color="a9205b" style="background:var(--atlFuchsia800);height:40px;"></div>
+    <div data-color="8b1b4b" style="background:var(--atlFuchsia900);height:40px;"></div>
+    <div data-color="6e153c" style="background:var(--atlFuchsia1000);height:40px;"></div>
+    <div data-color="53102D" style="background:var(--atlFuchsia1100);height:40px;"></div>
+
+    <!-- ATL Indigo -->
+    <div data-color="NA" style="background:var(--bg);padding:8px;font-size:var(--font-sm);font-weight:600;border-right:var(--border-muted);">Indigo</div>
+    <div data-color="e7e5f3" style="background:var(--atlIndigo50);height:40px;"></div>
+    <div data-color="d7d4ec" style="background:var(--atlIndigo100);height:40px;"></div>
+    <div data-color="c5bfe3" style="background:var(--atlIndigo200);height:40px;"></div>
+    <div data-color="b3abdb" style="background:var(--atlIndigo300);height:40px;"></div>
+    <div data-color="9f97d2" style="background:var(--atlIndigo400);height:40px;"></div>
+    <div data-color="8f84ca" style="background:var(--atlIndigo500);height:40px;"></div>
+    <div data-color="7d70c1" style="background:var(--atlIndigo600);height:40px;"></div>
+    <div data-color="NA" style="background:var(--bg);height:40px;"></div>
+    <div data-color="5a4bab" style="background:var(--atlIndigo800);height:40px;"></div>
+    <div data-color="4a3e8e" style="background:var(--atlIndigo900);height:40px;"></div>
+    <div data-color="3a316e" style="background:var(--atlIndigo1000);height:40px;"></div>
+    <div data-color="2b2453" style="background:var(--atlIndigo1100);height:40px;"></div>
+
+    <!-- ATL Teal -->
+    <div data-color="NA" style="background:var(--bg);padding:8px;font-size:var(--font-sm);font-weight:600;border-right:var(--border-muted);">Teal</div>
+    <div data-color="d7f0f5" style="background:var(--atlTeal50);height:40px;"></div>
+    <div data-color="aadfea" style="background:var(--atlTeal100);height:40px;"></div>
+    <div data-color="80cfe0" style="background:var(--atlTeal200);height:40px;"></div>
+    <div data-color="56bfd6" style="background:var(--atlTeal300);height:40px;"></div>
+    <div data-color="25acca" style="background:var(--atlTeal400);height:40px;"></div>
+    <div data-color="0099bb" style="background:var(--atlTeal500);height:40px;"></div>
+    <div data-color="0086A4" style="background:var(--atlTeal600);height:40px;"></div>
+    <div data-color="00748d" style="background:var(--atlTeal700);height:40px;"></div>
+    <div data-color="006278" style="background:var(--atlTeal800);height:40px;"></div>
+    <div data-color="005264" style="background:var(--atlTeal900);height:40px;"></div>
+    <div data-color="00404f" style="background:var(--atlTeal1000);height:40px;"></div>
+    <div data-color="002f3a" style="background:var(--atlTeal1100);height:40px;"></div>
+
+    <!-- ATL Green -->
+    <div data-color="NA" style="background:var(--bg);padding:8px;font-size:var(--font-sm);font-weight:600;border-right:var(--border-muted);">Green</div>
+    <div data-color="d0efe5" style="background:var(--atlGreen50);height:40px;"></div>
+    <div data-color="a9e2cf" style="background:var(--atlGreen100);height:40px;"></div>
+    <div data-color="7ed3b7" style="background:var(--atlGreen200);height:40px;"></div>
+    <div data-color="53c49f" style="background:var(--atlGreen300);height:40px;"></div>
+    <div data-color="20b383" style="background:var(--atlGreen400);height:40px;"></div>
+    <div data-color="00a16c" style="background:var(--atlGreen500);height:40px;"></div>
+    <div data-color="008d5f" style="background:var(--atlGreen600);height:40px;"></div>
+    <div data-color="007a52" style="background:var(--atlGreen700);height:40px;"></div>
+    <div data-color="006746" style="background:var(--atlGreen800);height:40px;"></div>
+    <div data-color="00553A" style="background:var(--atlGreen900);height:40px;"></div>
+    <div data-color="00432d" style="background:var(--atlGreen1000);height:40px;"></div>
+    <div data-color="003222" style="background:var(--atlGreen1100);height:40px;"></div>
+
+    <!-- ATL Lime -->
+    <div data-color="NA"style="background:var(--bg);padding:8px;font-size:var(--font-sm);font-weight:600;border-right:var(--border-muted);">Lime</div>
+    <div data-color="dfeac6" style="background:var(--atlLime50);height:40px;"></div>
+    <div data-color="cbdea3"style="background:var(--atlLime100);height:40px;"></div>
+    <div data-color="b1cd76"style="background:var(--atlLime200);height:40px;"></div>
+    <div data-color="9abd4b"style="background:var(--atlLime300);height:40px;"></div>
+    <div data-color="7fac1c"style="background:var(--atlLime400);height:40px;"></div>
+    <div data-color="6a9b00"style="background:var(--atlLime500);height:40px;"></div>
+    <div data-color="5d8700"style="background:var(--atlLime600);height:40px;"></div>
+    <div data-color="507500"style="background:var(--atlLime700);height:40px;"></div>
+    <div data-color="446300"style="background:var(--atlLime800);height:40px;"></div>
+    <div data-color="385100"style="background:var(--atlLime900);height:40px;"></div>
+    <div data-color="2c4000"style="background:var(--atlLime1000);height:40px;"></div>
+    <div data-color="212f00"style="background:var(--atlLime1100);height:40px;"></div>
+
+    <!-- ATL Gold -->
+    <div data-color="NA"style="background:var(--bg);padding:8px;font-size:var(--font-sm);font-weight:600;border-right:var(--border-muted);">Gold</div>
+    <div data-color="ffe89a"style="background:var(--atlGold50);height:40px;"></div>
+    <div data-color="ffd138"style="background:var(--atlGold100);height:40px;"></div>
+    <div data-color="f3bb00"style="background:var(--atlGold200);height:40px;"></div>
+    <div data-color="ddaa00"style="background:var(--atlGold300);height:40px;"></div>
+    <div data-color="c59700"style="background:var(--atlGold400);height:40px;"></div>
+    <div data-color="b08700"style="background:var(--atlGold500);height:40px;"></div>
+    <div data-color="9a7600"style="background:var(--atlGold600);height:40px;"></div>
+    <div data-color="846600"style="background:var(--atlGold700);height:40px;"></div>
+    <div data-color="715600"style="background:var(--atlGold800);height:40px;"></div>
+    <div data-color="5d4700"style="background:var(--atlGold900);height:40px;"></div>
+    <div data-color="493800"style="background:var(--atlGold1000);height:40px;"></div>
+    <div data-color="362900"style="background:var(--atlGold1100);height:40px;"></div>
+
+    <!-- ATL Orange -->
+    <div data-color="NA"style="background:var(--bg);padding:8px;font-size:var(--font-sm);font-weight:600;border-right:var(--border-muted);">Orange</div>
+    <div data-color="fbe2d0"style="background:var(--atlOrange50);height:40px;"></div>
+    <div data-color="f9cdaf"style="background:var(--atlOrange100);height:40px;"></div>
+    <div data-color="f6b588"style="background:var(--atlOrange200);height:40px;"></div>
+    <div data-color="f39d61"style="background:var(--atlOrange300);height:40px;"></div>
+    <div data-color="f08033"style="background:var(--atlOrange400);height:40px;"></div>
+    <div data-color="e7660e"style="background:var(--atlOrange500);height:40px;"></div>
+    <div data-color="ca590c"style="background:var(--atlOrange600);height:40px;"></div>
+    <div data-color="ae4d0a"style="background:var(--atlOrange700);height:40px;"></div>
+    <div data-color="944209"style="background:var(--atlOrange800);height:40px;"></div>
+    <div data-color="7a3607"style="background:var(--atlOrange900);height:40px;"></div>
+    <div data-color="602b06"style="background:var(--atlOrange1000);height:40px;"></div>
+    <div data-color="472004"style="background:var(--atlOrange1100);height:40px;"></div>
+  </div>
+</section>
+
+
+
+<div class="rule" style="margin-top:32px;"></div>
+
+<section style="margin-top:32px;">
+
+<div class="table-caption">
+  <span class="table-caption__category">Color Specimen</span> | <span class="table-caption__title">Plot Color Palette </span>
+</div>
+  <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:0;border-top:none;">
+    <!-- Row 1 -->
+    <div style="background:var(--Res-blue1);height:80px;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);position:relative;">
+      <div style="position:absolute;bottom:12px;left:12px;color:var(--white);font-size:var(--font-sm);font-weight: 600;line-height:1.4;text-align:right;">
+      #3581b4
+      </div>
+    </div>
+        <div style="background:var(--Res-orange1);height:80px;border:var(--border-muted);position:relative;">
+      <div style="position:absolute;bottom:12px;left:12px;color:var(--black);font-size:var(--font-sm);font-weight: 600;line-height:1.4;text-align:right;">
+      #ca590f
+      </div>
+    </div>
+    <div style="background:var(--Res-green1);height:80px;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);position:relative;">
+      <div style="position:absolute;bottom:12px;left:12px;color:var(--black);font-size:var(--font-sm);font-weight: 600;line-height:1.4;text-align:right;">
+      #7fac1c
+      </div>
+    </div>
+    <div style="background:var(--Res-yellow1);height:80px;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);position:relative;">
+      <div style="position:absolute;bottom:12px;left:12px;color:var(--black);font-size:var(--font-sm);font-weight: 600;line-height:1.4;text-align:right;">
+      #f3bb00
+      </div>
+    </div>
+
+
+    <!-- Row 2 -->
+    <div style="background:var(--Res-pink1);height:80px;border:var(--border-muted);position:relative;">
+            <div style="position:absolute;bottom:12px;left:12px;color:var(--black);font-size:var(--font-sm);font-weight: 600;line-height:1.4;text-align:right;">
+      #d34682
+      </div>
+    </div>
+    <div style="background:var(--Res-blue2);height:80px;border:var(--border-muted);border-top-width:2px;border-top-style:dotted;border-bottom:var(--border);position:relative;">
+      <div style="position:absolute;bottom:12px;left:12px;color:var(--black);font-size:var(--font-sm);font-weight: 600;line-height:1.4;text-align:right;">
+      #56bfd6
+      </div>
+    </div>
+    <div style="background:var(--Res-purple1);height:80px;border:var(--border-muted);position:relative;">
+      <div style="position:absolute;bottom:12px;left:12px;color:var(--white);font-size:var(--font-sm);font-weight: 600;line-height:1.4;text-align:right;">
+      #4a3e8e
+      </div>
+    </div>
+    <div style="background:var(--Res-teal1);height:80px;border:var(--border-muted);position:relative;">
+      <div style="position:absolute;bottom:12px;left:12px;color:var(--black);font-size:var(--font-sm);font-weight: 600;line-height:1.4;text-align:right;">
+      #53c49f 
+      </div>
+    </div>
+
+
+    <!-- Row 3 -->
+    <div style="background:var(--Res-maroon1);height:80px;border:var(--border-muted);position:relative;">
+            <div style="position:absolute;bottom:12px;left:12px;color:var(--white);font-size:var(--font-sm);font-weight: 600;line-height:1.4;text-align:right;">
+      #580d10
+      </div>
+    </div>
+    <div style="background:var(--Res-blue3);height:80px;border:var(--border-muted);position:relative;">
+            <div style="position:absolute;bottom:12px;left:12px;color:var(--white);font-size:var(--font-sm);font-weight: 600;line-height:1.4;text-align:right;">
+      #006278
+      </div>
+    </div>
+    <div style="background:var(--Res-green2);height:80px;border:var(--border-muted);position:relative;">
+      <div style="position:absolute;bottom:12px;left:12px;color:var(--white);font-size:var(--font-sm);font-weight: 600;line-height:1.4;text-align:right;">
+      #385100
+      </div>
+    </div>
+    <div style="background:var(--Res-gray1);height:80px;border:var(--border-muted);position:relative;">
+      <div style="position:absolute;bottom:12px;left:12px;color:var(--white);font-size:var(--font-sm);font-weight: 600;line-height:1.4;text-align:right;">
+      #414141
+      </div>
+    </div>
+  </div>
+</section>

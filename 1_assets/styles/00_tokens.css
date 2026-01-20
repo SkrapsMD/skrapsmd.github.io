@@ -54,8 +54,11 @@ Michael Dwight Sparks
     --bg-muted: light-dark(var(--marbleColumn), var(--darkGray));
 
     /* Ink colors (text and borders) */
-    --ink: light-dark(var(--charcoal), var(--white));
+    --ink: light-dark(var(--black), var(--white));
     --ink-muted: light-dark(var(--darkGray), var(--medGray));
+
+    --ink_inv: light-dark(var(--white), var(--black));
+    --ink-muted_inv: light-dark(var(--medGray), var(--darkGray));
 
     /* Text colors */
     --text-primary: var(--ink);
