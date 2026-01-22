@@ -57,8 +57,8 @@ Michael Dwight Sparks
     --ink: light-dark(var(--black), var(--white));
     --ink-muted: light-dark(var(--darkGray), var(--medGray));
 
-    --ink_inv: light-dark(var(--white), var(--black));
-    --ink-muted_inv: light-dark(var(--medGray), var(--darkGray));
+    --ink-inv: light-dark(var(--white), var(--black));
+    --ink-muted-inv: light-dark(var(--medGray), var(--darkGray));
 
     /* Text colors */
     --text-primary: var(--ink);
@@ -89,7 +89,7 @@ Michael Dwight Sparks
     --text-highlight-3: light-dark(var(--atlGreen100), var(--atlGreen800));
 
     /* UI state colors */
-    --active-indicator: light-dark(var(--atlRed800), var(--atlRed300));
+    --active-indicator: light-dark(var(--atlDanger), var(--atlDanger));
 
     /* ========================================
        SPACING & LAYOUT

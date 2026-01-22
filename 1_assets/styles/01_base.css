@@ -90,6 +90,14 @@ code, pre, kbd, samp {
     font-size: var(--font-xs);
 }
 
+.medsmall {
+    font-size: var(--font-sm);
+}
+
+.medium{
+    font-size:var(--font-md);
+}
+
 .visually-hidden {
     position: absolute;
     width: 1px;

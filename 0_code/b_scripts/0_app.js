@@ -3,10 +3,11 @@ const navLinks = Array.from(document.querySelectorAll(".navbtn"));
 
 const routes = {
   specimen: { file: "0_code/a_partials/00_specimen.html", css: "1_assets/styles/a_partials/00_specimen.css"},
-  home:     { file: "0_code/a_partials/template/wip.html", css: "1_assets/styles/a_partials/01_home.css"},
+  home:     { file: "0_code/a_partials/01_home.html", css: "1_assets/styles/a_partials/01_home.css"},
   research: { file: "0_code/a_partials/template/wip.html", css: "1_assets/styles/a_partials/02_research.css"},
   code:     { file: "0_code/a_partials/template/wip.html", css: "1_assets/styles/a_partials/03_code.css"},
   sitemap:  { file: "0_code/a_partials/template/wip.html", css: "1_assets/styles/a_partials/04_sitemap.css"},
+  applications: {file: "0_code/a_partials/05_applicationTracker.html", css: "1_assets/styles/a_partials/05_applicationTracker.css"}
 };
 
 function setActive(page){

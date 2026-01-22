@@ -16,7 +16,7 @@ Michael Dwight Sparks
     max-width: var(--frame-width);
     margin: 32px auto;
     border: var(--border);
-    padding: var(--pad);
+    padding: 0; 
     background: var(--bg);
 }
 
@@ -24,7 +24,12 @@ Michael Dwight Sparks
    MASTHEAD (Header)
    ======================================== */
 .masthead {
-    margin-bottom: var(--pad-sm);
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding: var(--pad);
+    padding-bottom: 0;
+    z-index: 100;
 }
 
 .masthead-top {
@@ -37,7 +42,7 @@ Michael Dwight Sparks
 
 .brand-title {
     font-weight: 600;
-    font-size: var(--font-sm);
+    font-size: var(--font-md);
 }
 
 /* Color swatches in header */
@@ -140,11 +145,15 @@ Michael Dwight Sparks
 .rule.solid {
     border-top: var(--border);
 }
-
+.rule.flush {
+    margin-bottom: 0;
+    padding-bottom:0;
+}
 /* ========================================
    CONTENT AREA
    ======================================== */
 .content {
+    padding: var(--pad);
     padding-top: 4px;
     padding-bottom: 12px;
     min-height: 200px;
@@ -154,6 +163,7 @@ Michael Dwight Sparks
    FOOTER
    ======================================== */
 .foot {
+    padding: 0 var(--pad) var(--pad);
     margin-top: var(--pad);
 }
 
