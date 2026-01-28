@@ -173,9 +173,10 @@ Work In Progress Signal
     border-bottom: var(--border);
 }
 
-.table tbody tr:hover {
+.table--hoverable tbody tr:hover {
     background: var(--bg-muted);
 }
+
 
 .table--compact th,
 .table--compact td {
