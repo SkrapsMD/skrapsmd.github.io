@@ -42,7 +42,7 @@ Michael Dwight Sparks
 
 .brand-title {
     font-weight: 600;
-    font-size: var(--font-md);
+    font-size: var(--font-lg);
 }
 
 /* Color swatches in header */
@@ -98,9 +98,12 @@ Michael Dwight Sparks
 }
 
 .navbtn:hover {
-    background: var(--bg-muted);
-    color: var(--text-emph);
+    background: var(--ink);
+    color: var(--ink-inv);
     text-decoration: none;
+}
+.navbtn:hover .dot{
+    border: 1px solid var(--ink-inv);
 }
 
 .navbtn .dot {
@@ -110,6 +113,7 @@ Michael Dwight Sparks
     border-radius: 999px;
     background: transparent;
 }
+
 
 .navbtn.active .dot {
     background: var(--active-indicator);

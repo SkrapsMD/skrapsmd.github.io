@@ -64,7 +64,7 @@ Michael Dwight Sparks
     --text-primary: var(--ink);
     --text-secondary: var(--ink-muted);
     --text-emph: light-dark(var(--atlBlue900), var(--atlBlue300));
-    --text-emph-hover: light-dark(var(--atlBlue700), var(--atlBlue400));
+    --text-emph-hover: light-dark(var(--atlBlue600), var(--atlBlue600));
     --text-emph-2: light-dark(var(--atlOrange900), var(--atlOrange300));
     --text-emph-2-hover: light-dark(var(--atlOrange700), var(--atlOrange400));
 
@@ -85,7 +85,7 @@ Michael Dwight Sparks
 
     /* Background highlights */
     --text-highlight: light-dark(var(--atlGold100), var(--atlGold800));
-    --text-highlight-2: light-dark(var(--atlBlue100), var(--atlBlue900));
+    --text-highlight-2: light-dark(var(--atlBlue100), var(--atlBlue600));
     --text-highlight-3: light-dark(var(--atlGreen100), var(--atlGreen800));
     --text-highlight-warning: light-dark(var(--atlPrimaryWarning), var(--atlSecondaryWarning));
     /* UI state colors */

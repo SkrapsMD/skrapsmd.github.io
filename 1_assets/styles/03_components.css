@@ -42,6 +42,15 @@ Work In Progress Signal
   background: var(--bg);
   border: 2px dashed var(--ink);
 }
+
+.panel.wip_small {
+  display: grid;
+  min-height: 200px;
+}
+
+.wip_small .wip-label {
+  font-size: var(--font-sm);
+}
 /* ========================================
    BUTTONS
    ======================================== */
@@ -58,12 +67,13 @@ Work In Progress Signal
     font-size: var(--font-xs);
     line-height: 1;
     cursor: pointer;
+    text-decoration: none;
     transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .btn:hover {
-    background: var(--bg-muted);
-    color: var(--text-emph);
+    background: var(--ink);
+    color: var(--ink-inv);
 }
 
 .btn--primary {
@@ -75,7 +85,7 @@ Work In Progress Signal
 .btn--primary:hover {
     background: var(--text-emph-hover);
     border-color: var(--text-emph-hover);
-    color: var(--ink-inv);
+    color: var(--ink);
 }
 
 .btn--ghost {
@@ -137,6 +147,12 @@ Work In Progress Signal
     font-size: var(--font-xs);
     text-transform: uppercase;
     letter-spacing: 0.08em;
+    margin-bottom: 8px;
+}
+
+.table-caption--lg {
+    font-size: var(--font-sm);
+    margin-top:16px;
     margin-bottom: 8px;
 }
 
@@ -274,6 +290,7 @@ Work In Progress Signal
    ======================================== */
 .card {
     border: var(--border);
+    border-left: 15px solid light-dark(var(--darkGray), var(--lightGray));
     padding: var(--pad);
     margin-bottom: var(--pad);
 }
@@ -290,6 +307,28 @@ Work In Progress Signal
     margin-bottom: 8px;
 }
 
+.card-meta .name-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.card-meta .name-link:hover {
+    text-decoration: none;
+    color: var(--text-emph);
+    font-weight: 600;
+}
+
+.name-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.name-link:hover {
+    text-decoration: none;
+    color: var(--text-emph);
+    font-weight: 600;
+}
+
 .card-body {
     font-size: var(--font-sm);
 }
@@ -304,6 +343,9 @@ Work In Progress Signal
     font-size: var(--font-xs);
     font-weight: 600;
     border: var(--border);
+    cursor:default;
+    user-select:none;
+    pointer-events:none;
 }
 
 .badge--highlight {
