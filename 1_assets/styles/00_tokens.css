@@ -87,7 +87,7 @@ Michael Dwight Sparks
     --text-highlight: light-dark(var(--atlGold100), var(--atlGold800));
     --text-highlight-2: light-dark(var(--atlBlue100), var(--atlBlue900));
     --text-highlight-3: light-dark(var(--atlGreen100), var(--atlGreen800));
-
+    --text-highlight-warning: light-dark(var(--atlPrimaryWarning), var(--atlSecondaryWarning));
     /* UI state colors */
     --active-indicator: light-dark(var(--atlDanger), var(--atlDanger));
 

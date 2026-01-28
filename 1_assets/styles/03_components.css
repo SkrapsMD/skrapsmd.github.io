@@ -149,6 +149,27 @@ Work In Progress Signal
     color: var(--text-primary);
     font-weight: 600;
 }
+.table-footer {
+  display: grid;
+  gap: 12px;
+}
+
+.table-notes ol {
+  margin: 6px 0 0 16px;
+  padding: 0;
+}
+
+.table-notes li {
+  margin-bottom: 4px;
+}
+
+.table-legend .badge {
+  margin-right: 6px;
+  margin-top: 4px;
+  font-size: 0.75rem;
+}
+
+
 
 .table {
     width: 100%;
@@ -160,7 +181,7 @@ Work In Progress Signal
 .table td {
     border: var(--border-muted);
     padding: 6px 8px;
-    vertical-align: top;
+    vertical-align: middle;
     text-align: left;
 }
 
@@ -213,6 +234,20 @@ Work In Progress Signal
 .table--borderless tbody tr:last-child td {
     border-bottom: var(--border-muted);
 }
+
+.aligned-list .label {
+    display: inline-block;
+    width: 7.5em;
+}
+
+.aligned-list .sep {
+    margin-right: 0.4em;
+}
+
+.badge-cell {
+    text-align: center;
+}
+
 
 /* ========================================
    PANELS (Boxed Content Areas)
@@ -282,6 +317,21 @@ Work In Progress Signal
 .badge--success {
     background: var(--text-highlight-3);
 }
+
+.badge--failure {
+    background: var(--atlDanger);
+    color: var(--white);
+}
+.badge--warning{
+    background: var(--text-highlight-warning);
+    color: var(--black);
+}
+.badge--unsure{
+    opacity:0.5;
+    background: var(--bg-muted);
+    color: var(--ink);
+}
+
 
 /* ========================================
    CODE BLOCKS
