@@ -177,3 +177,48 @@ Michael Dwight Sparks
     color: var(--text-secondary);
     font-size: var(--font-xs);
 }
+
+/* ========================================
+   MOBILE RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+    /* Reduce frame margins on mobile to prevent horizontal overflow */
+    .frame {
+        margin: 12px;
+    }
+
+    /* Remove sticky header on mobile - let it scroll away */
+    .masthead {
+        position: relative;
+    }
+
+    /* Reduce padding on mobile to maximize content space */
+    .masthead,
+    .content,
+    .foot {
+        padding-left: var(--pad-sm);
+        padding-right: var(--pad-sm);
+    }
+
+    /* Stack navigation buttons vertically on very small screens */
+    .navbars {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .navbtn {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Even tighter spacing on very small screens */
+    .frame {
+        margin: 8px;
+    }
+
+    /* Smaller brand title on tiny screens */
+    .brand-title {
+        font-size: var(--font-base);
+    }
+}

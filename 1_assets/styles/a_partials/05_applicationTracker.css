@@ -1,0 +1,131 @@
+/*
+05_applicationTracker.css
+Page-specific styles for the PhD Application Tracker page
+
+1/28/2026
+Michael Dwight Sparks
+*/
+
+/* ========================================
+   TRACKER HEADER LAYOUT
+   ======================================== */
+.tracker-grid {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 16px;
+    align-items: start;
+    margin-bottom: 16px;
+}
+
+.tracker-intro {
+    /* Container for intro text */
+}
+
+.tracker-code {
+    margin-top: 6px;
+    font-weight: 600;
+}
+
+.tracker-title {
+    margin-top: 2px;
+    font-weight: 600;
+}
+
+.tracker-description {
+    margin-top: 6px;
+}
+
+.tracker-link {
+    color: var(--text-emph);
+}
+
+.tracker-stats {
+    /* Container for stats table */
+}
+
+/* ========================================
+   TABLE SCROLL WRAPPER
+   ======================================== */
+.table-scroll-wrapper {
+    /* On desktop, no scrolling needed */
+    width: 100%;
+}
+
+/* ========================================
+   MOBILE RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+    /* Stack content vertically on mobile */
+    .tracker-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    /* Stats table takes full width on mobile */
+    .tracker-stats .table {
+        width: 100%;
+    }
+
+    /* Ensure table cells don't overflow */
+    .tracker-stats td,
+    .tracker-stats th {
+        font-size: var(--font-xs);
+        padding: 6px 8px;
+    }
+
+    /* Make main data table scrollable horizontally on mobile */
+    .table-caption {
+        font-size: var(--font-xs);
+    }
+
+    /* Enable horizontal scroll for wide table */
+    .table-scroll-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Prevent table from collapsing - maintain minimum width */
+    .table-scroll-wrapper .table {
+        min-width: 380px;
+        font-size: 9px;
+        width: auto;
+    }
+
+    /* Smaller text in table cells */
+    .table-scroll-wrapper .table th,
+    .table-scroll-wrapper .table td {
+        font-size: 9px;
+        padding: 3px 3px;
+        white-space: nowrap;
+    }
+
+    /* Shrink badges on mobile */
+    .badge {
+        font-size: 8px;
+        padding: 1px 3px;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Even more compact on very small screens */
+    .tracker-code {
+        font-size: var(--font-xs);
+    }
+
+    .tracker-title {
+        font-size: var(--font-sm);
+    }
+
+    /* Smaller table legend on mobile */
+    .table-legend {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .table-notes {
+        font-size: var(--font-xs);
+    }
+}
