@@ -40,9 +40,24 @@ Michael Dwight Sparks
     margin-bottom: 10px;
 }
 
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+}
+
 .brand-title {
     font-weight: 600;
     font-size: var(--font-lg);
+}
+
+/* Brand icon sizing - prevent flash of large image on load */
+#brand-icon {
+    height: 4em;
+    width: auto;
+    display: block;
 }
 
 /* Color swatches in header */
