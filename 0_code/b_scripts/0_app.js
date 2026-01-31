@@ -1,5 +1,23 @@
 const app = document.getElementById("app");
 const navLinks = Array.from(document.querySelectorAll(".navbtn"));
+const menuToggle = document.getElementById("menu-toggle");
+const navbars = document.querySelector(".navbars");
+
+// Mobile menu toggle
+if (menuToggle && navbars) {
+  menuToggle.addEventListener("click", () => {
+    const isOpen = navbars.classList.toggle("open");
+    menuToggle.setAttribute("aria-expanded", isOpen);
+  });
+
+  // Close menu when navigating
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      navbars.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+    });
+  });
+}
 
 const routes = {
   specimen: { file: "0_code/a_partials/00_specimen.html", css: "1_assets/styles/a_partials/00_specimen.css"},
@@ -37,10 +55,10 @@ function setActive(page){
 }
 
 function ensurePageCSS(href){
-  // Remove any prior page-only stylesheet
-  document.querySelectorAll("link[data-page-css]").forEach(el => el.remove());
-
   if (!href) return;
+
+  // Check if this CSS is already loaded
+  if (document.querySelector(`link[href="${href}"]`)) return;
 
   const link = document.createElement("link");
   link.rel = "stylesheet";

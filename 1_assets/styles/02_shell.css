@@ -91,6 +91,26 @@ Michael Dwight Sparks
 /* ========================================
    NAVIGATION
    ======================================== */
+/* Hamburger menu button - hidden on desktop */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    z-index: 101;
+}
+
+.hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--ink);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
 .navbars {
     display: flex;
     gap: var(--pad-sm);
@@ -215,10 +235,21 @@ Michael Dwight Sparks
         padding-right: var(--pad-sm);
     }
 
-    /* Stack navigation buttons vertically on very small screens */
+    /* Show hamburger menu on mobile */
+    .hamburger {
+        display: flex;
+    }
+
+    /* Hide navigation by default on mobile */
     .navbars {
+        display: none;
         flex-direction: column;
         align-items: stretch;
+    }
+
+    /* Show navigation when open class is present */
+    .navbars.open {
+        display: flex;
     }
 
     .navbtn {
