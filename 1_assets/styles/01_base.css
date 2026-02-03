@@ -58,7 +58,6 @@ a {
 
 a:hover {
     color: var(--text-link-hover);
-    text-decoration: underline;
 }
 
 strong, b {
