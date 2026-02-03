@@ -26,6 +26,7 @@ const routes = {
   code:     { file: "0_code/a_partials/template/wip.html", css: "1_assets/styles/a_partials/03_code.css"},
   sitemap:  { file: "0_code/a_partials/template/wip.html", css: "1_assets/styles/a_partials/04_sitemap.css"},
   applications: {file: "0_code/a_partials/05_applicationTracker.html", css: "1_assets/styles/a_partials/05_applicationTracker.css"},
+  people:   { file: "0_code/a_partials/06_people.html", css: "1_assets/styles/a_partials/06_people.css"},
   "person-aaron-jalca": {file: "0_code/people_index/AaronJalca.html", css: null},
   "person-lei-fang": {file: "0_code/people_index/LeiFang.html", css: null},
   "person-salome-baslandze": {file: "0_code/people_index/SalomeBaslandze.html", css: null},
@@ -35,6 +36,10 @@ const routes = {
   "person-kc-pringle": {file: "0_code/people_index/KCPringle.html", css: null},
   "person-melinda-pitts": {file: "0_code/people_index/MelindaPitts.html", css: null}
 };
+
+// In-memory caches for instant navigation
+const htmlCache = new Map();
+const cssCache = new Set();
 
 /*
 ===========================
@@ -55,16 +60,29 @@ function setActive(page){
 }
 
 function ensurePageCSS(href){
+  // Remove old page-specific CSS to prevent bloat
+  document.querySelectorAll('link[data-page-css="true"]').forEach(link => {
+    link.remove();
+  });
+
+  // If no CSS needed for this page, we're done
   if (!href) return;
 
-  // Check if this CSS is already loaded
-  if (document.querySelector(`link[href="${href}"]`)) return;
+  // Check if this exact CSS is already properly loaded with the right attribute
+  const existingLink = document.querySelector(`link[href="${href}"][data-page-css="true"]`);
+  if (existingLink) return;
+
+  // Remove any stale versions without the attribute (from prefetch, etc)
+  document.querySelectorAll(`link[href="${href}"]`).forEach(link => {
+    link.remove();
+  });
 
   const link = document.createElement("link");
   link.rel = "stylesheet";
   link.href = href;
   link.setAttribute("data-page-css", "true");
   document.head.appendChild(link);
+  cssCache.add(href);
 }
 
 function currentPage(){
@@ -195,14 +213,46 @@ function setupPersonPhotoToggle() {
   });
 }
 
+// Prefetch page HTML and CSS on hover for instant navigation
+function prefetchPage(page) {
+  const route = routes[page];
+  if (!route) return;
+
+  // Prefetch HTML if not cached
+  if (!htmlCache.has(route.file)) {
+    fetch(route.file, { cache: "default" })
+      .then(res => res.text())
+      .then(html => htmlCache.set(route.file, html))
+      .catch(() => {}); // Silent fail
+  }
+
+  // Prefetch CSS if exists
+  if (route.css && !cssCache.has(route.css)) {
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.as = 'style';
+    link.href = route.css;
+    document.head.appendChild(link);
+    cssCache.add(route.css);
+  }
+}
+
 async function loadPage(page){
   const route = routes[page] || routes.home;
 
   setActive(page in routes ? page : "home");
-  ensurePageCSS(route.css);
 
-  const res = await fetch(route.file, { cache: "no-store" });
-  app.innerHTML = await res.text();
+  // Check cache first for instant navigation
+  let html = htmlCache.get(route.file);
+  if (!html) {
+    const res = await fetch(route.file, { cache: "default" });
+    html = await res.text();
+    htmlCache.set(route.file, html);
+  }
+
+  // Inject new content first, THEN swap CSS to prevent flash of unstyled content
+  app.innerHTML = html;
+  ensurePageCSS(route.css);
 
   // Execute any inline scripts in the loaded content
   const scripts = app.querySelectorAll('script');
@@ -224,3 +274,27 @@ async function loadPage(page){
 
 window.addEventListener("hashchange", () => loadPage(currentPage()));
 loadPage(currentPage());
+
+// Setup prefetching on navigation hover for instant clicks
+document.querySelectorAll('.navbtn').forEach(link => {
+  link.addEventListener('mouseenter', () => {
+    const hash = link.getAttribute('href')?.replace('#', '');
+    if (hash && routes[hash]) {
+      prefetchPage(hash);
+    }
+  });
+});
+
+// Prefetch likely next pages during browser idle time
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(() => {
+    const currentPageName = currentPage();
+    // Prefetch common navigation paths
+    const likelyNext = ['home', 'research', 'code'];
+    likelyNext.forEach(page => {
+      if (page !== currentPageName) {
+        prefetchPage(page);
+      }
+    });
+  });
+}

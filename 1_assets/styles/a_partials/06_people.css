@@ -1,0 +1,65 @@
+/* People Index Page Styles */
+
+/* Grid container */
+.people-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--pad);
+  margin-top: var(--pad);
+}
+
+/* Card styling */
+.people-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pad);
+  padding: var(--pad);
+  border: var(--border);
+  text-decoration: none;
+  color: inherit;
+}
+
+.people-card:hover {
+  text-decoration: none;
+}
+
+.people-card:hover .people-card__name {
+  color: var(--text-emph);
+  text-decoration: none;
+}
+
+/* Image styling */
+.people-card__image {
+  max-width: 150px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+/* Info section */
+.people-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Name styled like table-caption */
+.people-card__name {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Affiliation styling */
+.people-card__affiliation {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .people-grid {
+    grid-template-columns: 1fr;
+  }
+}

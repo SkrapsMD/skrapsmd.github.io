@@ -48,6 +48,14 @@ Michael Dwight Sparks
     color: inherit;
 }
 
+.brand:hover {
+    text-decoration: none;
+}
+
+.brand:hover .brand-title {
+    color: var(--text-emph);
+}
+
 .brand-title {
     font-weight: 600;
     font-size: var(--font-lg);
