@@ -34,7 +34,12 @@ const routes = {
   "person-brent-meyer": {file: "0_code/people_index/BrentMeyer.html", css: null},
   "person-david-wiczer": {file: "0_code/people_index/DavidWiczer.html", css: null},
   "person-kc-pringle": {file: "0_code/people_index/KCPringle.html", css: null},
-  "person-melinda-pitts": {file: "0_code/people_index/MelindaPitts.html", css: null}
+  "person-melinda-pitts": {file: "0_code/people_index/MelindaPitts.html", css: null},
+  "person-john-hermann": {file: "0_code/people_index/JohnHermann.html", css: null},
+  "person-rik-chakraborti": {file: "0_code/people_index/RikChakraborti.html", css: null},
+  "person-iordanka-panyatova": {file: "0_code/people_index/IordankaPanyatova.html", css: null},
+  "person-jon-white": {file: "0_code/people_index/JonWhite.html", css: null},
+  "person-frank-garmon": {file: "0_code/people_index/FrankGarmon.html", css: null}
 };
 
 // In-memory caches for instant navigation
