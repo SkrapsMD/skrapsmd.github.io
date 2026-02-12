@@ -218,6 +218,70 @@ function setupPersonPhotoToggle() {
   });
 }
 
+/*
+===========================
+05_applicationTracker.html Functions - Proof Modal
+===========================
+*/
+
+function setupProofModal() {
+  const modal = document.getElementById('proof-modal');
+  if (!modal) return;
+
+  const closeBtn = modal.querySelector('.proof-modal-close');
+  const overlay = modal.querySelector('.proof-modal-overlay');
+  const fromEl = modal.querySelector('.proof-from');
+  const dateEl = modal.querySelector('.proof-date');
+  const subjectEl = modal.querySelector('.proof-subject');
+  const bodyEl = modal.querySelector('.proof-body');
+
+  // Handle proof button clicks
+  document.querySelectorAll('.proof-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+
+      // Get data from parent td element
+      const td = btn.closest('td');
+      if (!td) return;
+
+      const proofFrom = td.dataset.proofFrom;
+      const proofDate = td.dataset.proofDate;
+      const proofSubject = td.dataset.proofSubject;
+      const proofBody = td.dataset.proofBody;
+
+      if (proofFrom && proofDate && proofSubject && proofBody) {
+        fromEl.textContent = `From: ${proofFrom}`;
+        dateEl.textContent = proofDate;
+        subjectEl.textContent = `Subject: ${proofSubject}`;
+        bodyEl.innerHTML = proofBody; // Use innerHTML to render links
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden'; // Prevent background scroll
+      }
+    });
+  });
+
+  // Close modal handlers
+  const closeModal = () => {
+    modal.classList.remove('open');
+    document.body.style.overflow = ''; // Restore scroll
+  };
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeModal);
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', closeModal);
+  }
+
+  // Close with Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) {
+      closeModal();
+    }
+  });
+}
+
 // Prefetch page HTML and CSS on hover for instant navigation
 function prefetchPage(page) {
   const route = routes[page];
@@ -275,6 +339,9 @@ async function loadPage(page){
 
   // Setup person photo toggle after content is loaded
   setupPersonPhotoToggle();
+
+  // Setup proof modal for application tracker
+  setupProofModal();
 }
 
 window.addEventListener("hashchange", () => loadPage(currentPage()));
