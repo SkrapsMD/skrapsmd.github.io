@@ -266,6 +266,32 @@ Michael Dwight Sparks
   white-space: pre-wrap;
 }
 
+/* PDF viewer */
+.proof-pdf-container {
+  display: none;
+  width: 100%;
+  height: 600px;
+  margin-top: 12px;
+}
+
+.proof-pdf-container.active {
+  display: block;
+}
+
+.proof-pdf-viewer {
+  width: 100%;
+  height: 100%;
+  border: var(--border);
+  background: var(--bg-muted);
+}
+
+/* Hide email elements when showing PDF */
+.proof-modal.pdf-mode .proof-header,
+.proof-modal.pdf-mode .proof-subject,
+.proof-modal.pdf-mode .proof-body {
+  display: none;
+}
+
 /* Mobile responsive for proof modal */
 @media (max-width: 768px) {
   .proof-modal-content {

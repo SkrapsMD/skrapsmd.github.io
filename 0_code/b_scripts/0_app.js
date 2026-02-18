@@ -234,6 +234,8 @@ function setupProofModal() {
   const dateEl = modal.querySelector('.proof-date');
   const subjectEl = modal.querySelector('.proof-subject');
   const bodyEl = modal.querySelector('.proof-body');
+  const pdfContainer = modal.querySelector('.proof-pdf-container');
+  const pdfViewer = modal.querySelector('.proof-pdf-viewer');
 
   // Handle proof button clicks
   document.querySelectorAll('.proof-btn').forEach(btn => {
@@ -244,25 +246,50 @@ function setupProofModal() {
       const td = btn.closest('td');
       if (!td) return;
 
+      const proofPdf = td.dataset.proofPdf;
       const proofFrom = td.dataset.proofFrom;
       const proofDate = td.dataset.proofDate;
       const proofSubject = td.dataset.proofSubject;
       const proofBody = td.dataset.proofBody;
 
-      if (proofFrom && proofDate && proofSubject && proofBody) {
+      // Check if this is a PDF or email proof
+      if (proofPdf) {
+        // Display PDF mode
+        modal.classList.add('pdf-mode');
+        pdfContainer.classList.add('active');
+        // Add URL parameters to hide PDF toolbar and navigation pane
+        pdfViewer.src = proofPdf + '#toolbar=0&navpanes=0&scrollbar=1';
+
+        // Optionally show date in header for PDFs
+        if (proofDate) {
+          dateEl.textContent = proofDate;
+          fromEl.textContent = 'Document Proof';
+        }
+      } else if (proofFrom && proofDate && proofSubject && proofBody) {
+        // Display email mode
+        modal.classList.remove('pdf-mode');
+        pdfContainer.classList.remove('active');
+        pdfViewer.src = '';
+
         fromEl.textContent = `From: ${proofFrom}`;
         dateEl.textContent = proofDate;
         subjectEl.textContent = `Subject: ${proofSubject}`;
         bodyEl.innerHTML = proofBody; // Use innerHTML to render links
-        modal.classList.add('open');
-        document.body.style.overflow = 'hidden'; // Prevent background scroll
+      } else {
+        return; // No valid proof data
       }
+
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden'; // Prevent background scroll
     });
   });
 
   // Close modal handlers
   const closeModal = () => {
     modal.classList.remove('open');
+    modal.classList.remove('pdf-mode');
+    pdfContainer.classList.remove('active');
+    pdfViewer.src = ''; // Clear PDF to stop loading
     document.body.style.overflow = ''; // Restore scroll
   };
 
