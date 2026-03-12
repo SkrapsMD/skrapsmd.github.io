@@ -152,6 +152,9 @@ async function loadResearchCards(cardIds, containerId) {
     
     // Setup citation copy listeners after cards are loaded
     setupCitationCopyListeners();
+
+    // Setup story modal after cards are injected
+    setupStoryModal();
   } catch (error) {
     console.error('Error loading research cards:', error);
   }
@@ -187,6 +190,134 @@ function setupCitationCopyListeners() {
         console.error('Failed to copy citation:', err);
       }
     });
+  });
+}
+
+/*
+===========================
+Story Modal (Flourish Data Stories)
+===========================
+*/
+
+// Abstracted display function — swap internals to change presentation
+function showStory(storySrc, title) {
+  const modal = document.getElementById('story-modal');
+  if (!modal) return;
+
+  const titleEl = modal.querySelector('.story-modal-title');
+  const container = modal.querySelector('.story-embed-container');
+
+  titleEl.textContent = title || '';
+  container.innerHTML = '';
+
+  // Build iframe URL: strip query params, append /embed
+  const basePath = storySrc.split('?')[0];
+  const iframe = document.createElement('iframe');
+  iframe.src = 'https://flo.uri.sh/' + basePath + '/embed';
+  iframe.title = 'Interactive or visual content';
+  iframe.className = 'flourish-embed-iframe';
+  iframe.frameBorder = '0';
+  iframe.scrolling = 'no';
+  iframe.style.width = '100%';
+  iframe.style.height = '600px';
+  iframe.setAttribute('sandbox', 'allow-same-origin allow-forms allow-scripts allow-downloads allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation');
+  container.appendChild(iframe);
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+// Setup story modal triggers and close handlers
+function setupStoryModal() {
+  const modal = document.getElementById('story-modal');
+  if (!modal) return;
+
+  const closeBtn = modal.querySelector('.story-modal-close');
+  const overlay = modal.querySelector('.story-modal-overlay');
+  const container = modal.querySelector('.story-embed-container');
+
+  // Attach click handlers to dedicated story buttons
+  document.querySelectorAll('.story-btn[data-story-src]').forEach(btn => {
+    const storySrc = btn.dataset.storySrc;
+    const card = btn.closest('.card');
+    if (!card) return;
+
+    const titleEl = card.querySelector('.card-title');
+    const title = titleEl ? titleEl.textContent.trim() : '';
+
+    // Add modifier class
+    card.classList.add('card--has-story');
+
+    // Wrap existing children in .card-content
+    const contentWrapper = document.createElement('div');
+    contentWrapper.className = 'card-content';
+    while (card.firstChild) {
+      contentWrapper.appendChild(card.firstChild);
+    }
+
+    // Create sidebar
+    const sidebar = document.createElement('div');
+    sidebar.className = 'card-sidebar';
+    sidebar.setAttribute('role', 'button');
+    sidebar.setAttribute('aria-label', 'Open data story: ' + title);
+    sidebar.setAttribute('tabindex', '0');
+
+    // Assemble: sidebar first, then content
+    card.appendChild(sidebar);
+    card.appendChild(contentWrapper);
+
+    // Click handler
+    sidebar.addEventListener('click', () => showStory(storySrc, title));
+
+    // Keyboard: Enter/Space
+    sidebar.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        showStory(storySrc, title);
+      }
+    });
+
+    // Keep button handler as mobile fallback
+    btn.addEventListener('click', () => showStory(storySrc, title));
+
+    // Touch swipe-to-open on mobile
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    card.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    card.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+
+      // Swipe right: horizontal distance > 50px, vertical drift < 30px
+      if (dx > 50 && dy < 30) {
+        card.classList.add('card--swiped');
+        setTimeout(() => {
+          showStory(storySrc, title);
+          card.classList.remove('card--swiped');
+        }, 300);
+      }
+    });
+  });
+
+  // Close modal handler
+  const closeModal = () => {
+    modal.classList.remove('open');
+    container.innerHTML = '';
+    document.body.style.overflow = '';
+  };
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (overlay) overlay.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) {
+      closeModal();
+    }
   });
 }
 
@@ -366,6 +497,9 @@ async function loadPage(page){
 
   // Setup person photo toggle after content is loaded
   setupPersonPhotoToggle();
+
+  // Setup story modal for research data stories
+  setupStoryModal();
 
   // Setup proof modal for application tracker
   setupProofModal();

@@ -295,6 +295,69 @@ Work In Progress Signal
     margin-bottom: var(--pad);
 }
 
+.card--has-story {
+    border-left: none;
+    padding-left: 0;
+    display: flex;
+    align-items: stretch;
+}
+
+.card-sidebar {
+    flex: 0 0 15px;
+    background: light-dark(var(--darkGray), var(--lightGray));
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: flex-basis 0.3s ease, background-color 0.3s ease;
+    user-select: none;
+}
+
+.card-sidebar::after {
+    content: "See Data Story";
+    font-size: var(--font-xs);
+    color: light-dark(var(--white), var(--black));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-family: var(--font-mono);
+    writing-mode: vertical-rl;
+    rotate: 180deg;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+}
+
+.card--has-story:hover .card-sidebar {
+    flex-basis: 30px;
+    background: var(--text-emph);
+}
+
+.card--has-story:hover .card-sidebar::after {
+    opacity: 1;
+}
+
+.card-sidebar:active {
+    background: light-dark(var(--atlBlue1000), var(--atlBlue200));
+}
+
+.card-content {
+    flex: 1;
+    min-width: 0;
+    padding: var(--pad);
+}
+
+/* Swipe-right visual feedback (mobile) */
+.card--swiped .card-sidebar {
+    flex-basis: 30px;
+    background: var(--text-emph);
+}
+.card--swiped .card-sidebar::after {
+    opacity: 1;
+}
+
+.card--has-story .story-btn {
+    display: none;
+}
+
 .card-title {
     font-weight: 600;
     font-size: var(--font-sm);

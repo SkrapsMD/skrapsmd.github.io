@@ -6,11 +6,20 @@
 
 <section id="CNUPubs-research-cards" style="margin-bottom:32px;max-width:720px;">
     <!-- Publication Cards from time at CNU will be rendered here -->
-</sectio>
+</section>
 
 <section id="AssistatedProjects-research-cards" style = "margin-bottom:32px;max-width:720px;">
     <!-- Cards for research projects worked on, but not referenced as author, here.  -->
 </section>
+<div id="story-modal" class="story-modal">
+  <div class="story-modal-overlay"></div>
+  <div class="story-modal-content">
+    <button class="story-modal-close" aria-label="Close modal">&times;</button>
+    <div class="story-modal-title"></div>
+    <div class="story-embed-container"></div>
+  </div>
+</div>
+
 <script>
   // Load all publication cards when page loads
   loadResearchCards(['meyer2025tariffs', 'baslandze2025tariffs', 'fang2024labor'], 'FRBAtlPubs-research-cards');
