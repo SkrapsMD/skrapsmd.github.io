@@ -50,6 +50,7 @@ const routes = {
 // In-memory caches for instant navigation
 const htmlCache = new Map();
 const cssCache = new Set();
+let peopleDirectoryCache = null;
 
 /*
 ===========================
@@ -445,6 +446,294 @@ People Index Functions
 ===========================
 */
 
+function parseCSVLine(line) {
+  const out = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i += 1) {
+    const ch = line[i];
+
+    if (ch === '"') {
+      const next = line[i + 1];
+      if (inQuotes && next === '"') {
+        current += '"';
+        i += 1;
+      } else {
+        inQuotes = !inQuotes;
+      }
+      continue;
+    }
+
+    if (ch === ',' && !inQuotes) {
+      out.push(current.trim());
+      current = '';
+      continue;
+    }
+
+    current += ch;
+  }
+
+  out.push(current.trim());
+  return out;
+}
+
+async function loadPeopleDirectory() {
+  if (peopleDirectoryCache) return peopleDirectoryCache;
+
+  try {
+    const res = await fetch('0_code/people_index/people_directory.csv', { cache: 'default' });
+    const text = await res.text();
+    const lines = text
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line && !line.startsWith('#'));
+
+    if (lines.length < 2) {
+      peopleDirectoryCache = [];
+      return peopleDirectoryCache;
+    }
+
+    const headers = parseCSVLine(lines[0]);
+    const records = lines.slice(1).map(line => {
+      const values = parseCSVLine(line);
+      const row = {};
+      headers.forEach((h, idx) => {
+        row[h] = values[idx] || '';
+      });
+      return row;
+    });
+
+    peopleDirectoryCache = records;
+    return records;
+  } catch (error) {
+    console.error('Error loading people directory CSV:', error);
+    peopleDirectoryCache = [];
+    return peopleDirectoryCache;
+  }
+}
+
+function findPersonTableRow(tbody, label) {
+  return Array.from(tbody.querySelectorAll('tr')).find(tr => {
+    const th = tr.querySelector('th');
+    if (!th) return false;
+    return th.textContent.trim().toLowerCase() === label.toLowerCase();
+  });
+}
+
+function ensurePersonTableRow(tbody, label) {
+  let row = findPersonTableRow(tbody, label);
+  if (row) return row;
+
+  row = document.createElement('tr');
+  const th = document.createElement('th');
+  th.setAttribute('scope', 'row');
+  th.textContent = label;
+
+  const td = document.createElement('td');
+  row.appendChild(th);
+  row.appendChild(td);
+
+  const updatedRow = findPersonTableRow(tbody, 'Updated');
+  if (updatedRow) {
+    tbody.insertBefore(row, updatedRow);
+  } else {
+    tbody.appendChild(row);
+  }
+
+  return row;
+}
+
+function setRowText(tbody, label, value, mono) {
+  const row = ensurePersonTableRow(tbody, label);
+  const td = row.querySelector('td');
+  if (!td) return;
+  td.textContent = value || '-';
+  td.classList.toggle('mono', !!mono);
+}
+
+function setOptionalRowText(tbody, label, value, mono) {
+  const hasValue = !!(value && String(value).trim());
+  const existing = findPersonTableRow(tbody, label);
+
+  if (!hasValue) {
+    if (existing) existing.remove();
+    return;
+  }
+
+  setRowText(tbody, label, value, mono);
+}
+
+function formatTodayForUpdatedLabel() {
+  const now = new Date();
+  const monthMap = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
+  const month = monthMap[now.getMonth()] || '';
+  return month + ' ' + now.getDate() + ', ' + now.getFullYear();
+}
+
+function setRowLastUpdated(tbody, value) {
+  // Reuse legacy "Updated" rows when present and standardize label text.
+  const existing = findPersonTableRow(tbody, 'Last Updated') || findPersonTableRow(tbody, 'Updated');
+  const row = existing || ensurePersonTableRow(tbody, 'Last Updated');
+
+  const th = row.querySelector('th');
+  const td = row.querySelector('td');
+  if (!th || !td) return;
+
+  th.textContent = 'Last Updated';
+  td.textContent = value || formatTodayForUpdatedLabel();
+  td.classList.add('mono');
+}
+
+function setRowEmail(tbody, value) {
+  const row = ensurePersonTableRow(tbody, 'Email');
+  const td = row.querySelector('td');
+  if (!td) return;
+
+  td.classList.remove('mono');
+  td.innerHTML = '';
+
+  if (!value) {
+    td.textContent = '-';
+    return;
+  }
+
+  const wrapper = document.createElement('div');
+  wrapper.style.display = 'flex';
+  wrapper.style.alignItems = 'center';
+  wrapper.style.gap = '8px';
+
+  const link = document.createElement('a');
+  link.href = 'mailto:' + value;
+  link.style.color = 'var(--text-emph)';
+  link.textContent = value;
+
+  const copyBtn = document.createElement('button');
+  copyBtn.type = 'button';
+  copyBtn.className = 'btn btn--ghost';
+  copyBtn.textContent = 'Copy';
+
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      const originalText = copyBtn.textContent;
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => {
+        copyBtn.textContent = originalText;
+      }, 1500);
+    } catch (err) {
+      console.error('Failed to copy email:', err);
+    }
+  });
+
+  wrapper.appendChild(link);
+  wrapper.appendChild(copyBtn);
+  td.appendChild(wrapper);
+}
+
+function setRowWebsite(tbody, value) {
+  const row = ensurePersonTableRow(tbody, 'Website');
+  const td = row.querySelector('td');
+  if (!td) return;
+
+  td.classList.remove('mono');
+  td.innerHTML = '';
+
+  if (!value) {
+    td.textContent = '-';
+    return;
+  }
+
+  const link = document.createElement('a');
+  link.href = value;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.style.color = 'var(--text-emph)';
+  link.textContent = 'Personal Website';
+  td.appendChild(link);
+}
+
+async function renderPeopleIndex() {
+  const root = document.getElementById('people-index-root');
+  if (!root) return;
+
+  const people = await loadPeopleDirectory();
+  if (!Array.isArray(people) || people.length === 0) {
+    root.innerHTML = '<p>No people data found.</p>';
+    return;
+  }
+
+  const grouped = new Map();
+  people.forEach(person => {
+    const institution = person.institution || 'Other';
+    if (!grouped.has(institution)) grouped.set(institution, []);
+    grouped.get(institution).push(person);
+  });
+
+  const sections = [];
+  grouped.forEach((members, institution) => {
+    const cards = members.map(person => {
+      const name = person.index_name || person.name || '';
+      const image = person.drawing_image || '';
+      const slug = person.slug || '';
+      const alt = (name || 'Person') + ' Drawing';
+
+      return `
+    <a href="#person-${slug}" class="people-card">
+      <img src="${image}" alt="${alt}" class="people-card__image" style="max-width:150px;">
+      <div class="people-card__info">
+        <div class="people-card__name">${name}</div>
+        <div class="people-card__affiliation">${institution}</div>
+      </div>
+    </a>`;
+    }).join('');
+
+    sections.push(`
+  <div class="table-caption table-caption--lg">
+    <span class="table-caption__category">PEOPLE INDEX</span> | <span class="table-caption__title">${institution}</span>
+  </div>
+  <div class="people-grid">${cards}
+  </div>`);
+  });
+
+  root.innerHTML = sections.join('\n');
+}
+
+async function hydratePersonPageFromDirectory() {
+  const page = currentPage();
+  if (!page.startsWith('person-')) return;
+
+  const slug = page.replace('person-', '');
+  const people = await loadPeopleDirectory();
+  const person = people.find(p => p.slug === slug);
+  if (!person) return;
+
+  const titleEl = document.querySelector('.table-caption__title');
+  if (titleEl && person.name) {
+    titleEl.textContent = person.name;
+  }
+
+  const img = document.querySelector('.person-photo');
+  if (img) {
+    if (person.drawing_image) img.src = person.drawing_image;
+    if (person.drawing_image) img.dataset.img1 = person.drawing_image;
+    if (person.photo_image) img.dataset.img2 = person.photo_image;
+    if (person.alt_drawing) img.dataset.alt1 = person.alt_drawing;
+    if (person.alt_photo) img.dataset.alt2 = person.alt_photo;
+    if (person.alt_drawing) img.alt = person.alt_drawing;
+  }
+
+  const tbody = document.querySelector('.table.table--compact tbody');
+  if (!tbody) return;
+
+  setRowText(tbody, 'Name', person.name, false);
+  setRowText(tbody, 'Institution', person.institution, false);
+  setOptionalRowText(tbody, 'PhD Institution', person.phd_institution, false);
+  setRowEmail(tbody, person.email);
+  setRowWebsite(tbody, person.website);
+  setRowLastUpdated(tbody, person.last_updated || person.updated);
+}
+
 // Toggle between two photos on click
 function setupPersonPhotoToggle() {
   document.querySelectorAll('.person-photo').forEach(img => {
@@ -612,6 +901,10 @@ async function loadPage(page){
 
   // Setup citation copy listeners after content is loaded
   setupCitationCopyListeners();
+
+  // CSV-driven people index and person profile hydration
+  await renderPeopleIndex();
+  await hydratePersonPageFromDirectory();
 
   // Setup person photo toggle after content is loaded
   setupPersonPhotoToggle();
