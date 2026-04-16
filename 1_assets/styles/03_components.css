@@ -220,6 +220,21 @@ Work In Progress Signal
     padding: 4px 6px;
 }
 
+/* Person profile table: prevent long content from forcing overflow */
+.person-profile-table {
+    table-layout: fixed;
+}
+
+.person-profile-table th {
+    width: 36%;
+}
+
+.person-profile-table td,
+.person-profile-table td a {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
 .table tbody tr:last-child td {
     border-bottom: var(--border-muted);
 }

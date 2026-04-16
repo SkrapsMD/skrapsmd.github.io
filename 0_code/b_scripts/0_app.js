@@ -734,6 +734,11 @@ async function hydratePersonPageFromDirectory() {
   const tbody = document.querySelector('.table.table--compact tbody');
   if (!tbody) return;
 
+  const profileTable = tbody.closest('table');
+  if (profileTable) {
+    profileTable.classList.add('person-profile-table');
+  }
+
   setRowText(tbody, 'Name', person.name, false);
   setRowText(tbody, 'Institution', person.institution, false);
   setOptionalRowText(tbody, 'PhD Institution', person.phd_institution, false);
