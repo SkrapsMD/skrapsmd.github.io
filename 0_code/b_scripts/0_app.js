@@ -39,7 +39,12 @@ const routes = {
   "person-rik-chakraborti": {file: "0_code/people_index/RikChakraborti.html", css: null},
   "person-iordanka-panyatova": {file: "0_code/people_index/IordankaPanyatova.html", css: null},
   "person-jon-white": {file: "0_code/people_index/JonWhite.html", css: null},
-  "person-frank-garmon": {file: "0_code/people_index/FrankGarmon.html", css: null}
+  "person-frank-garmon": {file: "0_code/people_index/FrankGarmon.html", css: null},
+  "person-zachary-edwards": {file: "0_code/people_index/ZacharyEdwards.html", css: null},
+  "person-john-graham": {file: "0_code/people_index/JohnGraham.html", css: null},
+  "person-ty-mcclure": {file: "0_code/people_index/TyMcClure.html", css: null},
+  "person-sonya-waddell": {file: "0_code/people_index/SonyaWaddell.html", css: null},
+  "person-daniel-weitz": {file: "0_code/people_index/DanielWeitz.html", css: null}
 };
 
 // In-memory caches for instant navigation
