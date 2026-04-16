@@ -663,19 +663,33 @@ async function renderPeopleIndex() {
     return;
   }
 
-  const grouped = new Map();
+  const cnuBundleInstitutions = new Set([
+    'Christopher Newport University',
+    'George Mason University'
+  ]);
+
+  const grouped = new Map([
+    ['Federal Reserve Bank of Atlanta', []],
+    ['Christopher Newport University', []]
+  ]);
+
   people.forEach(person => {
-    const institution = person.institution || 'Other';
-    if (!grouped.has(institution)) grouped.set(institution, []);
-    grouped.get(institution).push(person);
+    const institution = person.institution || '';
+    const bundle = cnuBundleInstitutions.has(institution)
+      ? 'Christopher Newport University'
+      : 'Federal Reserve Bank of Atlanta';
+    grouped.get(bundle).push(person);
   });
 
   const sections = [];
   grouped.forEach((members, institution) => {
+    if (!members || members.length === 0) return;
+
     const cards = members.map(person => {
       const name = person.index_name || person.name || '';
       const image = person.drawing_image || '';
       const slug = person.slug || '';
+      const affiliation = person.institution || institution;
       const alt = (name || 'Person') + ' Drawing';
 
       return `
@@ -683,7 +697,7 @@ async function renderPeopleIndex() {
       <img src="${image}" alt="${alt}" class="people-card__image" style="max-width:150px;">
       <div class="people-card__info">
         <div class="people-card__name">${name}</div>
-        <div class="people-card__affiliation">${institution}</div>
+        <div class="people-card__affiliation">${affiliation}</div>
       </div>
     </a>`;
     }).join('');
