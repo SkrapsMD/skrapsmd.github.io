@@ -681,11 +681,31 @@ async function renderPeopleIndex() {
     grouped.get(bundle).push(person);
   });
 
+  const getLastNameSortKey = (person) => {
+    const fullName = (person.name || person.index_name || '').trim();
+    if (!fullName) return '';
+
+    // Use the final token as last-name sort key.
+    const tokens = fullName.replace(',', '').split(/\s+/).filter(Boolean);
+    return (tokens[tokens.length - 1] || fullName).toLowerCase();
+  };
+
   const sections = [];
   grouped.forEach((members, institution) => {
     if (!members || members.length === 0) return;
 
-    const cards = members.map(person => {
+    const sortedMembers = [...members].sort((a, b) => {
+      const keyA = getLastNameSortKey(a);
+      const keyB = getLastNameSortKey(b);
+      if (keyA === keyB) {
+        const nameA = (a.name || a.index_name || '').toLowerCase();
+        const nameB = (b.name || b.index_name || '').toLowerCase();
+        return nameA.localeCompare(nameB);
+      }
+      return keyA.localeCompare(keyB);
+    });
+
+    const cards = sortedMembers.map(person => {
       const name = person.index_name || person.name || '';
       const image = person.drawing_image || '';
       const slug = person.slug || '';
