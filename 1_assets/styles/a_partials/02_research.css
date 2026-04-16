@@ -66,6 +66,21 @@
   min-height: 500px;
 }
 
+.story-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.story-nav-indicator {
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
 /* Flourish embed responsive sizing */
 .story-embed-container .flourish-embed {
   width: 100%;
@@ -81,6 +96,19 @@
 
   .story-embed-container {
     min-height: 350px;
+  }
+
+  .story-nav {
+    flex-wrap: wrap;
+  }
+
+  .story-nav .btn {
+    flex: 1 1 auto;
+  }
+
+  .story-nav-indicator {
+    width: 100%;
+    order: -1;
   }
 
   /* Disable hover expansion on touch */

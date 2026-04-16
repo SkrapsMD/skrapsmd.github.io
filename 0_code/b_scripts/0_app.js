@@ -199,32 +199,118 @@ Story Modal (Flourish Data Stories)
 ===========================
 */
 
-// Abstracted display function — swap internals to change presentation
-function showStory(storySrc, title) {
-  const modal = document.getElementById('story-modal');
-  if (!modal) return;
+// Optional grouped stories: used when editors provide one iframe per figure.
+const STORY_GROUPS = {
+  baslandze2026ai: [
+    { label: 'Figure 1', src: 'https://flo.uri.sh/visualisation/27989265/embed', height: 500 },
+    { label: 'Figure 2', src: 'https://flo.uri.sh/visualisation/27989925/embed', height: 500 },
+    { label: 'Figure 3', src: 'https://flo.uri.sh/visualisation/27990103/embed', height: 500 },
+    { label: 'Figure 4', src: 'https://flo.uri.sh/visualisation/27990889/embed', height: 500 },
+    { label: 'Figure 5', src: 'https://flo.uri.sh/visualisation/27991692/embed', height: 500 },
+    { label: 'Figure 6', src: 'https://flo.uri.sh/visualisation/28006570/embed', height: 500 },
+    { label: 'Figure 7', src: 'https://flo.uri.sh/visualisation/28012838/embed', height: 550 },
+    { label: 'Figure 8', src: 'https://flo.uri.sh/visualisation/28031289/embed', height: 700 }
+  ]
+};
 
-  const titleEl = modal.querySelector('.story-modal-title');
-  const container = modal.querySelector('.story-embed-container');
+function buildStoryEmbedUrl(storySrc) {
+  if (!storySrc) return '';
 
-  titleEl.textContent = title || '';
-  container.innerHTML = '';
+  // Supports both full iframe URLs and legacy short Flourish paths like story/12345?
+  if (/^https?:\/\//i.test(storySrc)) {
+    return storySrc;
+  }
 
-  // Build iframe URL: strip query params, append /embed
   const basePath = storySrc.split('?')[0];
+  return 'https://flo.uri.sh/' + basePath + '/embed';
+}
+
+function createStoryIframe(storySrc, height) {
   const iframe = document.createElement('iframe');
-  iframe.src = 'https://flo.uri.sh/' + basePath + '/embed';
+  iframe.src = buildStoryEmbedUrl(storySrc);
   iframe.title = 'Interactive or visual content';
   iframe.className = 'flourish-embed-iframe';
   iframe.frameBorder = '0';
   iframe.scrolling = 'no';
   iframe.style.width = '100%';
-  iframe.style.height = '600px';
+  iframe.style.height = (height || 600) + 'px';
   iframe.setAttribute('sandbox', 'allow-same-origin allow-forms allow-scripts allow-downloads allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation');
-  container.appendChild(iframe);
+  return iframe;
+}
 
+function showStorySequence(stories, title) {
+  const modal = document.getElementById('story-modal');
+  if (!modal || !Array.isArray(stories) || stories.length === 0) return;
+
+  const titleEl = modal.querySelector('.story-modal-title');
+  const container = modal.querySelector('.story-embed-container');
+
+  let currentIndex = 0;
+
+  const renderCurrentFigure = () => {
+    const current = stories[currentIndex];
+    if (!current) return;
+
+    container.innerHTML = '';
+
+    if (stories.length > 1) {
+      const nav = document.createElement('div');
+      nav.className = 'story-nav';
+
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'btn btn--ghost';
+      prevBtn.textContent = 'Previous';
+      prevBtn.disabled = currentIndex === 0;
+
+      const indicator = document.createElement('div');
+      indicator.className = 'story-nav-indicator';
+      indicator.textContent = (current.label || ('Figure ' + (currentIndex + 1))) + ' (' + (currentIndex + 1) + '/' + stories.length + ')';
+
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'btn btn--ghost';
+      nextBtn.textContent = 'Next';
+      nextBtn.disabled = currentIndex === stories.length - 1;
+
+      prevBtn.addEventListener('click', () => {
+        if (currentIndex === 0) return;
+        currentIndex -= 1;
+        renderCurrentFigure();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        if (currentIndex >= stories.length - 1) return;
+        currentIndex += 1;
+        renderCurrentFigure();
+      });
+
+      nav.appendChild(prevBtn);
+      nav.appendChild(indicator);
+      nav.appendChild(nextBtn);
+      container.appendChild(nav);
+    }
+
+    container.appendChild(createStoryIframe(current.src, current.height));
+
+    if (titleEl) {
+      const figureLabel = current.label ? ' - ' + current.label : '';
+      titleEl.textContent = (title || '') + figureLabel;
+    }
+  };
+
+  renderCurrentFigure();
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+// Abstracted display function — swap internals to change presentation
+function showStory(storySrc, title) {
+  showStorySequence([{ src: storySrc, label: '', height: 600 }], title);
+}
+
+function showStoryGroup(groupKey, title) {
+  const stories = STORY_GROUPS[groupKey];
+  if (!stories || stories.length === 0) return;
+  showStorySequence(stories, title);
 }
 
 // Setup story modal triggers and close handlers
@@ -237,71 +323,94 @@ function setupStoryModal() {
   const container = modal.querySelector('.story-embed-container');
 
   // Attach click handlers to dedicated story buttons
-  document.querySelectorAll('.story-btn[data-story-src]').forEach(btn => {
+  document.querySelectorAll('.story-btn[data-story-src], .story-btn[data-story-group]').forEach(btn => {
+    if (btn.dataset.storyBound === 'true') return;
+
     const storySrc = btn.dataset.storySrc;
+    const storyGroup = btn.dataset.storyGroup;
     const card = btn.closest('.card');
     if (!card) return;
 
     const titleEl = card.querySelector('.card-title');
     const title = titleEl ? titleEl.textContent.trim() : '';
 
-    // Add modifier class
-    card.classList.add('card--has-story');
-
-    // Wrap existing children in .card-content
-    const contentWrapper = document.createElement('div');
-    contentWrapper.className = 'card-content';
-    while (card.firstChild) {
-      contentWrapper.appendChild(card.firstChild);
-    }
-
-    // Create sidebar
-    const sidebar = document.createElement('div');
-    sidebar.className = 'card-sidebar';
-    sidebar.setAttribute('role', 'button');
-    sidebar.setAttribute('aria-label', 'Open data story: ' + title);
-    sidebar.setAttribute('tabindex', '0');
-
-    // Assemble: sidebar first, then content
-    card.appendChild(sidebar);
-    card.appendChild(contentWrapper);
-
-    // Click handler
-    sidebar.addEventListener('click', () => showStory(storySrc, title));
-
-    // Keyboard: Enter/Space
-    sidebar.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
+    const openStory = () => {
+      if (storyGroup) {
+        showStoryGroup(storyGroup, title);
+        return;
+      }
+      if (storySrc) {
         showStory(storySrc, title);
       }
-    });
+    };
+
+    // Add modifier class and wrap card once
+    if (!card.classList.contains('card--has-story')) {
+      card.classList.add('card--has-story');
+
+      const contentWrapper = document.createElement('div');
+      contentWrapper.className = 'card-content';
+      while (card.firstChild) {
+        contentWrapper.appendChild(card.firstChild);
+      }
+
+      const sidebar = document.createElement('div');
+      sidebar.className = 'card-sidebar';
+      sidebar.setAttribute('role', 'button');
+      sidebar.setAttribute('aria-label', 'Open data story: ' + title);
+      sidebar.setAttribute('tabindex', '0');
+
+      card.appendChild(sidebar);
+      card.appendChild(contentWrapper);
+    }
+
+    const sidebar = card.querySelector('.card-sidebar');
+    if (!sidebar) return;
+
+    // Click handler
+    if (sidebar.dataset.storyBound !== 'true') {
+      sidebar.addEventListener('click', openStory);
+
+      // Keyboard: Enter/Space
+      sidebar.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openStory();
+        }
+      });
+      sidebar.dataset.storyBound = 'true';
+    }
 
     // Keep button handler as mobile fallback
-    btn.addEventListener('click', () => showStory(storySrc, title));
+    btn.addEventListener('click', openStory);
+    btn.dataset.storyBound = 'true';
 
     // Touch swipe-to-open on mobile
-    let touchStartX = 0;
-    let touchStartY = 0;
+    if (card.dataset.storySwipeBound !== 'true') {
+      let touchStartX = 0;
+      let touchStartY = 0;
 
-    card.addEventListener('touchstart', (e) => {
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-    }, { passive: true });
+      card.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
 
-    card.addEventListener('touchend', (e) => {
-      const dx = e.changedTouches[0].clientX - touchStartX;
-      const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+      card.addEventListener('touchend', (e) => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
 
-      // Swipe right: horizontal distance > 50px, vertical drift < 30px
-      if (dx > 50 && dy < 30) {
-        card.classList.add('card--swiped');
-        setTimeout(() => {
-          showStory(storySrc, title);
-          card.classList.remove('card--swiped');
-        }, 300);
-      }
-    });
+        // Swipe right: horizontal distance > 50px, vertical drift < 30px
+        if (dx > 50 && dy < 30) {
+          card.classList.add('card--swiped');
+          setTimeout(() => {
+            openStory();
+            card.classList.remove('card--swiped');
+          }, 300);
+        }
+      });
+
+      card.dataset.storySwipeBound = 'true';
+    }
   });
 
   // Close modal handler
@@ -311,14 +420,18 @@ function setupStoryModal() {
     document.body.style.overflow = '';
   };
 
-  if (closeBtn) closeBtn.addEventListener('click', closeModal);
-  if (overlay) overlay.addEventListener('click', closeModal);
+  if (modal.dataset.modalBound !== 'true') {
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (overlay) overlay.addEventListener('click', closeModal);
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('open')) {
-      closeModal();
-    }
-  });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) {
+        closeModal();
+      }
+    });
+
+    modal.dataset.modalBound = 'true';
+  }
 }
 
 /*
