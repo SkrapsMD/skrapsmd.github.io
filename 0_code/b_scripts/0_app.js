@@ -598,37 +598,11 @@ function setRowEmail(tbody, value) {
     return;
   }
 
-  const wrapper = document.createElement('div');
-  wrapper.style.display = 'flex';
-  wrapper.style.alignItems = 'center';
-  wrapper.style.gap = '8px';
-
   const link = document.createElement('a');
   link.href = 'mailto:' + value;
   link.style.color = 'var(--text-emph)';
   link.textContent = value;
-
-  const copyBtn = document.createElement('button');
-  copyBtn.type = 'button';
-  copyBtn.className = 'btn btn--ghost';
-  copyBtn.textContent = 'Copy';
-
-  copyBtn.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(value);
-      const originalText = copyBtn.textContent;
-      copyBtn.textContent = 'Copied!';
-      setTimeout(() => {
-        copyBtn.textContent = originalText;
-      }, 1500);
-    } catch (err) {
-      console.error('Failed to copy email:', err);
-    }
-  });
-
-  wrapper.appendChild(link);
-  wrapper.appendChild(copyBtn);
-  td.appendChild(wrapper);
+  td.appendChild(link);
 }
 
 function setRowWebsite(tbody, value) {
