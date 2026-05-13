@@ -122,6 +122,123 @@
 .spec-fs-xs   { font-size: var(--font-xs); }
 
 /* ========================================
+   COLOR PALETTE GRID (Full Palette)
+   ======================================== */
+.color-grid {
+    display: grid;
+    grid-template-columns: 120px repeat(12, 1fr);
+    gap: 0;
+    border: var(--border-muted);
+    border-top: none;
+}
+
+.color-grid__header {
+    background: var(--text-highlight);
+    padding: 6px 8px;
+    font-weight: 600;
+    border: var(--border-muted);
+    border-top-width: 2px;
+    border-top-style: dotted;
+    border-bottom: var(--border);
+}
+
+.color-grid__header-label {
+    background: var(--text-highlight);
+    padding: 6px 2px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+    border: var(--border-muted);
+    border-top-width: 2px;
+    border-top-style: dotted;
+    border-bottom: var(--border);
+}
+
+.color-grid__row-label {
+    background: var(--bg);
+    padding: 8px;
+    font-size: var(--font-sm);
+    font-weight: 600;
+    border-right: var(--border-muted);
+}
+
+.color-grid__swatch {
+    height: 40px;
+}
+
+.color-grid__swatch--na {
+    background: var(--bg);
+    height: 40px;
+}
+
+/* ========================================
+   PLOT PALETTE GRID (Light + Dark)
+   ======================================== */
+.plot-grid {
+    display: grid;
+    grid-template-columns: auto repeat(4, 1fr);
+    gap: 0;
+    border-top: none;
+}
+
+.plot-grid__label {
+    background: var(--text-highlight);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    border: var(--border-muted);
+    font-weight: 600;
+    padding: 12px;
+}
+
+.plot-grid__label--basic {
+    grid-row: 1 / 4;
+    border-bottom-width: 2px;
+    border-bottom-style: dotted;
+}
+
+.plot-grid__label--dark {
+    grid-row: 4 / 6;
+    border-bottom-width: 2px;
+}
+
+.plot-grid__swatch {
+    height: 80px;
+    border: var(--border-muted);
+    position: relative;
+}
+
+.plot-grid__swatch--top {
+    border-top-width: 2px;
+    border-top-style: dotted;
+}
+
+.plot-grid__swatch--row-top {
+    border-top-width: 2px;
+}
+
+.plot-color-label {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    font-size: var(--font-sm);
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: right;
+}
+
+.plot-color-label--light {
+    color: var(--white);
+}
+
+.plot-color-label--dark {
+    color: var(--black);
+}
+
+/* ========================================
    MOBILE RESPONSIVE
    ======================================== */
 @media (max-width: 768px) {
