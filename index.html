@@ -19,9 +19,6 @@
         <!-- Fonts -->
         <link rel="stylesheet" href="1_assets/styles/b_palettes_and_fonts/FONTS/css/ibm-plex-fonts.css">
 
-        <!-- Color primitives (cached separately from page HTML) -->
-        <link rel="stylesheet" href="1_assets/styles/b_palettes_and_fonts/FRBA_scheme.css">
-
         <!-- Critical CSS - Inlined for instant first paint -->
         <style>
 /* 00_tokens.css - Design System Tokens */
@@ -115,6 +112,9 @@ a:hover {
 }
 .ink-link:hover{
     color: var(--text-link-hover);
+}
+.emph-link {
+    color: var(--text-emph);
 }
 strong, b {
     color: var(--text-strong);
@@ -347,6 +347,12 @@ code, pre, kbd, samp {
     }
 }
         </style>
+
+        <!-- Color primitives: loaded non-blocking so they don't delay first paint.
+             Custom property values (--atlBlue900 etc.) cascade lazily at paint time,
+             so no visible flash on a cached or fast connection. -->
+        <link rel="stylesheet" media="print" onload="this.media='all'" href="1_assets/styles/b_palettes_and_fonts/FRBA_scheme.css">
+        <noscript><link rel="stylesheet" href="1_assets/styles/b_palettes_and_fonts/FRBA_scheme.css"></noscript>
 
         <!-- Non-critical components CSS loaded separately -->
         <link rel="stylesheet" href="1_assets/styles/03_components.css">

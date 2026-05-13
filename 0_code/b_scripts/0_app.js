@@ -49,7 +49,6 @@ const routes = {
 
 // In-memory caches for instant navigation
 const htmlCache = new Map();
-const cssCache = new Set();
 let peopleDirectoryCache = null;
 
 function setActive(page){
@@ -81,7 +80,6 @@ function ensurePageCSS(href){
   link.href = href;
   link.setAttribute("data-page-css", "true");
   document.head.appendChild(link);
-  cssCache.add(href);
 }
 
 function currentPage(){
@@ -583,6 +581,7 @@ function setRowEmail(tbody, value) {
 
   const link = document.createElement('a');
   link.href = 'mailto:' + value;
+  link.className = 'emph-link';
   link.textContent = value;
   td.appendChild(link);
 }
@@ -604,6 +603,7 @@ function setRowWebsite(tbody, value) {
   link.href = value;
   link.target = '_blank';
   link.rel = 'noopener noreferrer';
+  link.className = 'emph-link';
   link.textContent = 'Personal Website';
   td.appendChild(link);
 }
@@ -854,14 +854,13 @@ function prefetchPage(page) {
       .catch(() => {}); // Silent fail
   }
 
-  // Prefetch CSS if exists
-  if (route.css && !cssCache.has(route.css)) {
+  // Prefetch CSS if exists and not already prefetched
+  if (route.css && !document.querySelector(`link[href="${route.css}"]`)) {
     const link = document.createElement('link');
     link.rel = 'prefetch';
     link.as = 'style';
     link.href = route.css;
     document.head.appendChild(link);
-    cssCache.add(route.css);
   }
 }
 
