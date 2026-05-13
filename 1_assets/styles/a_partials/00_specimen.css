@@ -14,6 +14,89 @@
 }
 
 /* ========================================
+   SPECIMEN SECTION HEADERS
+   ======================================== */
+.spec-id {
+    margin-top: 6px;
+    font-weight: 600;
+}
+
+.spec-title {
+    margin-top: 2px;
+    font-weight: 600;
+}
+
+.spec-desc {
+    margin-top: 6px;
+}
+
+.spec-block {
+    margin-top: 40px;
+}
+
+.rule--spaced {
+    margin-top: 32px;
+}
+
+/* ========================================
+   FONT WEIGHT TABLE CELLS
+   ======================================== */
+.spec-font-sans {
+    font-family: var(--font-sans);
+    font-size: var(--font-md);
+    line-height: 1.4;
+}
+
+.spec-font-sans-i {
+    font-family: var(--font-sans);
+    font-size: var(--font-md);
+    line-height: 1.4;
+    font-style: italic;
+}
+
+.spec-font-mono {
+    font-family: var(--font-mono);
+    font-size: var(--font-md);
+    line-height: 1.4;
+}
+
+.spec-font-mono-i {
+    font-family: var(--font-mono);
+    font-size: var(--font-md);
+    line-height: 1.4;
+    font-style: italic;
+}
+
+/* ========================================
+   FONT SIZE TABLE CELLS
+   ======================================== */
+.spec-size-sans {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.05;
+}
+
+.spec-size-sans-i {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.05;
+}
+
+.spec-size-mono {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    line-height: 1.05;
+}
+
+.spec-size-mono-i {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.05;
+}
+
+/* ========================================
    MOBILE RESPONSIVE
    ======================================== */
 @media (max-width: 768px) {

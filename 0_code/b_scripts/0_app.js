@@ -52,18 +52,6 @@ const htmlCache = new Map();
 const cssCache = new Set();
 let peopleDirectoryCache = null;
 
-/*
-===========================
-PUBLICATIONS DATA - DEPRECATED
-===========================
-Publications are now stored as individual HTML files in 0_code/research_cards/
-This improves performance by:
-1. Eliminating JavaScript data object parsing
-2. Reducing main JS file size
-3. Allowing parallel card loading
-4. Enabling easier content updates without touching code
-*/
-
 function setActive(page){
   navLinks.forEach(a => {
     a.classList.toggle("active", a.dataset.page === page);
@@ -164,11 +152,6 @@ async function loadResearchCards(cardIds, containerId) {
   } catch (error) {
     console.error('Error loading research cards:', error);
   }
-}
-
-// Legacy function name for backwards compatibility
-async function renderCards(cardIds, containerId) {
-  await loadResearchCards(cardIds, containerId);
 }
 
 /*
@@ -600,7 +583,6 @@ function setRowEmail(tbody, value) {
 
   const link = document.createElement('a');
   link.href = 'mailto:' + value;
-  link.style.color = 'var(--text-emph)';
   link.textContent = value;
   td.appendChild(link);
 }
@@ -622,7 +604,6 @@ function setRowWebsite(tbody, value) {
   link.href = value;
   link.target = '_blank';
   link.rel = 'noopener noreferrer';
-  link.style.color = 'var(--text-emph)';
   link.textContent = 'Personal Website';
   td.appendChild(link);
 }
@@ -688,7 +669,7 @@ async function renderPeopleIndex() {
 
       return `
     <a href="#person-${slug}" class="people-card">
-      <img src="${image}" alt="${alt}" class="people-card__image" style="max-width:150px;">
+      <img src="${image}" alt="${alt}" class="people-card__image">
       <div class="people-card__info">
         <div class="people-card__name">${name}</div>
         <div class="people-card__affiliation">${affiliation}</div>

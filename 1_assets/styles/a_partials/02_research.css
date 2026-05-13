@@ -1,3 +1,9 @@
+/* Research Section Containers */
+.research-section {
+  margin-bottom: 32px;
+  max-width: 720px;
+}
+
 /* Story Modal */
 .story-modal {
   display: none;
