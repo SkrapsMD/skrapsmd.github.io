@@ -523,6 +523,8 @@ Work In Progress Signal
     margin-bottom: 32px;
 }
 
+/* Separate from .research-section (02_research.css) which is only loaded
+   on the research route and is not available on person-profile pages. */
 .person-papers-section {
     margin-bottom: 32px;
 }
