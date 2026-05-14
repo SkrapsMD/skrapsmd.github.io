@@ -26,52 +26,7 @@
     gap: 28px;
 }
 
-/* ========================================
-   SECTION MARKER  —  ghost number + label
-   ======================================== */
-.home-section-marker {
-    display: flex;
-    align-items: flex-end;
-    gap: 14px;
-    line-height: 1;
-}
-
-.home-section-num {
-    font-size: 80px;
-    font-weight: 200;
-    line-height: 0.82;
-    letter-spacing: -0.04em;
-    color: var(--gov-blue);
-    opacity: 0.28;
-    font-variant-numeric: tabular-nums;
-    flex-shrink: 0;
-    user-select: none;
-}
-
-.home-section-ident {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    padding-bottom: 10px;
-}
-
-.home-section-tag {
-    font-family: 'Lora', 'Georgia', serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: var(--font-xl);         /* 30px — prominent, paired with ghost "01" */
-    color: light-dark(var(--gov-blue), #8ab8d8);
-    text-transform: none;
-    letter-spacing: 0;
-    line-height: 1.1;
-}
-
-.home-section-rule {
-    display: block;
-    height: 1px;
-    width: 56px;
-    background: light-dark(var(--gov-blue-light), var(--dark-border));
-}
+/* Section marker removed — home now uses shared .page-header / .page-title */
 
 /* ========================================
    BIO TEXT

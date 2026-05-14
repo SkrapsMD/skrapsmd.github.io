@@ -285,6 +285,33 @@ Redesigned: 5/2026  ·  Atelier Économique — Deco Press edition
 
 
 /* ==========================================
+   PAGE HEADER  ·  shared across all pages
+   ==========================================
+   Lora italic title — the consistent visual
+   identity for every section/page heading.
+   Used on Home ("About"), Research, Tracker,
+   People, and Design Ref pages.
+   ========================================== */
+.page-header {
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid light-dark(var(--warm-300), var(--dark-border));
+}
+
+.page-title {
+    font-family: 'Lora', 'Georgia', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(36px, 5vw, 56px);
+    color: light-dark(var(--gov-blue), #8ab8d8);
+    letter-spacing: 0;
+    text-transform: none;
+    line-height: 1.1;
+    margin: 0;
+}
+
+
+/* ==========================================
    CARDS  ·  Government Publication style
    ==========================================
    Reference: US Dept. of Commerce catalog

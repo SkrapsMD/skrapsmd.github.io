@@ -1,27 +1,6 @@
 /* Research page styles  ·  Government Publication edition */
 
-/* ========================================
-   PAGE HEADER — script title style
-   ======================================== */
-.research-header {
-    margin-bottom: 32px;
-    padding-bottom: 0;
-    border-bottom: 1px solid light-dark(var(--warm-300), var(--dark-border));
-    padding-bottom: 20px;
-}
-
-/* "Research" in Lora italic — same script treatment as home "About" */
-.research-page-title {
-    font-family: 'Lora', 'Georgia', serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: clamp(36px, 5vw, 56px);
-    color: light-dark(var(--gov-blue), #8ab8d8);
-    letter-spacing: 0;
-    text-transform: none;
-    line-height: 1.1;
-    margin: 0;
-}
+/* Page header uses shared .page-header / .page-title from 03_components.css */
 
 /* ========================================
    SECTION CONTAINERS

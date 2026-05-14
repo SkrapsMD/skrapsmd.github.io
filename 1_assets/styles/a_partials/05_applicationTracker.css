@@ -20,21 +20,16 @@ Page-specific styles for the PhD Application Tracker page.
     /* Container for intro text */
 }
 
-.tracker-code {
-    margin-top: 4px;
-    font-weight: 600;
-    font-family: var(--font-mono);
-    font-size: var(--font-xs);
-    color: var(--text-secondary);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-}
+/* tracker-code (AT-002) removed from HTML — no longer needed */
 
 .tracker-title {
-    margin-top: 6px;
+    margin-top: 0;
+    font-size: var(--font-xs);
+    font-family: var(--font-mono);
     font-weight: 600;
-    font-size: var(--font-lg);
-    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
 }
 
 .tracker-description {

@@ -21,49 +21,15 @@
     gap: 16px;
     padding: 16px;
     border: 1px solid light-dark(var(--warm-200), var(--dark-border));
-    background: var(--bg-surface);
+    background: transparent;
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* Top-left Art Deco bracket */
-.people-card::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    width: 12px;
-    height: 12px;
-    border-top: 2px solid transparent;
-    border-left: 2px solid transparent;
     transition: border-color 0.2s ease;
-    pointer-events: none;
-}
-
-/* Bottom-right Art Deco bracket */
-.people-card::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    right: -1px;
-    width: 12px;
-    height: 12px;
-    border-bottom: 2px solid transparent;
-    border-right: 2px solid transparent;
-    transition: border-color 0.2s ease;
-    pointer-events: none;
 }
 
 .people-card:hover {
-    border-color: light-dark(var(--warm-300), var(--dark-border));
-    box-shadow: 0 3px 16px light-dark(rgba(14,27,45,0.10), rgba(0,0,0,0.3));
-    text-decoration: none;
-}
-
-.people-card:hover::before,
-.people-card:hover::after {
     border-color: var(--gov-blue);
+    text-decoration: none;
 }
 
 .people-card:hover .people-card__name {
