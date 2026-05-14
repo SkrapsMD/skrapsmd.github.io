@@ -1,6 +1,6 @@
 /*
 01_home.css
-Home page styles — Warm Scholar redesign.
+Home page styles  ·  Atelier Économique (Art Deco × MCM)
 */
 
 /* ========================================
@@ -8,8 +8,8 @@ Home page styles — Warm Scholar redesign.
    ======================================== */
 .home-grid {
     display: grid;
-    grid-template-columns: 1fr 240px;
-    gap: 48px;
+    grid-template-columns: 1fr 220px;
+    gap: 52px;
     align-items: start;
     margin-bottom: 32px;
 }
@@ -22,11 +22,21 @@ Home page styles — Warm Scholar redesign.
     font-weight: 600;
     color: var(--ink);
     margin-bottom: 20px;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+/* Art Deco rule after the section title */
+.home-section-title::after {
+    content: '';
+    display: block;
+    margin-top: 10px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold) 0%, transparent 80%);
 }
 
 .home-text {
-    line-height: 1.75;
+    line-height: 1.8;
     color: var(--text-primary);
 }
 
@@ -51,7 +61,7 @@ Home page styles — Warm Scholar redesign.
     top: 72px;
 }
 
-/* Portrait */
+/* Portrait — gold-framed Art Deco style */
 .home-portrait-wrap {
     width: 100%;
     text-align: center;
@@ -62,6 +72,12 @@ Home page styles — Warm Scholar redesign.
     height: auto;
     display: block;
     margin: 0 auto;
+    border: 3px solid var(--gold);
+    padding: 4px;
+    background: var(--ivory);
+    box-shadow:
+        0 0 0 1px light-dark(var(--warm-200), var(--dark-border)),
+        4px 4px 0 0 light-dark(var(--warm-200), var(--dark-border));
 }
 
 /* Contact table — borderless definition-list style */
@@ -82,10 +98,10 @@ Home page styles — Warm Scholar redesign.
 .home-contact-table th {
     font-family: var(--font-mono);
     font-size: var(--font-xs);
-    color: var(--text-secondary);
+    color: var(--gold);
     text-transform: uppercase;
-    letter-spacing: 0.07em;
-    font-weight: 400;
+    letter-spacing: 0.1em;
+    font-weight: 600;
     white-space: nowrap;
     padding-right: 14px;
     width: 44px;
@@ -97,26 +113,30 @@ Home page styles — Warm Scholar redesign.
 }
 
 .home-link {
-    color: var(--text-emph);
+    color: var(--teal);
     word-break: break-all;
 }
 
 .home-link:hover {
-    color: var(--text-emph-hover);
+    color: var(--teal-dark);
 }
 
 /* ========================================
-   PHD NOTICE
+   PHD NOTICE  ·  navy callout
    ======================================== */
 .home-phd-notice {
     margin-top: 8px;
     padding: 14px 20px;
-    background: var(--terra-light);
-    border-left: 3px solid var(--terra);
+    background: light-dark(
+        color-mix(in srgb, var(--navy) 6%, var(--ivory)),
+        rgba(14,27,45,0.5)
+    );
+    border-left: 3px solid var(--navy);
     font-size: var(--font-sm);
     font-family: var(--font-mono);
-    color: var(--gray-700);
-    line-height: 1.5;
+    color: light-dark(var(--navy-mid), var(--dark-ink-muted));
+    line-height: 1.55;
+    letter-spacing: 0.01em;
 }
 
 /* ========================================

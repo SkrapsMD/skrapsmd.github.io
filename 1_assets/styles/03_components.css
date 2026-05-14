@@ -4,7 +4,7 @@ Reusable UI Components: Buttons, forms, tables, panels, cards,
 badges, and other interactive or display elements.
 
 1/17/2026 Michael Dwight Sparks
-Redesigned: 5/2026
+Redesigned: 5/2026  ·  Atelier Économique (Art Deco × MCM)
 */
 
 
@@ -50,7 +50,7 @@ Redesigned: 5/2026
 
 
 /* ==========================================
-   BUTTONS
+   BUTTONS  ·  Atelier Économique
    ========================================== */
 .btn {
     display: inline-flex;
@@ -63,6 +63,8 @@ Redesigned: 5/2026
     padding: 5px 10px;
     font-family: var(--font-mono);
     font-size: var(--font-xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     line-height: 1;
     cursor: pointer;
     text-decoration: none;
@@ -70,33 +72,35 @@ Redesigned: 5/2026
 }
 
 .btn:hover {
-    background: var(--ink);
-    color: var(--ink-inv);
-    border-color: var(--ink);
+    background: var(--navy);
+    color: #f5f0e8;
+    border-color: var(--navy);
 }
 
+/* Primary — deep navy with warm white text; hover reveals gold */
 .btn--primary {
-    background: var(--text-emph);
-    color: var(--ink-inv);
-    border-color: var(--text-emph);
+    background: var(--navy);
+    color: #f5f0e8;
+    border-color: var(--navy);
 }
 
 .btn--primary:hover {
-    background: var(--text-emph-hover);
-    border-color: var(--text-emph-hover);
-    color: var(--white);
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--warm-black);
 }
 
+/* Ghost — teal outlined */
 .btn--ghost {
     background: transparent;
-    color: var(--text-emph);
-    border-color: var(--text-emph);
+    color: var(--teal);
+    border-color: var(--teal);
 }
 
 .btn--ghost:hover {
-    background: var(--terra-light);
-    color: var(--text-emph);
-    border-color: var(--text-emph);
+    background: var(--teal-light);
+    color: var(--teal-dark);
+    border-color: var(--teal);
 }
 
 .btn:disabled {
@@ -107,7 +111,7 @@ Redesigned: 5/2026
 .btn:disabled:hover {
     color: var(--text-primary);
     background: transparent;
-    border-color: light-dark(var(--gray-200), var(--dark-border));
+    border-color: light-dark(var(--warm-200), var(--dark-border));
 }
 
 
@@ -134,7 +138,7 @@ Redesigned: 5/2026
 }
 
 .input:focus {
-    outline: 2px solid var(--text-emph);
+    outline: 2px solid var(--gold);
     outline-offset: 1px;
 }
 
@@ -150,7 +154,7 @@ Redesigned: 5/2026
     font-size: var(--font-xs);
     font-family: var(--font-mono);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     margin-bottom: 8px;
     color: var(--text-secondary);
 }
@@ -207,13 +211,14 @@ Redesigned: 5/2026
 }
 
 .table thead th {
-    background: var(--text-highlight);
+    background: light-dark(var(--gold-light), #1a3020);
     font-weight: 600;
     font-family: var(--font-mono);
     font-size: var(--font-xs);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     border: var(--border-muted);
-    border-bottom: var(--border);
+    border-bottom: 1px solid light-dark(var(--warm-200), var(--dark-border));
 }
 
 .table--hoverable tbody tr:hover {
@@ -301,24 +306,50 @@ Redesigned: 5/2026
     margin: 0 0 10px 0;
     color: var(--text-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.1em;
 }
 
 .panel--muted {
     background: var(--bg-muted);
-    border-color: light-dark(var(--gray-100), var(--dark-border-muted));
+    border-color: light-dark(var(--warm-100), var(--dark-border-muted));
 }
 
 
 /* ==========================================
-   CARDS (Research Items)
+   CARDS  ·  Art Deco corner brackets
    ========================================== */
 .card {
-    border: var(--border);
-    border-left: 4px solid var(--text-emph);
+    position: relative;
+    border: 1px solid light-dark(var(--warm-200), var(--dark-border));
     padding: var(--pad-lg);
     margin-bottom: var(--pad-lg);
     background: var(--bg-surface);
+}
+
+/* Art Deco corner bracket — top-left */
+.card::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 18px;
+    height: 18px;
+    border-top: 2px solid var(--gold);
+    border-left: 2px solid var(--gold);
+    pointer-events: none;
+}
+
+/* Art Deco corner bracket — bottom-right */
+.card::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 18px;
+    height: 18px;
+    border-bottom: 2px solid var(--gold);
+    border-right: 2px solid var(--gold);
+    pointer-events: none;
 }
 
 /* Cards with data stories: sidebar replaces left border */
@@ -329,9 +360,14 @@ Redesigned: 5/2026
     align-items: stretch;
 }
 
+/* Corner brackets need offset on story cards */
+.card--has-story::before {
+    left: 0;
+}
+
 .card-sidebar {
     flex: 0 0 15px;
-    background: light-dark(var(--gray-200), var(--dark-border));
+    background: light-dark(var(--warm-200), var(--dark-border));
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -350,12 +386,12 @@ Redesigned: 5/2026
     writing-mode: vertical-rl;
     rotate: 180deg;
     white-space: nowrap;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
 }
 
 .card--has-story:hover .card-sidebar {
     flex-basis: 30px;
-    background: var(--text-emph);
+    background: var(--gold);
 }
 
 .card--has-story:hover .card-sidebar::after {
@@ -363,7 +399,7 @@ Redesigned: 5/2026
 }
 
 .card-sidebar:active {
-    background: var(--terra-dark);
+    background: var(--gold-dark);
 }
 
 .card-content {
@@ -375,7 +411,7 @@ Redesigned: 5/2026
 /* Swipe-right visual feedback (mobile) */
 .card--swiped .card-sidebar {
     flex-basis: 30px;
-    background: var(--text-emph);
+    background: var(--gold);
 }
 .card--swiped .card-sidebar::after {
     opacity: 1;
@@ -387,10 +423,10 @@ Redesigned: 5/2026
 
 .card-title {
     font-weight: 600;
-    font-size: var(--font-base);
+    font-size: var(--font-md);
     color: var(--ink);
     margin-bottom: 6px;
-    line-height: 1.35;
+    line-height: 1.3;
 }
 
 .card-meta {
@@ -399,6 +435,7 @@ Redesigned: 5/2026
     color: var(--text-secondary);
     margin-bottom: 12px;
     line-height: 1.5;
+    letter-spacing: 0.02em;
 }
 
 .card-meta .name-link {
@@ -407,7 +444,7 @@ Redesigned: 5/2026
 }
 
 .card-meta .name-link:hover {
-    color: var(--text-emph);
+    color: var(--gold);
     text-decoration: none;
 }
 
@@ -417,7 +454,7 @@ Redesigned: 5/2026
 }
 
 .name-link:hover {
-    color: var(--text-emph);
+    color: var(--gold);
     text-decoration: none;
 }
 
@@ -427,7 +464,7 @@ Redesigned: 5/2026
 
 
 /* ==========================================
-   BADGES & TAGS
+   BADGES & TAGS  ·  updated palette
    ========================================== */
 .badge {
     display: inline-block;
@@ -435,6 +472,8 @@ Redesigned: 5/2026
     font-family: var(--font-mono);
     font-size: var(--font-xs);
     font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     border: var(--border);
     cursor: default;
     user-select: none;
@@ -443,18 +482,19 @@ Redesigned: 5/2026
 }
 
 .badge--highlight {
-    background: var(--text-highlight);
-    border-color: light-dark(#e8d870, #8a6c00);
+    background: var(--gold-light);
+    border-color: light-dark(#d4b060, #8a6c00);
+    color: var(--warm-black);
 }
 
 .badge--info {
-    background: var(--text-highlight-2);
-    border-color: light-dark(#b0d0ea, #1e4a70);
+    background: var(--teal-light);
+    border-color: light-dark(#80c0c0, #1e4a70);
 }
 
 .badge--success {
-    background: var(--text-highlight-3);
-    border-color: light-dark(#a0d8bc, #1a5e38);
+    background: light-dark(#d8f0e8, #09301e);
+    border-color: light-dark(#80c8a8, #1a5e38);
 }
 
 .badge--failure {
@@ -464,9 +504,9 @@ Redesigned: 5/2026
 }
 
 .badge--warning {
-    background: var(--text-highlight-warning);
-    border-color: light-dark(#e8c070, #9a5000);
-    color: var(--near-black);
+    background: light-dark(#fff3e0, #7a3600);
+    border-color: light-dark(#d4a040, #9a5000);
+    color: var(--warm-black);
 }
 
 .badge--unsure {
@@ -491,25 +531,26 @@ Redesigned: 5/2026
     line-height: 1.6;
 }
 
-/* Inline code (font-family set in base) */
+/* Inline code */
 code {
     font-size: 0.875em;
     background: var(--bg-muted);
-    color: var(--text-emph);
+    color: var(--teal);
     padding: 1px 5px;
     border: var(--border-muted);
 }
 
 
 /* ==========================================
-   CARD SUB-COMPONENTS
+   CARD SUB-COMPONENTS  ·  teal abstract
    ========================================== */
 .card-abstract {
-    border-left: 3px solid var(--blockquote-border);
+    border-left: 3px solid var(--teal);
     padding-left: 16px;
     margin: 14px 0;
     color: var(--text-secondary);
     line-height: 1.7;
+    font-style: italic;
 }
 
 .card-footer {
@@ -579,7 +620,7 @@ code {
     font-size: var(--font-sm);
     font-family: var(--font-mono);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.1em;
     color: var(--text-secondary);
 }
 

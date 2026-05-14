@@ -21,7 +21,8 @@
 
         <!-- Critical CSS — inlined for instant first paint (mirrors 00_tokens + 01_base + 02_shell) -->
         <style>
-/* ── 00_tokens ───────────────────────────────────────── */
+/* ── 00_tokens  ·  Atelier Économique  ──────────────────── */
+/* Art Deco precision × Mid-Century Modern warmth           */
 :root {
     color-scheme: light dark;
     --font-sans: "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -35,63 +36,92 @@
     --font-2xl: 36px;
     --font-3xl: 48px;
     --font-4xl: 72px;
+
+    /* Primitives ── keep legacy names for FRBA_scheme compat */
     --black: #000000;
     --white: #ffffff;
-    --cream: #f7f6f3;
-    --cream-dark: #edecea;
-    --near-black: #141311;
-    --gray-900: #2e2c29;
-    --gray-700: #524f4b;
-    --gray-500: #797571;
-    --gray-300: #b8b4ae;
-    --gray-200: #d2cfc9;
-    --gray-100: #e6e3de;
-    --gray-50: #f0ede9;
-    --terra: #b85c38;
-    --terra-dark: #96462a;
-    --terra-light: #fdf1ec;
-    --terra-mid: #d97b55;
-    --dark-bg: #1d1b19;
-    --dark-surface: #252320;
-    --dark-border: #3c3a37;
-    --dark-border-muted: #2f2d2a;
-    --dark-ink: #f0ece7;
-    --dark-ink-muted: #b8b3ac;
-    --bg: light-dark(var(--cream), var(--dark-bg));
-    --bg-muted: light-dark(var(--gray-50), var(--dark-surface));
-    --bg-surface: light-dark(var(--white), #211f1c);
-    --ink: light-dark(var(--near-black), var(--dark-ink));
-    --ink-muted: light-dark(var(--gray-500), var(--dark-ink-muted));
-    --ink-inv: light-dark(var(--white), var(--near-black));
-    --ink-muted-inv: light-dark(var(--gray-300), var(--gray-700));
-    --text-primary: var(--ink);
-    --text-secondary: var(--ink-muted);
-    --text-emph: light-dark(var(--terra), var(--terra-mid));
-    --text-emph-hover: light-dark(var(--terra-dark), #f0a878);
-    --text-emph-2: light-dark(#7a3607, #f39d61);
-    --text-emph-2-hover: light-dark(#ae4d0a, #f08033);
-    --text-strong: var(--text-emph);
-    --text-italic: var(--text-secondary);
-    --text-link: var(--text-emph);
+
+    /* Warm ivory — aged paper tones */
+    --ivory:       #f2eed8;
+    --ivory-mid:   #e6e1c8;
+    --ivory-deep:  #d9d3b8;
+
+    /* Deep Art Deco navy */
+    --navy:        #0e1b2d;
+    --navy-mid:    #1e3350;
+    --navy-light:  #2e4d72;
+
+    /* Burnished gold — the single accent */
+    --gold:        #c8902a;
+    --gold-dark:   #a87020;
+    --gold-light:  #f5e6be;
+    --gold-pale:   #fdf8ef;
+
+    /* MCM teal — contrasting secondary */
+    --teal:        #2e7d7d;
+    --teal-dark:   #1f5a5a;
+    --teal-light:  #d4eeee;
+
+    /* Warm gray scale */
+    --warm-black:  #1a1612;
+    --warm-900:    #2c2520;
+    --warm-700:    #7a6e5e;
+    --warm-500:    #a09480;
+    --warm-300:    #c8bfaf;
+    --warm-200:    #ddd8cc;
+    --warm-100:    #ece8df;
+    --warm-50:     #f5f2ea;
+
+    /* Dark mode surfaces */
+    --dark-bg:           #07101c;
+    --dark-surface:      #0e1b2d;
+    --dark-border:       #1e3350;
+    --dark-border-muted: #142035;
+    --dark-ink:          #f2eedd;
+    --dark-ink-muted:    #9a8e7a;
+
+    /* Semantic tokens */
+    --bg:          light-dark(var(--ivory),      var(--dark-bg));
+    --bg-muted:    light-dark(var(--ivory-mid),  var(--dark-surface));
+    --bg-surface:  light-dark(var(--gold-pale),  #0a1420);
+    --ink:         light-dark(var(--warm-black), var(--dark-ink));
+    --ink-muted:   light-dark(var(--warm-700),   var(--dark-ink-muted));
+    --ink-inv:     light-dark(var(--white),      var(--warm-black));
+    --ink-muted-inv: light-dark(var(--warm-300), var(--warm-900));
+    --text-primary:    var(--ink);
+    --text-secondary:  var(--ink-muted);
+    --text-emph:       light-dark(var(--gold),      var(--gold));
+    --text-emph-hover: light-dark(var(--gold-dark),  #e8b050);
+    --text-emph-2:     light-dark(var(--teal),       #6ec8c8);
+    --text-emph-2-hover: light-dark(var(--teal-dark), #a0d8d8);
+    --text-strong:     var(--text-emph);
+    --text-italic:     var(--text-secondary);
+    --text-link:       var(--text-emph);
     --text-link-hover: var(--text-emph-hover);
-    --code-bg: var(--bg-muted);
-    --code-text: var(--text-primary);
-    --code-block-bg: var(--bg-muted);
-    --blockquote-border: var(--text-emph);
-    --blockquote-text: var(--text-secondary);
-    --text-highlight: light-dark(#fef9e7, #4a3c00);
-    --text-highlight-2: light-dark(#eaf3fb, #0e2840);
-    --text-highlight-3: light-dark(#e3f5ee, #09301e);
-    --text-highlight-warning: light-dark(#fff3e0, #7a3600);
-    --active-indicator: var(--terra);
+    --code-bg:         var(--bg-muted);
+    --code-text:       var(--text-primary);
+    --code-block-bg:   var(--bg-muted);
+    --blockquote-border: var(--teal);
+    --blockquote-text:   var(--text-secondary);
+    --text-highlight:         light-dark(var(--gold-light),  #4a3800);
+    --text-highlight-2:       light-dark(var(--teal-light),  #0e2840);
+    --text-highlight-3:       light-dark(#d8f0e8,            #09301e);
+    --text-highlight-warning: light-dark(#fff3e0,            #7a3600);
+    --active-indicator: var(--gold);
     --frame-width: 980px;
-    --pad: 16px;
+    --pad:    16px;
     --pad-sm: 10px;
     --pad-lg: 28px;
-    --border: 1px solid light-dark(var(--gray-200), var(--dark-border));
-    --border-muted: 1px solid light-dark(var(--gray-100), var(--dark-border-muted));
+    --border:        1px solid light-dark(var(--warm-200), var(--dark-border));
+    --border-muted:  1px solid light-dark(var(--warm-100), var(--dark-border-muted));
     --border-accent: 2px solid var(--text-emph);
     --border-radius: 0;
+
+    /* Legacy terra aliases (keeps any remaining refs working) */
+    --terra:       var(--gold);
+    --terra-dark:  var(--gold-dark);
+    --terra-light: var(--gold-light);
+    --terra-mid:   #d4aa60;
 }
 
 /* ── 01_base ───────────────────────────────────────────── */
@@ -108,7 +138,7 @@ body {
     font-size: var(--font-base);
     line-height: 1.6;
     color: var(--ink);
-    background: light-dark(var(--cream-dark), #141210);
+    background: light-dark(var(--ivory-deep), #040c16);
 }
 h1, h2, h3, h4, h5, h6 { font-weight: 600; line-height: 1.2; }
 p { margin-bottom: 1em; }
@@ -131,35 +161,43 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     clip: rect(0,0,0,0); white-space: nowrap; border: 0;
 }
 
-/* ── 02_shell ──────────────────────────────────────────── */
-
-/* Thin accent stripe at top of frame */
-.frame::before {
-    content: '';
-    display: block;
-    height: 3px;
-    background: linear-gradient(90deg, var(--terra) 0%, var(--terra-mid) 100%);
-}
+/* ── 02_shell  ·  Atelier Économique ──────────────────── */
 
 .frame {
     max-width: var(--frame-width);
     margin: 28px auto;
     background: var(--bg);
     min-width: 0;
-    box-shadow: 0 1px 8px light-dark(rgba(0,0,0,0.07), rgba(0,0,0,0.35));
+    border: 1px solid light-dark(var(--warm-200), var(--dark-border));
+    box-shadow: 0 4px 40px light-dark(rgba(14,27,45,0.13), rgba(0,0,0,0.5));
 }
 
 @media (max-width: 1040px) {
     .frame { margin: 20px; }
 }
 
-/* Masthead */
+/* Masthead — deep Art Deco navy bar */
 .masthead {
     position: sticky;
     top: 0;
-    background: var(--bg);
+    background: var(--navy);
     z-index: 100;
-    border-bottom: var(--border-muted);
+    border-bottom: none;
+}
+
+/* Burnished gold rule below masthead */
+.masthead::after {
+    content: '';
+    display: block;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        var(--gold-dark)  0%,
+        var(--gold)       30%,
+        #e8c060          55%,
+        var(--gold)       75%,
+        var(--gold-dark) 100%
+    );
 }
 
 .masthead-inner {
@@ -185,34 +223,38 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
 .brand-text {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
 }
 
 .brand-name {
     font-weight: 600;
     font-size: var(--font-md);
     line-height: 1.1;
-    color: var(--ink);
-    transition: color 0.15s ease;
+    color: #f5f0e8;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s ease;
 }
 
-.brand:hover .brand-name { color: var(--text-emph); }
+.brand:hover .brand-name { color: var(--gold); }
 
 .brand-role {
     font-size: var(--font-xs);
     font-family: var(--font-mono);
-    color: var(--text-secondary);
+    color: rgba(245, 240, 232, 0.45);
     line-height: 1;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.05em;
 }
 
 #brand-icon {
     height: 3em;
     width: auto;
     display: block;
+    filter: invert(1) sepia(0.15) brightness(0.92);
+    opacity: 0.88;
 }
 
-/* Hamburger (mobile only) */
+/* Hamburger (mobile only) — warm white lines for dark header */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -228,43 +270,67 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     display: block;
     width: 22px;
     height: 2px;
-    background: var(--ink);
+    background: rgba(245, 240, 232, 0.8);
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Navigation */
+/* Navigation — uppercase tracked on dark */
 .navbars {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 0;
     flex-wrap: nowrap;
 }
 
 .navbtn {
     display: inline-flex;
     align-items: center;
-    padding: 6px 10px;
+    padding: 10px 11px;
     text-decoration: none;
-    color: var(--text-secondary);
-    font-size: var(--font-sm);
+    color: rgba(245, 240, 232, 0.5);
+    font-size: var(--font-xs);
     font-family: var(--font-mono);
     line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     background: transparent;
     border: none;
-    border-radius: 3px;
+    border-radius: 0;
     transition: color 0.15s ease, background-color 0.15s ease;
     white-space: nowrap;
+    position: relative;
+}
+
+/* Animated underline indicator */
+.navbtn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--gold);
+    transition: width 0.2s ease;
 }
 
 .navbtn:hover {
-    color: var(--text-emph);
-    background: var(--terra-light);
+    color: rgba(245, 240, 232, 0.95);
+    background: rgba(200, 144, 42, 0.1);
     text-decoration: none;
 }
 
+.navbtn:hover::after {
+    width: 65%;
+}
+
 .navbtn.active {
-    color: var(--text-emph);
+    color: var(--gold);
     font-weight: 600;
+}
+
+.navbtn.active::after {
+    width: 65%;
 }
 
 /* Section helpers */
@@ -275,6 +341,9 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
 .section-title {
     font-weight: 600;
     font-size: var(--font-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--warm-500);
 }
 
 /* Rules */
@@ -288,6 +357,16 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
 .rule.solid { border-top: var(--border); }
 .rule.flush { margin-bottom: 0; padding-bottom: 0; }
 
+/* Art Deco double rule */
+.deco-rule {
+    border: none;
+    height: 5px;
+    border-top: 1px solid light-dark(var(--warm-200), var(--dark-border));
+    border-bottom: 1px solid light-dark(var(--warm-100), var(--dark-border-muted));
+    margin: 24px 0;
+    background: transparent;
+}
+
 /* Content area */
 .content {
     padding: var(--pad-lg);
@@ -299,15 +378,17 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
 /* Footer */
 .foot {
     padding: var(--pad-sm) var(--pad-lg) var(--pad-lg);
-    border-top: var(--border-muted);
+    border-top: 1px solid light-dark(var(--warm-200), var(--dark-border));
     margin-top: var(--pad);
 }
 .foot-meta {
     display: flex;
     gap: var(--pad-sm);
-    color: var(--text-secondary);
+    color: var(--warm-500);
     font-size: var(--font-xs);
     font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
 }
 
 /* ── Mobile ──────────────────────────────────────────────── */
@@ -321,12 +402,13 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
         width: 100%;
         flex-direction: column;
         align-items: stretch;
-        border-top: var(--border-muted);
+        border-top: 1px solid rgba(245,240,232,0.1);
         padding-top: 8px;
         margin-top: 4px;
     }
     .navbars.open { display: flex; }
-    .navbtn { justify-content: flex-start; width: 100%; border-radius: 0; }
+    .navbtn { justify-content: flex-start; width: 100%; }
+    .navbtn::after { display: none; }
     .content { padding: var(--pad); padding-top: var(--pad-sm); }
     .foot { padding: var(--pad-sm) var(--pad) var(--pad); }
 }
