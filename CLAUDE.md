@@ -45,9 +45,8 @@ Then open http://localhost:8000 in a browser.
 **Typography:** IBM Plex Sans (UI) and IBM Plex Mono (code). Three weights only: Light (300), Regular (400), SemiBold (600). Size scale defined in `00_tokens.css`: `--font-xs` (12px) through `--font-4xl` (72px). Font files hosted locally in `1_assets/styles/b_palettes_and_fonts/FONTS/`.
 
 **Colors:**
-- **Primitives:** Federal Reserve Bank of Atlanta (FRBA) palette in `FRBA_scheme.css` (140+ raw color values with scales 50-1100)
-- **Tokens:** Semantic mappings in `00_tokens.css` (e.g., `--text-primary`, `--bg`, `--ink-muted`)
-- Design philosophy: tokens reference primitives for maintainability
+- **Tokens:** All color tokens defined in `00_tokens.css` — raw palette (warm neutrals, terra cotta accent, `--ws-gold`, `--ws-teal`) plus semantic mappings (e.g., `--text-primary`, `--bg`, `--ink-muted`)
+- Design philosophy: semantic tokens reference raw palette entries for maintainability
 
 **Light/Dark Mode:** Uses CSS `light-dark()` function with `color-scheme: light dark`. All color tokens automatically adapt to user's preferred color scheme.
 

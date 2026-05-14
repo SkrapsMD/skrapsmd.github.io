@@ -57,12 +57,12 @@
     --navy-mid:    #1e3350;
     --navy-light:  #2e4d72;
 
-    --gold:        #c8902a;
+    --ws-gold:     #c8902a;
     --gold-dark:   #a87020;
     --gold-light:  #f5e6be;
     --gold-pale:   #fdf8ef;
 
-    --teal:        #2e7d7d;
+    --ws-teal:     #2e7d7d;
     --teal-dark:   #1f5a5a;
     --teal-light:  #d4eeee;
 
@@ -91,9 +91,9 @@
     --ink-muted-inv: light-dark(var(--warm-300), var(--warm-900));
     --text-primary:    var(--ink);
     --text-secondary:  var(--ink-muted);
-    --text-emph:       light-dark(var(--gold),      var(--gold));
+    --text-emph:       light-dark(var(--ws-gold),    var(--ws-gold));
     --text-emph-hover: light-dark(var(--gold-dark),  #e8b050);
-    --text-emph-2:     light-dark(var(--teal),       #6ec8c8);
+    --text-emph-2:     light-dark(var(--ws-teal),    #6ec8c8);
     --text-emph-2-hover: light-dark(var(--teal-dark), #a0d8d8);
     --text-strong:     var(--text-emph);
     --text-italic:     var(--text-secondary);
@@ -102,13 +102,13 @@
     --code-bg:         var(--bg-muted);
     --code-text:       var(--text-primary);
     --code-block-bg:   var(--bg-muted);
-    --blockquote-border: var(--teal);
+    --blockquote-border: var(--ws-teal);
     --blockquote-text:   var(--text-secondary);
     --text-highlight:         light-dark(var(--gold-light),  #4a3800);
     --text-highlight-2:       light-dark(var(--teal-light),  #0e2840);
     --text-highlight-3:       light-dark(#d8f0e8,            #09301e);
     --text-highlight-warning: light-dark(#fff3e0,            #7a3600);
-    --active-indicator: var(--gold);
+    --active-indicator: var(--ws-gold);
     --frame-width: 980px;
     --pad:    16px;
     --pad-sm: 10px;
@@ -119,7 +119,7 @@
     --border-radius: 0;
 
     /* Legacy terra aliases */
-    --terra:       var(--gold);
+    --terra:       var(--ws-gold);
     --terra-dark:  var(--gold-dark);
     --terra-light: var(--gold-light);
     --terra-mid:   #d4aa60;
@@ -193,9 +193,9 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
         90deg,
         transparent    0%,
         var(--gold-dark) 12%,
-        var(--gold)    38%,
+        var(--ws-gold) 38%,
         #e8c060        55%,
-        var(--gold)    72%,
+        var(--ws-gold) 72%,
         var(--gold-dark) 88%,
         transparent   100%
     );
@@ -218,7 +218,7 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
 .masthead-orn-diamond {
     width: 7px;
     height: 7px;
-    background: var(--gold);
+    background: var(--ws-gold);
     transform: rotate(45deg);
     flex-shrink: 0;
     margin: 0 18px;
@@ -261,7 +261,7 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     text-transform: uppercase;
     transition: color 0.2s ease;
 }
-.brand:hover .brand-name { color: var(--gold); }
+.brand:hover .brand-name { color: var(--ws-gold); }
 
 .brand-role {
     font-size: 10px;
@@ -295,8 +295,8 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     flex-shrink: 0;
 }
 .theme-toggle:hover {
-    color: var(--gold);
-    border-color: var(--gold);
+    color: var(--ws-gold);
+    border-color: var(--ws-gold);
 }
 
 /* Hamburger — hidden by default, absolute left */
@@ -358,7 +358,7 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     transform: translateX(-50%);
     width: 0;
     height: 2px;
-    background: var(--gold);
+    background: var(--ws-gold);
     transition: width 0.2s ease;
 }
 .navbtn:hover {
@@ -367,7 +367,7 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     text-decoration: none;
 }
 .navbtn:hover::after { width: 55%; }
-.navbtn.active { color: var(--gold); font-weight: 600; }
+.navbtn.active { color: var(--ws-gold); font-weight: 600; }
 .navbtn.active::after { width: 55%; }
 
 /* Section helpers */
@@ -442,10 +442,6 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     .brand-role { display: none; }
 }
         </style>
-
-        <!-- Color primitives: loaded non-blocking so they don't delay first paint. -->
-        <link rel="stylesheet" media="print" onload="this.media='all'" href="1_assets/styles/b_palettes_and_fonts/FRBA_scheme.css">
-        <noscript><link rel="stylesheet" href="1_assets/styles/b_palettes_and_fonts/FRBA_scheme.css"></noscript>
 
         <!-- Non-critical components CSS -->
         <link rel="stylesheet" href="1_assets/styles/03_components.css">

@@ -41,7 +41,7 @@
     font-weight: 200;
     line-height: 0.82;
     letter-spacing: -0.04em;
-    color: var(--gold);
+    color: var(--ws-gold);
     opacity: 0.28;
     font-variant-numeric: tabular-nums;
     flex-shrink: 0;
@@ -60,7 +60,7 @@
     font-size: var(--font-xs);
     text-transform: uppercase;
     letter-spacing: 0.22em;
-    color: var(--gold);
+    color: var(--ws-gold);
     font-weight: 600;
 }
 
@@ -68,7 +68,7 @@
     display: block;
     height: 1px;
     width: 56px;
-    background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+    background: linear-gradient(90deg, var(--ws-gold) 0%, transparent 100%);
 }
 
 /* ========================================
@@ -166,7 +166,7 @@
 }
 
 .home-link:hover {
-    color: var(--gold);
+    color: var(--ws-gold);
 }
 
 /* ========================================

@@ -43,6 +43,10 @@ Redesigned: 5/2026
     --gray-100:   #e6e3de;
     --gray-50:    #f0ede9;
 
+    /* Legacy accent colors — carried forward under Warm Scholar naming */
+    --ws-gold: #c8902a;
+    --ws-teal: #2e7d7d;
+
     /* Accent — terra cotta */
     --terra:       #b85c38;
     --terra-dark:  #96462a;
