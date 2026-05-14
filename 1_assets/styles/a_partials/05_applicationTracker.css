@@ -230,7 +230,7 @@ Page-specific styles for the PhD Application Tracker page.
 }
 
 .proof-modal-close:hover .proof-close-icon {
-    fill: var(--atlDanger, #c53139);
+    fill: #c53139;
 }
 
 .proof-modal-close:active .proof-close-icon {
