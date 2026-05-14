@@ -1,104 +1,172 @@
 /*
 01_home.css
-Page-specific styles for the Home page
-
-1/28/2026
-Michael Dwight Sparks
+Home page styles — Warm Scholar redesign.
 */
 
 /* ========================================
-   HOME PAGE LAYOUT
+   LAYOUT
    ======================================== */
 .home-grid {
     display: grid;
-    grid-template-columns: 1fr 280px;
-    gap: 16px;
+    grid-template-columns: 1fr 240px;
+    gap: 48px;
     align-items: start;
-    margin-bottom: 16px;
-}
-
-.home-content {
-    /* Container for main text content */
-}
-
-.home-section-title {
-    margin-top: 2px;
-    font-weight: 600;
-    font-size: var(--font-sm);
-}
-
-.home-text {
-    margin-top: 6px;
+    margin-bottom: 32px;
 }
 
 /* ========================================
-   CONTACT CARD
+   BIO CONTENT
    ======================================== */
-.home-contact {
-    /* Container for contact table */
+.home-section-title {
+    font-size: var(--font-lg);
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
 }
 
-.home-portrait-cell {
+.home-text {
+    line-height: 1.75;
+    color: var(--text-primary);
+}
+
+.home-text p {
+    margin-bottom: 1.1em;
+    font-size: var(--font-base);
+}
+
+.home-text p:last-child {
+    margin-bottom: 0;
+}
+
+/* ========================================
+   CONTACT COLUMN
+   ======================================== */
+.home-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 72px;
+}
+
+/* Portrait */
+.home-portrait-wrap {
+    width: 100%;
     text-align: center;
 }
 
 .home-portrait {
-    max-width: 150px;
+    max-width: 160px;
     height: auto;
     display: block;
     margin: 0 auto;
 }
 
+/* Contact table — borderless definition-list style */
+.home-contact-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.home-contact-table th,
+.home-contact-table td {
+    padding: 5px 0;
+    border: none;
+    background: none;
+    vertical-align: top;
+    text-align: left;
+}
+
+.home-contact-table th {
+    font-family: var(--font-mono);
+    font-size: var(--font-xs);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 400;
+    white-space: nowrap;
+    padding-right: 14px;
+    width: 44px;
+}
+
+.home-contact-table td {
+    font-size: var(--font-sm);
+    color: var(--text-primary);
+}
+
 .home-link {
     color: var(--text-emph);
+    word-break: break-all;
+}
+
+.home-link:hover {
+    color: var(--text-emph-hover);
 }
 
 /* ========================================
    PHD NOTICE
    ======================================== */
 .home-phd-notice {
-    font-weight: 600;
+    margin-top: 8px;
+    padding: 14px 20px;
+    background: var(--terra-light);
+    border-left: 3px solid var(--terra);
     font-size: var(--font-sm);
-    color: var(--text-emph);
-    text-align: center;
-    margin-top: 16px;
+    font-family: var(--font-mono);
+    color: var(--gray-700);
+    line-height: 1.5;
 }
 
 /* ========================================
    MOBILE RESPONSIVE
    ======================================== */
 @media (max-width: 700px) {
-    /* Stack content vertically on mobile */
     .home-grid {
         grid-template-columns: 1fr;
-        gap: 24px;
+        gap: 32px;
     }
 
-    /* Reorder: show contact card first on mobile for immediate access */
+    /* Portrait + contact row on mobile */
     .home-contact {
+        position: static;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 20px;
         order: -1;
     }
 
-    /* Center and constrain contact card on mobile */
-    .home-contact .table {
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 320px;
+    .home-portrait-wrap {
+        flex-shrink: 0;
+        width: auto;
+        text-align: left;
     }
 
-    /* Slightly smaller portrait on mobile */
     .home-portrait {
-        max-width: 120px;
+        max-width: 100px;
+        margin: 0;
+    }
+
+    .home-contact-table {
+        flex: 1;
     }
 }
 
 @media (max-width: 480px) {
-    .home-grid {
-        gap: 16px;
+    .home-contact {
+        flex-direction: column;
+        align-items: center;
     }
-    /* Even more compact on very small screens */
+
     .home-portrait {
-        max-width: 100px;
+        max-width: 120px;
+        margin: 0 auto;
+    }
+
+    .home-portrait-wrap {
+        text-align: center;
+        width: 100%;
     }
 
     .home-phd-notice {

@@ -1,9 +1,8 @@
 /*
 05_applicationTracker.css
-Page-specific styles for the PhD Application Tracker page
+Page-specific styles for the PhD Application Tracker page.
 
-1/28/2026
-Michael Dwight Sparks
+1/28/2026 Michael Dwight Sparks
 */
 
 /* ========================================
@@ -12,9 +11,9 @@ Michael Dwight Sparks
 .tracker-grid {
     display: grid;
     grid-template-columns: 1fr 320px;
-    gap: 16px;
+    gap: 24px;
     align-items: start;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 .tracker-intro {
@@ -22,21 +21,35 @@ Michael Dwight Sparks
 }
 
 .tracker-code {
-    margin-top: 6px;
+    margin-top: 4px;
     font-weight: 600;
+    font-family: var(--font-mono);
+    font-size: var(--font-xs);
+    color: var(--text-secondary);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
 .tracker-title {
-    margin-top: 2px;
+    margin-top: 6px;
     font-weight: 600;
+    font-size: var(--font-lg);
+    letter-spacing: -0.01em;
 }
 
 .tracker-description {
-    margin-top: 6px;
+    margin-top: 10px;
+    line-height: 1.7;
+    font-size: var(--font-sm);
+    color: var(--text-secondary);
 }
 
 .tracker-link {
     color: var(--text-emph);
+}
+
+.tracker-link:hover {
+    color: var(--text-emph-hover);
 }
 
 .tracker-stats {
@@ -47,7 +60,6 @@ Michael Dwight Sparks
    TABLE SCROLL WRAPPER
    ======================================== */
 .table-scroll-wrapper {
-    /* On desktop, no scrolling needed */
     width: 100%;
 }
 
@@ -55,44 +67,37 @@ Michael Dwight Sparks
    MOBILE RESPONSIVE
    ======================================== */
 @media (max-width: 640px) {
-    /* Stack content vertically on mobile */
     .tracker-grid {
         grid-template-columns: 1fr;
         gap: 20px;
     }
 
-    /* Stats table takes full width on mobile */
     .tracker-stats .table {
         width: 100%;
     }
 
-    /* Ensure table cells don't overflow */
     .tracker-stats td,
     .tracker-stats th {
         font-size: var(--font-xs);
-        padding: 6px 8px;
+        padding: 5px 6px;
     }
 
-    /* Make main data table scrollable horizontally on mobile */
     .table-caption {
         font-size: var(--font-xs);
     }
 
-    /* Enable horizontal scroll for wide table */
     .table-scroll-wrapper {
         width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
 
-    /* Prevent table from collapsing - maintain minimum width */
     .table-scroll-wrapper .table {
         min-width: 380px;
         font-size: 9px;
         width: auto;
     }
 
-    /* Smaller text in table cells */
     .table-scroll-wrapper .table th,
     .table-scroll-wrapper .table td {
         font-size: 9px;
@@ -100,7 +105,6 @@ Michael Dwight Sparks
         white-space: nowrap;
     }
 
-    /* Shrink badges on mobile */
     .badge {
         font-size: 8px;
         padding: 1px 3px;
@@ -109,16 +113,14 @@ Michael Dwight Sparks
 }
 
 @media (max-width: 480px) {
-    /* Even more compact on very small screens */
     .tracker-code {
         font-size: var(--font-xs);
     }
 
     .tracker-title {
-        font-size: var(--font-sm);
+        font-size: var(--font-md);
     }
 
-    /* Smaller table legend on mobile */
     .table-legend {
         flex-direction: column;
         align-items: flex-start;
@@ -133,190 +135,190 @@ Michael Dwight Sparks
 /* ========================================
    PROOF FEATURE
    ======================================== */
-
-/* Proof button next to badges */
 .proof-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  padding: 0;
-  margin-left: 6px;
-  cursor: pointer;
-  vertical-align: middle;
-  width: 14px;
-  height: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: 6px;
+    cursor: pointer;
+    vertical-align: middle;
+    width: 14px;
+    height: 14px;
 }
 
 .proof-icon {
-  width: 100%;
-  height: 100%;
-  background-color: var(--ink);
-  -webkit-mask-image: url('/1_assets/icons/copy.svg');
-  mask-image: url('/1_assets/icons/copy.svg');
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  transition: background-color 0.2s ease;
+    width: 100%;
+    height: 100%;
+    background-color: var(--ink-muted);
+    -webkit-mask-image: url('/1_assets/icons/copy.svg');
+    mask-image: url('/1_assets/icons/copy.svg');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    transition: background-color 0.2s ease;
 }
 
 .proof-btn:hover .proof-icon {
-  background-color: var(--text-emph-hover);
+    background-color: var(--text-emph);
 }
 
 .proof-btn:active .proof-icon {
-  background-color: var(--text-emph);
+    background-color: var(--text-emph-hover);
 }
 
 /* Proof modal */
 .proof-modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1000;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
 }
 
 .proof-modal.open {
-  display: block;
+    display: block;
 }
 
 .proof-modal-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.65);
 }
 
 .proof-modal-content {
-  position: relative;
-  max-width: 700px;
-  margin: 50px auto;
-  padding: 40px 24px 24px 24px;
-  background: var(--bg);
-  border: var(--border);
-  border-radius: 0;
-  z-index: 1001;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
+    position: relative;
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 40px 28px 28px;
+    background: var(--bg-surface);
+    border: var(--border);
+    z-index: 1001;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.2);
 }
 
 .proof-modal-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .proof-close-icon {
-  width: 100%;
-  height: 100%;
-  fill: var(--ink);
-  transition: fill 0.2s ease;
+    width: 100%;
+    height: 100%;
+    fill: var(--ink-muted);
+    transition: fill 0.2s ease;
 }
 
 .proof-modal-close:hover .proof-close-icon {
-  fill: var(--atlDanger);
+    fill: var(--atlDanger, #c53139);
 }
 
 .proof-modal-close:active .proof-close-icon {
-  fill: var(--atlRed800);
+    fill: var(--terra-dark);
 }
 
 .proof-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: var(--border-muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: var(--border-muted);
 }
 
 .proof-from {
-  font-size: var(--font-sm);
-  font-weight: 600;
+    font-size: var(--font-sm);
+    font-weight: 600;
 }
 
 .proof-date {
-  font-size: var(--font-xs);
-  color: var(--text-secondary);
-  text-align: right;
+    font-size: var(--font-xs);
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+    text-align: right;
 }
 
 .proof-subject {
-  font-size: var(--font-sm);
-  font-weight: 600;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: var(--border-muted);
+    font-size: var(--font-sm);
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: var(--border-muted);
 }
 
 .proof-body {
-  font-size: var(--font-sm);
-  line-height: 1.6;
-  white-space: pre-wrap;
+    font-size: var(--font-sm);
+    line-height: 1.7;
+    white-space: pre-wrap;
+    color: var(--text-secondary);
 }
 
 /* PDF viewer */
 .proof-pdf-container {
-  display: none;
-  width: 100%;
-  height: 600px;
-  margin-top: 12px;
+    display: none;
+    width: 100%;
+    height: 600px;
+    margin-top: 12px;
 }
 
 .proof-pdf-container.active {
-  display: block;
+    display: block;
 }
 
 .proof-pdf-viewer {
-  width: 100%;
-  height: 100%;
-  border: var(--border);
-  background: var(--bg-muted);
+    width: 100%;
+    height: 100%;
+    border: var(--border);
+    background: var(--bg-muted);
 }
 
 /* Hide email elements when showing PDF */
 .proof-modal.pdf-mode .proof-header,
 .proof-modal.pdf-mode .proof-subject,
 .proof-modal.pdf-mode .proof-body {
-  display: none;
+    display: none;
 }
 
-/* Mobile responsive for proof modal */
+/* Mobile */
 @media (max-width: 768px) {
-  .proof-modal-content {
-    margin: 20px;
-    max-width: calc(100% - 40px);
-    padding: 16px;
-  }
+    .proof-modal-content {
+        margin: 20px;
+        max-width: calc(100% - 40px);
+        padding: 16px;
+    }
 
-  .proof-header {
-    flex-direction: column;
-    gap: 4px;
-  }
+    .proof-header {
+        flex-direction: column;
+        gap: 4px;
+    }
 
-  .proof-date {
-    text-align: left;
-  }
+    .proof-date {
+        text-align: left;
+    }
 
-  .proof-btn {
-    width: 12px;
-    height: 12px;
-  }
+    .proof-btn {
+        width: 12px;
+        height: 12px;
+    }
 }

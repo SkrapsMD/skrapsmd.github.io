@@ -1,59 +1,57 @@
 /*
 03_components.css
-Reusable UI Components: Buttons, forms, tables, panels, and other
-interactive or display elements used across multiple pages.
+Reusable UI Components: Buttons, forms, tables, panels, cards,
+badges, and other interactive or display elements.
 
-1/17/2026
-Michael Dwight Sparks
+1/17/2026 Michael Dwight Sparks
+Redesigned: 5/2026
 */
 
 
-/*
-===========================================
-Work In Progress Signal
-===========================================
-*/
+/* ==========================================
+   WORK IN PROGRESS SIGNAL
+   ========================================== */
 .panel.wip {
-  display: grid;
-  min-height: 450px;      /* controls how tall the WIP panel is */
+    display: grid;
+    min-height: 450px;
 }
 
 .wip-banner {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
-
-  border: 2px solid var(--atlDanger);
-  background: repeating-linear-gradient(
-    135deg,
-    var(--atlDanger) 0 18px,
-    var(--bg) 18px 36px
-  );
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--atlDanger);
+    background: repeating-linear-gradient(
+        135deg,
+        var(--atlDanger) 0 18px,
+        var(--bg) 18px 36px
+    );
 }
 
 .wip-label {
-    padding: 0.2em 0.4em;
+    padding: 0.2em 0.5em;
     font-family: var(--font-mono);
     font-size: clamp(var(--font-lg), var(--font-3xl), var(--font-3xl));
     font-weight: 700;
     letter-spacing: 0.22em;
-
-  background: var(--bg);
-  border: 2px dashed var(--ink);
+    background: var(--bg);
+    border: 2px dashed var(--ink);
 }
 
 .panel.wip_small {
-  display: grid;
-  min-height: 200px;
+    display: grid;
+    min-height: 200px;
 }
 
 .wip_small .wip-label {
-  font-size: var(--font-sm);
+    font-size: var(--font-sm);
 }
-/* ========================================
+
+
+/* ==========================================
    BUTTONS
-   ======================================== */
+   ========================================== */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -62,7 +60,7 @@ Work In Progress Signal
     border: var(--border);
     background: transparent;
     color: var(--text-primary);
-    padding: 4px 8px;
+    padding: 5px 10px;
     font-family: var(--font-mono);
     font-size: var(--font-xs);
     line-height: 1;
@@ -74,6 +72,7 @@ Work In Progress Signal
 .btn:hover {
     background: var(--ink);
     color: var(--ink-inv);
+    border-color: var(--ink);
 }
 
 .btn--primary {
@@ -85,7 +84,7 @@ Work In Progress Signal
 .btn--primary:hover {
     background: var(--text-emph-hover);
     border-color: var(--text-emph-hover);
-    color: var(--ink);
+    color: var(--white);
 }
 
 .btn--ghost {
@@ -95,23 +94,26 @@ Work In Progress Signal
 }
 
 .btn--ghost:hover {
-    background: var(--text-highlight-2);
+    background: var(--terra-light);
     color: var(--text-emph);
+    border-color: var(--text-emph);
 }
 
 .btn:disabled {
-    opacity: 0.5;
+    opacity: 0.45;
     cursor: not-allowed;
 }
 
 .btn:disabled:hover {
     color: var(--text-primary);
     background: transparent;
+    border-color: light-dark(var(--gray-200), var(--dark-border));
 }
 
-/* ========================================
+
+/* ==========================================
    FORM INPUTS
-   ======================================== */
+   ========================================== */
 .field {
     display: grid;
     gap: 4px;
@@ -126,7 +128,7 @@ Work In Progress Signal
     border: var(--border);
     background: transparent;
     color: var(--text-primary);
-    padding: 4px 6px;
+    padding: 5px 8px;
     font-family: var(--font-sans);
     font-size: var(--font-sm);
 }
@@ -140,20 +142,24 @@ Work In Progress Signal
     color: var(--text-secondary);
 }
 
-/* ========================================
+
+/* ==========================================
    TABLES
-   ======================================== */
+   ========================================== */
 .table-caption {
     font-size: var(--font-xs);
+    font-family: var(--font-mono);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     margin-bottom: 8px;
+    color: var(--text-secondary);
 }
 
 .table-caption--lg {
     font-size: var(--font-sm);
-    margin-top:16px;
-    margin-bottom: 8px;
+    font-family: var(--font-mono);
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .table-caption__category {
@@ -165,27 +171,26 @@ Work In Progress Signal
     color: var(--text-primary);
     font-weight: 600;
 }
+
 .table-footer {
-  display: grid;
-  gap: 12px;
+    display: grid;
+    gap: 12px;
 }
 
 .table-notes ol {
-  margin: 6px 0 0 16px;
-  padding: 0;
+    margin: 6px 0 0 18px;
+    padding: 0;
 }
 
 .table-notes li {
-  margin-bottom: 4px;
+    margin-bottom: 4px;
 }
 
 .table-legend .badge {
-  margin-right: 6px;
-  margin-top: 4px;
-  font-size: 0.75rem;
+    margin-right: 6px;
+    margin-top: 4px;
+    font-size: 0.75rem;
 }
-
-
 
 .table {
     width: 100%;
@@ -196,7 +201,7 @@ Work In Progress Signal
 .table th,
 .table td {
     border: var(--border-muted);
-    padding: 6px 8px;
+    padding: 6px 10px;
     vertical-align: middle;
     text-align: left;
 }
@@ -204,9 +209,10 @@ Work In Progress Signal
 .table thead th {
     background: var(--text-highlight);
     font-weight: 600;
+    font-family: var(--font-mono);
+    font-size: var(--font-xs);
+    letter-spacing: 0.04em;
     border: var(--border-muted);
-    border-top-style: dotted;
-    border-top-width: 2px;
     border-bottom: var(--border);
 }
 
@@ -214,13 +220,12 @@ Work In Progress Signal
     background: var(--bg-muted);
 }
 
-
 .table--compact th,
 .table--compact td {
-    padding: 4px 6px;
+    padding: 4px 8px;
 }
 
-/* Person profile table: prevent long content from forcing overflow */
+/* Person profile table */
 .person-profile-table {
     table-layout: fixed;
 }
@@ -239,7 +244,7 @@ Work In Progress Signal
     border-bottom: var(--border-muted);
 }
 
-/* Borderless: no horizontal lines, vertical lines only (including edges) */
+/* Borderless: vertical lines only */
 .table--borderless th,
 .table--borderless td {
     border-top: none;
@@ -280,36 +285,43 @@ Work In Progress Signal
 }
 
 
-/* ========================================
-   PANELS (Boxed Content Areas)
-   ======================================== */
+/* ==========================================
+   PANELS
+   ========================================== */
 .panel {
     border: var(--border);
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 16px;
 }
 
 .panel-title {
     font-size: var(--font-xs);
+    font-family: var(--font-mono);
     font-weight: 600;
     margin: 0 0 10px 0;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
 }
 
 .panel--muted {
     background: var(--bg-muted);
-    border-color: var(--ink-muted);
+    border-color: light-dark(var(--gray-100), var(--dark-border-muted));
 }
 
-/* ========================================
-   CARDS (For Research Items, etc.)
-   ======================================== */
+
+/* ==========================================
+   CARDS (Research Items)
+   ========================================== */
 .card {
     border: var(--border);
-    border-left: 15px solid light-dark(var(--darkGray), var(--lightGray));
-    padding: var(--pad);
-    margin-bottom: var(--pad);
+    border-left: 4px solid var(--text-emph);
+    padding: var(--pad-lg);
+    margin-bottom: var(--pad-lg);
+    background: var(--bg-surface);
 }
 
+/* Cards with data stories: sidebar replaces left border */
 .card--has-story {
     border-left: none;
     padding-left: 0;
@@ -319,19 +331,19 @@ Work In Progress Signal
 
 .card-sidebar {
     flex: 0 0 15px;
-    background: light-dark(var(--darkGray), var(--lightGray));
+    background: light-dark(var(--gray-200), var(--dark-border));
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: flex-basis 0.3s ease, background-color 0.3s ease;
+    transition: flex-basis 0.3s ease, background-color 0.25s ease;
     user-select: none;
 }
 
 .card-sidebar::after {
     content: "See Data Story";
     font-size: var(--font-xs);
-    color: light-dark(var(--white), var(--black));
+    color: light-dark(var(--white), var(--dark-ink));
     opacity: 0;
     transition: opacity 0.3s ease;
     font-family: var(--font-mono);
@@ -351,13 +363,13 @@ Work In Progress Signal
 }
 
 .card-sidebar:active {
-    background: light-dark(var(--atlBlue1000), var(--atlBlue200));
+    background: var(--terra-dark);
 }
 
 .card-content {
     flex: 1;
     min-width: 0;
-    padding: var(--pad);
+    padding: var(--pad-lg);
 }
 
 /* Swipe-right visual feedback (mobile) */
@@ -375,14 +387,18 @@ Work In Progress Signal
 
 .card-title {
     font-weight: 600;
-    font-size: var(--font-sm);
-    margin-bottom: 4px;
+    font-size: var(--font-base);
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.35;
 }
 
 .card-meta {
     font-size: var(--font-xs);
+    font-family: var(--font-mono);
     color: var(--text-secondary);
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    line-height: 1.5;
 }
 
 .card-meta .name-link {
@@ -391,8 +407,8 @@ Work In Progress Signal
 }
 
 .card-meta .name-link:hover {
-    text-decoration: none;
     color: var(--text-emph);
+    text-decoration: none;
 }
 
 .name-link {
@@ -401,102 +417,125 @@ Work In Progress Signal
 }
 
 .name-link:hover {
-    text-decoration: none;
     color: var(--text-emph);
+    text-decoration: none;
 }
 
 .card-body {
     font-size: var(--font-sm);
 }
 
-/* ========================================
+
+/* ==========================================
    BADGES & TAGS
-   ======================================== */
+   ========================================== */
 .badge {
     display: inline-block;
-    padding: 2px 6px;
+    padding: 2px 7px;
     font-family: var(--font-mono);
     font-size: var(--font-xs);
     font-weight: 600;
     border: var(--border);
-    cursor:default;
-    user-select:none;
-    pointer-events:none;
+    cursor: default;
+    user-select: none;
+    pointer-events: none;
+    line-height: 1.5;
 }
 
 .badge--highlight {
     background: var(--text-highlight);
+    border-color: light-dark(#e8d870, #8a6c00);
 }
 
 .badge--info {
     background: var(--text-highlight-2);
+    border-color: light-dark(#b0d0ea, #1e4a70);
 }
 
 .badge--success {
     background: var(--text-highlight-3);
+    border-color: light-dark(#a0d8bc, #1a5e38);
 }
 
 .badge--failure {
-    background: var(--atlDanger);
+    background: var(--atlDanger, #c53139);
     color: var(--white);
+    border-color: var(--atlDanger, #c53139);
 }
-.badge--warning{
+
+.badge--warning {
     background: var(--text-highlight-warning);
-    color: var(--black);
+    border-color: light-dark(#e8c070, #9a5000);
+    color: var(--near-black);
 }
-.badge--unsure{
-    opacity:0.5;
+
+.badge--unsure {
+    opacity: 0.5;
     background: var(--bg-muted);
     color: var(--ink);
 }
 
 
-/* ========================================
+/* ==========================================
    CODE BLOCKS
-   ======================================== */
+   ========================================== */
 .code-block {
     font-family: var(--font-mono);
     font-size: var(--font-xs);
     background: var(--code-block-bg);
     color: var(--code-text);
     border: var(--border);
-    padding: var(--pad-sm);
+    padding: var(--pad);
     overflow-x: auto;
     white-space: pre;
+    line-height: 1.6;
 }
 
-/* ========================================
-   CARD SUB-COMPONENT LAYOUT
-   ======================================== */
+/* Inline code (font-family set in base) */
+code {
+    font-size: 0.875em;
+    background: var(--bg-muted);
+    color: var(--text-emph);
+    padding: 1px 5px;
+    border: var(--border-muted);
+}
+
+
+/* ==========================================
+   CARD SUB-COMPONENTS
+   ========================================== */
 .card-abstract {
     border-left: 3px solid var(--blockquote-border);
     padding-left: 16px;
-    margin: 16px 0;
+    margin: 14px 0;
+    color: var(--text-secondary);
+    line-height: 1.7;
 }
 
 .card-footer {
-    margin-top: 12px;
+    margin-top: 16px;
     display: flex;
     gap: 12px;
     justify-content: space-between;
+    align-items: flex-start;
 }
 
 .card-footer__left {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .card-badges {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     flex-wrap: wrap;
 }
 
 .card-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
 }
 
 .card-actions .btn {
@@ -511,25 +550,25 @@ Work In Progress Signal
     font-family: var(--font-mono);
     justify-content: flex-end;
     align-content: flex-start;
+    color: var(--text-secondary);
 }
 
 .card-press-links:empty {
     display: none;
 }
 
-/* ========================================
+
+/* ==========================================
    PERSON PROFILE PAGE LAYOUT
-   ======================================== */
+   ========================================== */
 .person-profile-header {
     display: grid;
     grid-template-columns: 1fr 280px;
-    gap: 16px;
+    gap: 20px;
     align-items: start;
     margin-bottom: 32px;
 }
 
-/* Separate from .research-section (02_research.css) which is only loaded
-   on the research route and is not available on person-profile pages. */
 .person-papers-section {
     margin-bottom: 32px;
 }
@@ -538,6 +577,10 @@ Work In Progress Signal
     margin-bottom: 16px;
     font-weight: 600;
     font-size: var(--font-sm);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
 }
 
 @media (max-width: 700px) {
@@ -545,28 +588,18 @@ Work In Progress Signal
         grid-template-columns: 1fr;
         gap: 16px;
     }
-
     .person-profile-header > div:last-child {
         order: -1;
     }
 }
 
-/* Card footer responsive: stack on narrow screens */
+/* Card footer responsive */
 @media (max-width: 560px) {
     .card-footer {
         flex-direction: column;
         gap: 8px;
     }
-
     .card-press-links {
         justify-content: flex-start;
     }
-}
-
-/* Inline code styling (font-family set in 01_base.css) */
-code {
-    font-size: 0.9em;
-    background: var(--code-bg);
-    color: var(--code-text);
-    padding: 1px 4px;
 }
