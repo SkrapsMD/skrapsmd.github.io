@@ -28,6 +28,9 @@
 
         <!-- Fonts -->
         <link rel="stylesheet" href="1_assets/styles/b_palettes_and_fonts/FONTS/css/ibm-plex-fonts.css">
+        <!-- Lora italic — used only for the research script banner -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital@1&display=swap">
 
         <!-- Critical CSS — inlined for instant first paint -->
         <style>
@@ -207,12 +210,12 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     border-bottom: 1px solid rgba(255, 255, 255, 0.10);
 }
 
-/* Brand block: centered column — icon → name → role */
+/* Brand block: centered column — name → role (no icon) */
 .masthead-brand-block {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 14px 60px 12px;
+    padding: 20px 60px 14px;
     position: relative;
 }
 
@@ -225,16 +228,6 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     color: inherit;
 }
 .brand:hover { text-decoration: none; }
-
-/* Logo fix: original is dark lines on transparent — invert() makes them white */
-#brand-icon {
-    height: 2.2em;
-    width: auto;
-    display: block;
-    filter: invert(1);
-    opacity: 0.82;
-    margin-bottom: 2px;
-}
 
 .brand-name {
     font-weight: 300;
@@ -437,10 +430,6 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
             <!-- Centered brand: icon, name, role — no ornamental lines -->
             <div class="masthead-brand-block">
                 <a href="#home" class="brand">
-                    <img id="brand-icon"
-                         src="1_assets/images/people_index/MichaelSparks_Outline_GPT.webp"
-                         alt="Michael Dwight Sparks"
-                         width="512" height="768">
                     <span class="brand-name">Michael Dwight Sparks</span>
                     <span class="brand-role">Economics · Atlanta Fed → UCSD PhD</span>
                 </a>

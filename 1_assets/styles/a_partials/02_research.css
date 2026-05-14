@@ -1,43 +1,47 @@
-/* Research page styles  ·  Atelier Économique — Deco Press */
+/* Research page styles  ·  Government Publication edition */
 
 /* ========================================
-   PAGE HEADER  —  monumental section title
+   PAGE HEADER — clean, minimal
    ======================================== */
 .research-header {
-    margin-bottom: 40px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid light-dark(var(--warm-100), var(--dark-border-muted));
-    position: relative;
-}
-
-/* Short gold accent rule under the divider */
-.research-header::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 48px;
-    height: 2px;
-    background: var(--gov-blue);
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .research-page-title {
-    font-size: var(--font-3xl);      /* 48px — monumental */
+    font-size: var(--font-3xl);        /* 48px — monumental */
     font-weight: 200;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--ink);
     line-height: 1;
-    margin-bottom: 10px;
+    margin-bottom: 0;
 }
 
-.research-page-subtitle {
-    font-size: var(--font-xs);
-    font-family: var(--font-mono);
-    color: var(--text-secondary);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin: 0;
+/* ========================================
+   ITALIC SCRIPT BANNER
+   Reference: "for Business Programs and
+   Economic Research" interior-page banner
+   in the 1954 National Income catalog.
+   Italic Lora serif on government blue.
+   ======================================== */
+.research-script-banner {
+    background: var(--gov-blue);
+    /* Break out of .content padding to go edge-to-edge */
+    margin: 20px calc(-1 * var(--pad-lg)) 36px;
+    padding: 18px var(--pad-lg);
+    text-align: center;
+}
+
+.research-script-text {
+    display: block;
+    font-family: 'Lora', 'Georgia', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: var(--font-2xl);        /* 36px */
+    color: #ffffff;
+    letter-spacing: 0.01em;
+    line-height: 1.25;
 }
 
 /* ========================================
@@ -147,14 +151,18 @@
     .story-nav { flex-wrap: wrap; }
     .story-nav .btn { flex: 1 1 auto; }
     .story-nav-indicator { width: 100%; order: -1; }
-    .card--has-story:hover .card-sidebar {
-        flex-basis: 15px;
-        background: light-dark(var(--warm-200), var(--dark-border));
-    }
-    .card--has-story:hover .card-sidebar::after { opacity: 0; }
 
     .research-page-title {
         font-size: var(--font-2xl);
         letter-spacing: 0.1em;
+    }
+
+    .research-script-banner {
+        margin: 16px calc(-1 * var(--pad)) 28px;
+        padding: 14px var(--pad);
+    }
+
+    .research-script-text {
+        font-size: var(--font-xl);
     }
 }

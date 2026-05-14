@@ -285,89 +285,73 @@ Redesigned: 5/2026  ·  Atelier Économique — Deco Press edition
 
 
 /* ==========================================
-   CARDS  ·  editorial headline style
+   CARDS  ·  Government Publication style
    ==========================================
-   The defining change: paper title is LARGE
-   (font-xl = 30px, font-weight: 300) so the
-   card reads like a magazine article listing,
-   not a web component.
+   Reference: US Dept. of Commerce catalog
+   interior pages (1954). Entries separated
+   by horizontal rules only — NO box borders,
+   NO background surface. Bold uppercase title
+   in government blue, compact body text.
    ========================================== */
 .card {
-    border: 1px solid light-dark(var(--warm-200), var(--dark-border));
-    border-top: 2px solid var(--gov-blue);
-    padding: 32px var(--pad-lg) var(--pad-lg);
-    margin-bottom: 32px;
-    background: var(--bg-surface);
+    border: none;
+    border-top: 1px solid light-dark(var(--warm-300), var(--dark-border));
+    padding: 24px 0 20px;
+    margin-bottom: 0;
+    background: transparent;
 }
 
-/* Cards with data stories */
+/* First card in each section has no top rule */
+.research-section .card:first-child {
+    border-top: none;
+    padding-top: 4px;
+}
+
+/* Cards with data stories — left rule as indicator instead of wide sidebar */
 .card--has-story {
-    border-left: none;
-    padding-left: 0;
-    display: flex;
-    align-items: stretch;
+    border-left: 3px solid light-dark(var(--gov-blue-light), var(--dark-border));
+    padding-left: 20px;
+    display: block;
 }
 
-.card-sidebar {
-    flex: 0 0 15px;
-    background: light-dark(var(--warm-200), var(--dark-border));
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: flex-basis 0.3s ease, background-color 0.25s ease;
-    user-select: none;
+.card--has-story:hover {
+    border-left-color: var(--gov-blue);
 }
 
-.card-sidebar::after {
-    content: "See Data Story";
-    font-size: var(--font-xs);
-    color: light-dark(var(--white), var(--dark-ink));
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    font-family: var(--font-mono);
-    writing-mode: vertical-rl;
-    rotate: 180deg;
-    white-space: nowrap;
-    letter-spacing: 0.06em;
-}
+/* Sidebar div (added by JS) — hidden; the left border is the indicator */
+.card-sidebar { display: none; }
 
-.card--has-story:hover .card-sidebar {
-    flex-basis: 30px;
-    background: var(--gov-blue);
-}
-
-.card--has-story:hover .card-sidebar::after { opacity: 1; }
-.card-sidebar:active { background: var(--gov-blue-dark); }
-
+/* Card content wrapper (added by JS for story cards) — no extra padding */
 .card-content {
-    flex: 1;
-    min-width: 0;
-    padding: 32px var(--pad-lg) var(--pad-lg);
+    display: block;
+    padding: 0;
 }
 
-.card--swiped .card-sidebar { flex-basis: 30px; background: var(--gov-blue); }
-.card--swiped .card-sidebar::after { opacity: 1; }
-.card--has-story .story-btn { display: none; }
+.card--swiped { border-left-color: var(--gov-blue); }
+.card--has-story .story-btn { display: inline-flex; }
 
-/* ── Card title: EDITORIAL HEADLINE SIZE ── */
+/* ── Card title: BOLD UPPERCASE government label ── */
 .card-title {
-    font-weight: 300;
-    font-size: var(--font-xl);     /* 30px — the key structural change */
-    color: var(--ink);
-    margin-bottom: 10px;
-    line-height: 1.25;
-    letter-spacing: -0.01em;
+    font-weight: 700;
+    font-size: var(--font-md);           /* 18px bold — authority, not decoration */
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: light-dark(var(--gov-blue), #8ab8d8);
+    margin-bottom: 8px;
+    line-height: 1.4;
 }
 
-/* ── Card meta: tiny uppercase dateline byline ── */
+.card-title a { color: inherit; text-decoration: none; }
+.card-title a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
+
+/* ── Card meta: compact author byline ── */
 .card-meta {
-    font-size: 10px;
+    font-size: var(--font-xs);
     font-family: var(--font-mono);
     color: var(--text-secondary);
-    margin-bottom: 16px;
-    line-height: 1.6;
-    letter-spacing: 0.07em;
+    margin-bottom: 14px;
+    line-height: 1.65;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
 }
 
