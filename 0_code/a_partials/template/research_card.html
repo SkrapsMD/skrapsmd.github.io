@@ -7,15 +7,15 @@
         <span data-field="date"></span>
     </div>
     <div class="card-body">
-        <blockquote style="border-left:3px solid var(--blockquote-border);padding-left:16px;margin:16px 0;">
+        <blockquote class="card-abstract">
             <strong>Abstract:</strong> <i data-field="abstract"></i>
         </blockquote>
     </div>
-    <div style="margin-top:12px;display:flex;gap:12px;justify-content:space-between;" data-field="footer-container">
-        <div style="display:flex;flex-direction:column;gap:12px;">
-            <div style="display:flex;gap:8px;flex-wrap:wrap;" data-field="badges"></div>
-            <div style="display:flex;gap:8px;" data-field="buttons"></div>
+    <div class="card-footer" data-field="footer-container">
+        <div class="card-footer__left">
+            <div class="card-badges" data-field="badges"></div>
+            <div class="card-actions" data-field="buttons"></div>
         </div>
-        <div data-field="press-links" style="display:grid;grid-template-columns:repeat(2,auto);gap:4px 12px;font-size:var(--font-xs);font-family:var(--font-mono);text-align:right;"></div>
+        <div class="card-press-links" data-field="press-links"></div>
     </div>
 </div>

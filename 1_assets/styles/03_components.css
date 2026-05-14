@@ -393,7 +393,6 @@ Work In Progress Signal
 .card-meta .name-link:hover {
     text-decoration: none;
     color: var(--text-emph);
-    font-weight: 600;
 }
 
 .name-link {
@@ -404,7 +403,6 @@ Work In Progress Signal
 .name-link:hover {
     text-decoration: none;
     color: var(--text-emph);
-    font-weight: 600;
 }
 
 .card-body {
@@ -465,6 +463,48 @@ Work In Progress Signal
     padding: var(--pad-sm);
     overflow-x: auto;
     white-space: pre;
+}
+
+/* ========================================
+   CARD SUB-COMPONENT LAYOUT
+   ======================================== */
+.card-abstract {
+    border-left: 3px solid var(--blockquote-border);
+    padding-left: 16px;
+    margin: 16px 0;
+}
+
+.card-footer {
+    margin-top: 12px;
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+}
+
+.card-footer__left {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.card-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.card-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.card-press-links {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 4px 12px;
+    font-size: var(--font-xs);
+    font-family: var(--font-mono);
+    text-align: right;
 }
 
 /* Inline code styling (font-family set in 01_base.css) */

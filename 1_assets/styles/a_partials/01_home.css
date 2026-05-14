@@ -59,7 +59,7 @@ Michael Dwight Sparks
 .home-phd-notice {
     font-weight: 600;
     font-size: var(--font-sm);
-    color: var(--atlInfo);
+    color: var(--text-emph);
     text-align: center;
 }
 
