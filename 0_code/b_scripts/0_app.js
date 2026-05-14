@@ -1,3 +1,52 @@
+/*
+===========================
+Theme Toggle (Dark / Light Mode)
+===========================
+*/
+
+(function () {
+  const toggle = document.getElementById('theme-toggle');
+  const icon = toggle ? toggle.querySelector('.theme-icon') : null;
+
+  function getEffectiveTheme() {
+    const stored = localStorage.getItem('theme');
+    if (stored === 'light' || stored === 'dark') return stored;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.style.colorScheme = theme;
+    if (!toggle || !icon) return;
+    if (theme === 'dark') {
+      icon.textContent = '☀';
+      toggle.setAttribute('aria-label', 'Switch to light mode');
+      toggle.setAttribute('aria-pressed', 'true');
+    } else {
+      icon.textContent = '☾';
+      toggle.setAttribute('aria-label', 'Switch to dark mode');
+      toggle.setAttribute('aria-pressed', 'false');
+    }
+  }
+
+  // Set button state to match the current effective theme on load
+  applyTheme(getEffectiveTheme());
+
+  if (toggle) {
+    toggle.addEventListener('click', function () {
+      const next = getEffectiveTheme() === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    });
+  }
+
+  // Update button when OS preference changes (only if user hasn't set a preference)
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+    if (!localStorage.getItem('theme')) {
+      applyTheme(e.matches ? 'dark' : 'light');
+    }
+  });
+})();
+
 const app = document.getElementById("app");
 const navLinks = Array.from(document.querySelectorAll(".navbtn"));
 const menuToggle = document.getElementById("menu-toggle");

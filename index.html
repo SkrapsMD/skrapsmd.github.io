@@ -7,6 +7,16 @@
         <link rel="icon" type="image/png" href="1_assets/images/people_index/MichaelSparks_Outline_GPT.webp" sizes="any">
         <link rel="apple-touch-icon" href="1_assets/images/people_index/MichaelSparks_Outline_GPT.webp">
 
+        <!-- Apply stored theme before render to prevent flash -->
+        <script>
+            (function(){
+                var t = localStorage.getItem('theme');
+                if (t === 'dark' || t === 'light') {
+                    document.documentElement.style.colorScheme = t;
+                }
+            })();
+        </script>
+
         <!-- Preload critical fonts for instant text rendering -->
         <link rel="preload" as="font" type="font/woff2" href="1_assets/styles/b_palettes_and_fonts/FONTS/fonts/complete/woff2/IBMPlexSans-Light.woff2" crossorigin>
         <link rel="preload" as="font" type="font/woff2" href="1_assets/styles/b_palettes_and_fonts/FONTS/fonts/complete/woff2/IBMPlexSans-Regular.woff2" crossorigin>
@@ -254,6 +264,29 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     opacity: 0.88;
 }
 
+/* Theme toggle — adapted for dark navy masthead */
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    color: rgba(245, 240, 232, 0.5);
+    font-size: 16px;
+    line-height: 1;
+    transition: color 0.15s ease, background-color 0.15s ease;
+    flex-shrink: 0;
+    padding: 0;
+}
+.theme-toggle:hover {
+    color: rgba(245, 240, 232, 0.95);
+    background: rgba(200, 144, 42, 0.1);
+}
+
 /* Hamburger (mobile only) — warm white lines for dark header */
 .hamburger {
     display: none;
@@ -443,6 +476,10 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
                         <span class="brand-role">Economics · Atlanta Fed → UCSD PhD</span>
                     </div>
                 </a>
+
+                <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode">
+                    <span class="theme-icon" aria-hidden="true">☾</span>
+                </button>
 
                 <button class="hamburger" id="menu-toggle"
                         aria-label="Toggle navigation menu"
