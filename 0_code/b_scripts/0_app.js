@@ -51,6 +51,25 @@ const routes = {
 const htmlCache = new Map();
 let peopleDirectoryCache = null;
 
+/*
+===========================
+Paper Registry
+===========================
+*/
+
+// Single source of truth for all research papers.
+// To add a new paper:
+//   1. Create 0_code/research_cards/<id>.html  (include name-links in card-meta)
+//   2. Add '<id>' to the array below
+// Every person profile that appears as a name-link in the card will automatically
+// show that paper — no edits to individual person pages needed.
+const PAPER_REGISTRY = [
+  'baslandze2026ai',
+  'baslandze2025tariffs',
+  'meyer2025tariffs',
+  'fang2024labor'
+];
+
 function setActive(page){
   navLinks.forEach(a => {
     a.classList.toggle("active", a.dataset.page === page);
@@ -150,6 +169,56 @@ async function loadResearchCards(cardIds, containerId) {
   } catch (error) {
     console.error('Error loading research cards:', error);
   }
+}
+
+// Build a map of person-slug → [paperId, ...] by parsing the name-links
+// embedded in each paper's card-meta. Cached after the first call.
+let personPaperMapCache = null;
+
+async function buildPersonPaperMap() {
+  if (personPaperMapCache) return personPaperMapCache;
+
+  const fetches = PAPER_REGISTRY.map(paperId =>
+    fetch(`0_code/research_cards/${paperId}.html`)
+      .then(r => r.ok ? r.text() : '')
+      .then(html => ({ paperId, html }))
+      .catch(() => ({ paperId, html: '' }))
+  );
+
+  const papers = await Promise.all(fetches);
+  const map = new Map();
+  const parser = new DOMParser();
+
+  papers.forEach(({ paperId, html }) => {
+    if (!html) return;
+    const doc = parser.parseFromString(html, 'text/html');
+    doc.querySelectorAll('a.name-link[href^="#person-"]').forEach(link => {
+      const slug = link.getAttribute('href').slice('#person-'.length);
+      if (!map.has(slug)) map.set(slug, []);
+      map.get(slug).push(paperId);
+    });
+  });
+
+  personPaperMapCache = map;
+  return map;
+}
+
+// Render all papers co-authored with a given person into #person-papers.
+// Called automatically from hydratePersonPageFromDirectory — no manual
+// paper list in the person HTML file is needed.
+async function renderPersonPapers(slug) {
+  const container = document.getElementById('person-papers');
+  if (!container) return;
+
+  const map = await buildPersonPaperMap();
+  const paperIds = map.get(slug) || [];
+
+  if (paperIds.length === 0) {
+    container.innerHTML = '<p style="color:var(--text-muted);font-size:var(--font-sm);">No joint publications indexed yet.</p>';
+    return;
+  }
+
+  await loadResearchCards(paperIds, 'person-papers');
 }
 
 /*
@@ -726,6 +795,10 @@ async function hydratePersonPageFromDirectory() {
   setRowEmail(tbody, person.email);
   setRowWebsite(tbody, person.website);
   setRowLastUpdated(tbody, person.last_updated || person.updated);
+
+  // Auto-derive this person's papers from PAPER_REGISTRY metadata —
+  // no paper list needs to be hardcoded in the person's HTML file.
+  await renderPersonPapers(slug);
 }
 
 // Toggle between two photos on click
