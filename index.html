@@ -92,6 +92,7 @@ body {
     line-height: 1.35;
     color: var(--ink);
     background: var(--bg);
+    overflow-x: hidden;
 }
 h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
@@ -161,6 +162,12 @@ code, pre, kbd, samp {
     border: var(--border);
     padding: 0;
     background: var(--bg);
+    min-width: 0;
+}
+@media (max-width: 1040px) {
+    .frame {
+        margin: 24px;
+    }
 }
 .masthead {
     position: sticky;

@@ -61,12 +61,13 @@ Michael Dwight Sparks
     font-size: var(--font-sm);
     color: var(--text-emph);
     text-align: center;
+    margin-top: 16px;
 }
 
 /* ========================================
    MOBILE RESPONSIVE
    ======================================== */
-@media (max-width: 768px) {
+@media (max-width: 700px) {
     /* Stack content vertically on mobile */
     .home-grid {
         grid-template-columns: 1fr;
@@ -92,6 +93,9 @@ Michael Dwight Sparks
 }
 
 @media (max-width: 480px) {
+    .home-grid {
+        gap: 16px;
+    }
     /* Even more compact on very small screens */
     .home-portrait {
         max-width: 100px;

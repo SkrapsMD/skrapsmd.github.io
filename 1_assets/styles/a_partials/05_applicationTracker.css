@@ -11,7 +11,7 @@ Michael Dwight Sparks
    ======================================== */
 .tracker-grid {
     display: grid;
-    grid-template-columns: 1fr 360px;
+    grid-template-columns: 1fr 320px;
     gap: 16px;
     align-items: start;
     margin-bottom: 16px;
@@ -54,7 +54,7 @@ Michael Dwight Sparks
 /* ========================================
    MOBILE RESPONSIVE
    ======================================== */
-@media (max-width: 768px) {
+@media (max-width: 640px) {
     /* Stack content vertically on mobile */
     .tracker-grid {
         grid-template-columns: 1fr;

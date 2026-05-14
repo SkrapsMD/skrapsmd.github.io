@@ -30,8 +30,10 @@
 
 /* Image styling */
 .people-card__image {
-  max-width: 150px;
-  height: auto;
+  width: 120px;
+  height: 160px;
+  object-fit: cover;
+  object-position: top center;
   flex-shrink: 0;
 }
 

@@ -499,12 +499,61 @@ Work In Progress Signal
 }
 
 .card-press-links {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
+    display: flex;
+    flex-wrap: wrap;
     gap: 4px 12px;
     font-size: var(--font-xs);
     font-family: var(--font-mono);
-    text-align: right;
+    justify-content: flex-end;
+    align-content: flex-start;
+}
+
+.card-press-links:empty {
+    display: none;
+}
+
+/* ========================================
+   PERSON PROFILE PAGE LAYOUT
+   ======================================== */
+.person-profile-header {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 16px;
+    align-items: start;
+    margin-bottom: 32px;
+}
+
+.person-papers-section {
+    margin-bottom: 32px;
+}
+
+.person-papers-title {
+    margin-bottom: 16px;
+    font-weight: 600;
+    font-size: var(--font-sm);
+}
+
+@media (max-width: 700px) {
+    .person-profile-header {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .person-profile-header > div:last-child {
+        order: -1;
+    }
+}
+
+/* Card footer responsive: stack on narrow screens */
+@media (max-width: 560px) {
+    .card-footer {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .card-press-links {
+        justify-content: flex-start;
+    }
 }
 
 /* Inline code styling (font-family set in 01_base.css) */
