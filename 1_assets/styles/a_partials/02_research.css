@@ -1,40 +1,42 @@
-/* Research page styles  ·  Atelier Économique */
+/* Research page styles  ·  Atelier Économique — Deco Press */
 
 /* ========================================
-   PAGE HEADER
+   PAGE HEADER  —  monumental section title
    ======================================== */
 .research-header {
-    margin-bottom: 36px;
-    padding-bottom: 20px;
-    border-bottom: var(--border-muted);
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid light-dark(var(--warm-100), var(--dark-border-muted));
     position: relative;
 }
 
-/* Gold decorative rule accent under header */
+/* Short gold accent rule under the divider */
 .research-header::after {
     content: '';
     position: absolute;
-    bottom: -1px;
+    bottom: -2px;
     left: 0;
-    width: 60px;
+    width: 48px;
     height: 2px;
     background: var(--gold);
 }
 
 .research-page-title {
-    font-size: var(--font-xl);
-    font-weight: 600;
-    letter-spacing: 0.05em;
+    font-size: var(--font-3xl);      /* 48px — monumental */
+    font-weight: 200;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--ink);
-    margin-bottom: 8px;
+    line-height: 1;
+    margin-bottom: 10px;
 }
 
 .research-page-subtitle {
-    font-size: var(--font-sm);
+    font-size: var(--font-xs);
     font-family: var(--font-mono);
     color: var(--text-secondary);
-    letter-spacing: 0.06em;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     margin: 0;
 }
 
@@ -68,7 +70,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(7, 16, 28, 0.75);
+    background: rgba(7, 16, 28, 0.78);
 }
 
 .story-modal-content {
@@ -82,7 +84,7 @@
     z-index: 1001;
     max-height: calc(100vh - 80px);
     overflow-y: auto;
-    box-shadow: 0 12px 60px rgba(7,16,28,0.35);
+    box-shadow: 0 12px 60px rgba(7,16,28,0.38);
 }
 
 .story-modal-close {
@@ -99,16 +101,14 @@
     transition: color 0.15s ease;
 }
 
-.story-modal-close:hover {
-    color: var(--gold);
-}
+.story-modal-close:hover { color: var(--gold); }
 
 .story-modal-title {
-    font-size: var(--font-sm);
+    font-size: var(--font-xs);
     font-weight: 600;
     font-family: var(--font-mono);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     margin-bottom: 16px;
     padding-bottom: 10px;
     border-bottom: var(--border-muted);
@@ -135,41 +135,26 @@
     text-align: center;
 }
 
-.story-embed-container .flourish-embed {
-    width: 100%;
-}
+.story-embed-container .flourish-embed { width: 100%; }
 
-/* Mobile */
 @media (max-width: 768px) {
     .story-modal-content {
         margin: 16px;
         max-width: calc(100% - 32px);
         padding: 40px 16px 16px;
     }
-
-    .story-embed-container {
-        min-height: 350px;
-    }
-
-    .story-nav {
-        flex-wrap: wrap;
-    }
-
-    .story-nav .btn {
-        flex: 1 1 auto;
-    }
-
-    .story-nav-indicator {
-        width: 100%;
-        order: -1;
-    }
-
-    /* Disable hover expansion on touch */
+    .story-embed-container { min-height: 350px; }
+    .story-nav { flex-wrap: wrap; }
+    .story-nav .btn { flex: 1 1 auto; }
+    .story-nav-indicator { width: 100%; order: -1; }
     .card--has-story:hover .card-sidebar {
         flex-basis: 15px;
         background: light-dark(var(--warm-200), var(--dark-border));
     }
-    .card--has-story:hover .card-sidebar::after {
-        opacity: 0;
+    .card--has-story:hover .card-sidebar::after { opacity: 0; }
+
+    .research-page-title {
+        font-size: var(--font-2xl);
+        letter-spacing: 0.1em;
     }
 }

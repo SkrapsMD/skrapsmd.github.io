@@ -4,7 +4,7 @@ Reusable UI Components: Buttons, forms, tables, panels, cards,
 badges, and other interactive or display elements.
 
 1/17/2026 Michael Dwight Sparks
-Redesigned: 5/2026  ·  Atelier Économique (Art Deco × MCM)
+Redesigned: 5/2026  ·  Atelier Économique — Deco Press edition
 */
 
 
@@ -50,7 +50,7 @@ Redesigned: 5/2026  ·  Atelier Économique (Art Deco × MCM)
 
 
 /* ==========================================
-   BUTTONS  ·  Atelier Économique
+   BUTTONS  ·  navy primary / teal ghost
    ========================================== */
 .btn {
     display: inline-flex;
@@ -60,10 +60,10 @@ Redesigned: 5/2026  ·  Atelier Économique (Art Deco × MCM)
     border: var(--border);
     background: transparent;
     color: var(--text-primary);
-    padding: 5px 10px;
+    padding: 5px 12px;
     font-family: var(--font-mono);
     font-size: var(--font-xs);
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     line-height: 1;
     cursor: pointer;
@@ -77,7 +77,6 @@ Redesigned: 5/2026  ·  Atelier Économique (Art Deco × MCM)
     border-color: var(--navy);
 }
 
-/* Primary — deep navy with warm white text; hover reveals gold */
 .btn--primary {
     background: var(--navy);
     color: #f5f0e8;
@@ -90,7 +89,6 @@ Redesigned: 5/2026  ·  Atelier Économique (Art Deco × MCM)
     color: var(--warm-black);
 }
 
-/* Ghost — teal outlined */
 .btn--ghost {
     background: transparent;
     color: var(--teal);
@@ -230,15 +228,8 @@ Redesigned: 5/2026  ·  Atelier Économique (Art Deco × MCM)
     padding: 4px 8px;
 }
 
-/* Person profile table */
-.person-profile-table {
-    table-layout: fixed;
-}
-
-.person-profile-table th {
-    width: 36%;
-}
-
+.person-profile-table { table-layout: fixed; }
+.person-profile-table th { width: 36%; }
 .person-profile-table td,
 .person-profile-table td a {
     overflow-wrap: anywhere;
@@ -249,7 +240,6 @@ Redesigned: 5/2026  ·  Atelier Économique (Art Deco × MCM)
     border-bottom: var(--border-muted);
 }
 
-/* Borderless: vertical lines only */
 .table--borderless th,
 .table--borderless td {
     border-top: none;
@@ -259,35 +249,14 @@ Redesigned: 5/2026  ·  Atelier Économique (Art Deco × MCM)
 }
 
 .table--borderless th:last-child,
-.table--borderless td:last-child {
-    border-right: var(--border-muted);
-}
+.table--borderless td:last-child { border-right: var(--border-muted); }
+.table--borderless thead th { border-left: var(--border-muted); border-right: none; }
+.table--borderless thead th:last-child { border-right: var(--border-muted); }
+.table--borderless tbody tr:last-child td { border-bottom: var(--border-muted); }
 
-.table--borderless thead th {
-    border-left: var(--border-muted);
-    border-right: none;
-}
-
-.table--borderless thead th:last-child {
-    border-right: var(--border-muted);
-}
-
-.table--borderless tbody tr:last-child td {
-    border-bottom: var(--border-muted);
-}
-
-.aligned-list .label {
-    display: inline-block;
-    width: 7.5em;
-}
-
-.aligned-list .sep {
-    margin-right: 0.4em;
-}
-
-.badge-cell {
-    text-align: center;
-}
+.aligned-list .label { display: inline-block; width: 7.5em; }
+.aligned-list .sep { margin-right: 0.4em; }
+.badge-cell { text-align: center; }
 
 
 /* ==========================================
@@ -316,53 +285,27 @@ Redesigned: 5/2026  ·  Atelier Économique (Art Deco × MCM)
 
 
 /* ==========================================
-   CARDS  ·  Art Deco corner brackets
+   CARDS  ·  editorial headline style
+   ==========================================
+   The defining change: paper title is LARGE
+   (font-xl = 30px, font-weight: 300) so the
+   card reads like a magazine article listing,
+   not a web component.
    ========================================== */
 .card {
-    position: relative;
     border: 1px solid light-dark(var(--warm-200), var(--dark-border));
-    padding: var(--pad-lg);
-    margin-bottom: var(--pad-lg);
+    border-top: 2px solid var(--gold);
+    padding: 32px var(--pad-lg) var(--pad-lg);
+    margin-bottom: 32px;
     background: var(--bg-surface);
 }
 
-/* Art Deco corner bracket — top-left */
-.card::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    width: 18px;
-    height: 18px;
-    border-top: 2px solid var(--gold);
-    border-left: 2px solid var(--gold);
-    pointer-events: none;
-}
-
-/* Art Deco corner bracket — bottom-right */
-.card::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    right: -1px;
-    width: 18px;
-    height: 18px;
-    border-bottom: 2px solid var(--gold);
-    border-right: 2px solid var(--gold);
-    pointer-events: none;
-}
-
-/* Cards with data stories: sidebar replaces left border */
+/* Cards with data stories */
 .card--has-story {
     border-left: none;
     padding-left: 0;
     display: flex;
     align-items: stretch;
-}
-
-/* Corner brackets need offset on story cards */
-.card--has-story::before {
-    left: 0;
 }
 
 .card-sidebar {
@@ -394,77 +337,50 @@ Redesigned: 5/2026  ·  Atelier Économique (Art Deco × MCM)
     background: var(--gold);
 }
 
-.card--has-story:hover .card-sidebar::after {
-    opacity: 1;
-}
-
-.card-sidebar:active {
-    background: var(--gold-dark);
-}
+.card--has-story:hover .card-sidebar::after { opacity: 1; }
+.card-sidebar:active { background: var(--gold-dark); }
 
 .card-content {
     flex: 1;
     min-width: 0;
-    padding: var(--pad-lg);
+    padding: 32px var(--pad-lg) var(--pad-lg);
 }
 
-/* Swipe-right visual feedback (mobile) */
-.card--swiped .card-sidebar {
-    flex-basis: 30px;
-    background: var(--gold);
-}
-.card--swiped .card-sidebar::after {
-    opacity: 1;
-}
+.card--swiped .card-sidebar { flex-basis: 30px; background: var(--gold); }
+.card--swiped .card-sidebar::after { opacity: 1; }
+.card--has-story .story-btn { display: none; }
 
-.card--has-story .story-btn {
-    display: none;
-}
-
+/* ── Card title: EDITORIAL HEADLINE SIZE ── */
 .card-title {
-    font-weight: 600;
-    font-size: var(--font-md);
+    font-weight: 300;
+    font-size: var(--font-xl);     /* 30px — the key structural change */
     color: var(--ink);
-    margin-bottom: 6px;
-    line-height: 1.3;
+    margin-bottom: 10px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
 }
 
+/* ── Card meta: tiny uppercase dateline byline ── */
 .card-meta {
-    font-size: var(--font-xs);
+    font-size: 10px;
     font-family: var(--font-mono);
     color: var(--text-secondary);
-    margin-bottom: 12px;
-    line-height: 1.5;
-    letter-spacing: 0.02em;
+    margin-bottom: 16px;
+    line-height: 1.6;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
 }
 
-.card-meta .name-link {
-    color: inherit;
-    text-decoration: none;
-}
+.card-meta .name-link { color: inherit; text-decoration: none; }
+.card-meta .name-link:hover { color: var(--gold); }
+.name-link { color: inherit; text-decoration: none; }
+.name-link:hover { color: var(--gold); }
 
-.card-meta .name-link:hover {
-    color: var(--gold);
-    text-decoration: none;
-}
-
-.name-link {
-    color: inherit;
-    text-decoration: none;
-}
-
-.name-link:hover {
-    color: var(--gold);
-    text-decoration: none;
-}
-
-.card-body {
-    font-size: var(--font-sm);
-}
+.card-body { font-size: var(--font-sm); }
 
 
 /* ==========================================
-   BADGES & TAGS  ·  updated palette
+   BADGES & TAGS
    ========================================== */
 .badge {
     display: inline-block;
@@ -531,7 +447,6 @@ Redesigned: 5/2026  ·  Atelier Économique (Art Deco × MCM)
     line-height: 1.6;
 }
 
-/* Inline code */
 code {
     font-size: 0.875em;
     background: var(--bg-muted);
@@ -542,19 +457,20 @@ code {
 
 
 /* ==========================================
-   CARD SUB-COMPONENTS  ·  teal abstract
+   CARD SUB-COMPONENTS
    ========================================== */
 .card-abstract {
     border-left: 3px solid var(--teal);
     padding-left: 16px;
-    margin: 14px 0;
+    margin: 16px 0;
     color: var(--text-secondary);
-    line-height: 1.7;
+    line-height: 1.75;
     font-style: italic;
+    font-size: var(--font-sm);
 }
 
 .card-footer {
-    margin-top: 16px;
+    margin-top: 20px;
     display: flex;
     gap: 12px;
     justify-content: space-between;
@@ -579,9 +495,7 @@ code {
     gap: 6px;
 }
 
-.card-actions .btn {
-    min-width: 6rem;
-}
+.card-actions .btn { min-width: 6rem; }
 
 .card-press-links {
     display: flex;
@@ -594,9 +508,7 @@ code {
     color: var(--text-secondary);
 }
 
-.card-press-links:empty {
-    display: none;
-}
+.card-press-links:empty { display: none; }
 
 
 /* ==========================================
@@ -610,9 +522,7 @@ code {
     margin-bottom: 32px;
 }
 
-.person-papers-section {
-    margin-bottom: 32px;
-}
+.person-papers-section { margin-bottom: 32px; }
 
 .person-papers-title {
     margin-bottom: 16px;
@@ -625,22 +535,11 @@ code {
 }
 
 @media (max-width: 700px) {
-    .person-profile-header {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-    .person-profile-header > div:last-child {
-        order: -1;
-    }
+    .person-profile-header { grid-template-columns: 1fr; gap: 16px; }
+    .person-profile-header > div:last-child { order: -1; }
 }
 
-/* Card footer responsive */
 @media (max-width: 560px) {
-    .card-footer {
-        flex-direction: column;
-        gap: 8px;
-    }
-    .card-press-links {
-        justify-content: flex-start;
-    }
+    .card-footer { flex-direction: column; gap: 8px; }
+    .card-press-links { justify-content: flex-start; }
 }

@@ -29,10 +29,9 @@
         <!-- Fonts -->
         <link rel="stylesheet" href="1_assets/styles/b_palettes_and_fonts/FONTS/css/ibm-plex-fonts.css">
 
-        <!-- Critical CSS — inlined for instant first paint (mirrors 00_tokens + 01_base + 02_shell) -->
+        <!-- Critical CSS — inlined for instant first paint -->
         <style>
-/* ── 00_tokens  ·  Atelier Économique  ──────────────────── */
-/* Art Deco precision × Mid-Century Modern warmth           */
+/* ── 00_tokens  ·  Atelier Économique ──────────────────── */
 :root {
     color-scheme: light dark;
     --font-sans: "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -47,32 +46,26 @@
     --font-3xl: 48px;
     --font-4xl: 72px;
 
-    /* Primitives ── keep legacy names for FRBA_scheme compat */
     --black: #000000;
     --white: #ffffff;
 
-    /* Warm ivory — aged paper tones */
     --ivory:       #f2eed8;
     --ivory-mid:   #e6e1c8;
     --ivory-deep:  #d9d3b8;
 
-    /* Deep Art Deco navy */
     --navy:        #0e1b2d;
     --navy-mid:    #1e3350;
     --navy-light:  #2e4d72;
 
-    /* Burnished gold — the single accent */
     --gold:        #c8902a;
     --gold-dark:   #a87020;
     --gold-light:  #f5e6be;
     --gold-pale:   #fdf8ef;
 
-    /* MCM teal — contrasting secondary */
     --teal:        #2e7d7d;
     --teal-dark:   #1f5a5a;
     --teal-light:  #d4eeee;
 
-    /* Warm gray scale */
     --warm-black:  #1a1612;
     --warm-900:    #2c2520;
     --warm-700:    #7a6e5e;
@@ -82,7 +75,6 @@
     --warm-100:    #ece8df;
     --warm-50:     #f5f2ea;
 
-    /* Dark mode surfaces */
     --dark-bg:           #07101c;
     --dark-surface:      #0e1b2d;
     --dark-border:       #1e3350;
@@ -90,7 +82,6 @@
     --dark-ink:          #f2eedd;
     --dark-ink-muted:    #9a8e7a;
 
-    /* Semantic tokens */
     --bg:          light-dark(var(--ivory),      var(--dark-bg));
     --bg-muted:    light-dark(var(--ivory-mid),  var(--dark-surface));
     --bg-surface:  light-dark(var(--gold-pale),  #0a1420);
@@ -127,7 +118,7 @@
     --border-accent: 2px solid var(--text-emph);
     --border-radius: 0;
 
-    /* Legacy terra aliases (keeps any remaining refs working) */
+    /* Legacy terra aliases */
     --terra:       var(--gold);
     --terra-dark:  var(--gold-dark);
     --terra-light: var(--gold-light);
@@ -171,7 +162,7 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     clip: rect(0,0,0,0); white-space: nowrap; border: 0;
 }
 
-/* ── 02_shell  ·  Atelier Économique ──────────────────── */
+/* ── 02_shell  ·  Deco Press — monumental centered header ── */
 
 .frame {
     max-width: var(--frame-width);
@@ -182,112 +173,133 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     box-shadow: 0 4px 40px light-dark(rgba(14,27,45,0.13), rgba(0,0,0,0.5));
 }
 
-@media (max-width: 1040px) {
-    .frame { margin: 20px; }
-}
+@media (max-width: 1040px) { .frame { margin: 20px; } }
 
-/* Masthead — deep Art Deco navy bar */
+/* Masthead — centered, monumental, three rows */
 .masthead {
     position: sticky;
     top: 0;
     background: var(--navy);
     z-index: 100;
-    border-bottom: none;
+    text-align: center;
 }
 
-/* Burnished gold rule below masthead */
+/* Centered gold gradient rule at bottom */
 .masthead::after {
     content: '';
     display: block;
-    height: 3px;
+    height: 2px;
     background: linear-gradient(
         90deg,
-        var(--gold-dark)  0%,
-        var(--gold)       30%,
-        #e8c060          55%,
-        var(--gold)       75%,
-        var(--gold-dark) 100%
+        transparent    0%,
+        var(--gold-dark) 12%,
+        var(--gold)    38%,
+        #e8c060        55%,
+        var(--gold)    72%,
+        var(--gold-dark) 88%,
+        transparent   100%
     );
 }
 
-.masthead-inner {
+/* Row 1 — ornamental lines with diamond */
+.masthead-ornament {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 12px var(--pad-lg);
+    padding: 10px 48px 0;
+}
+.masthead-orn-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(200,144,42,0.32));
+}
+.masthead-orn-line:last-child {
+    background: linear-gradient(90deg, rgba(200,144,42,0.32), transparent);
+}
+.masthead-orn-diamond {
+    width: 7px;
+    height: 7px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+    margin: 0 18px;
 }
 
-/* Brand */
+/* Row 2 — brand: icon → name → role stacked and centered */
+.masthead-brand-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 60px 10px;
+    position: relative;
+}
+
 .brand {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 4px;
     text-decoration: none;
     color: inherit;
-    flex-shrink: 0;
-    margin-right: auto;
 }
-
 .brand:hover { text-decoration: none; }
 
-.brand-text {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+#brand-icon {
+    height: 2.2em;
+    width: auto;
+    display: block;
+    filter: invert(1) sepia(0.12) brightness(0.88);
+    opacity: 0.75;
+    margin-bottom: 2px;
 }
 
 .brand-name {
-    font-weight: 600;
-    font-size: var(--font-md);
-    line-height: 1.1;
+    font-weight: 300;
+    font-size: var(--font-2xl);
+    line-height: 1;
     color: #f5f0e8;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     transition: color 0.2s ease;
 }
-
 .brand:hover .brand-name { color: var(--gold); }
 
 .brand-role {
-    font-size: var(--font-xs);
+    font-size: 10px;
     font-family: var(--font-mono);
-    color: rgba(245, 240, 232, 0.45);
+    color: rgba(245, 240, 232, 0.36);
     line-height: 1;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
 }
 
-#brand-icon {
-    height: 3em;
-    width: auto;
-    display: block;
-    filter: invert(1) sepia(0.15) brightness(0.92);
-    opacity: 0.88;
-}
-
-/* Theme toggle — adapted for dark navy masthead */
+/* Theme toggle — absolutely positioned right of brand */
 .theme-toggle {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     background: transparent;
-    border: none;
-    border-radius: 3px;
+    border: 1px solid rgba(200,144,42,0.22);
+    border-radius: 0;
     cursor: pointer;
-    color: rgba(245, 240, 232, 0.5);
-    font-size: 16px;
+    color: rgba(245, 240, 232, 0.42);
+    font-size: 13px;
     line-height: 1;
-    transition: color 0.15s ease, background-color 0.15s ease;
-    flex-shrink: 0;
+    transition: color 0.15s ease, border-color 0.15s ease;
     padding: 0;
+    flex-shrink: 0;
 }
 .theme-toggle:hover {
-    color: rgba(245, 240, 232, 0.95);
-    background: rgba(200, 144, 42, 0.1);
+    color: var(--gold);
+    border-color: var(--gold);
 }
 
-/* Hamburger (mobile only) — warm white lines for dark header */
+/* Hamburger — hidden by default, absolute left */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -297,34 +309,39 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     padding: 8px;
     cursor: pointer;
     z-index: 101;
-    flex-shrink: 0;
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 .hamburger-line {
     display: block;
-    width: 22px;
+    width: 20px;
     height: 2px;
-    background: rgba(245, 240, 232, 0.8);
+    background: rgba(245, 240, 232, 0.72);
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Navigation — uppercase tracked on dark */
+/* Row 3 — nav: centered, thin gold top rule */
 .navbars {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0;
     flex-wrap: nowrap;
+    border-top: 1px solid rgba(200,144,42,0.16);
 }
 
 .navbtn {
     display: inline-flex;
     align-items: center;
-    padding: 10px 11px;
+    padding: 8px 12px;
     text-decoration: none;
-    color: rgba(245, 240, 232, 0.5);
-    font-size: var(--font-xs);
+    color: rgba(245, 240, 232, 0.4);
+    font-size: 10px;
     font-family: var(--font-mono);
     line-height: 1;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     background: transparent;
     border: none;
@@ -333,8 +350,6 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     white-space: nowrap;
     position: relative;
 }
-
-/* Animated underline indicator */
 .navbtn::after {
     content: '';
     position: absolute;
@@ -346,109 +361,84 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     background: var(--gold);
     transition: width 0.2s ease;
 }
-
 .navbtn:hover {
-    color: rgba(245, 240, 232, 0.95);
-    background: rgba(200, 144, 42, 0.1);
+    color: rgba(245, 240, 232, 0.88);
+    background: rgba(200,144,42,0.07);
     text-decoration: none;
 }
-
-.navbtn:hover::after {
-    width: 65%;
-}
-
-.navbtn.active {
-    color: var(--gold);
-    font-weight: 600;
-}
-
-.navbtn.active::after {
-    width: 65%;
-}
+.navbtn:hover::after { width: 55%; }
+.navbtn.active { color: var(--gold); font-weight: 600; }
+.navbtn.active::after { width: 55%; }
 
 /* Section helpers */
-.section-head {
-    margin-top: 6px;
-    margin-bottom: 8px;
-}
+.section-head { margin-top: 6px; margin-bottom: 8px; }
 .section-title {
     font-weight: 600;
     font-size: var(--font-xs);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     color: var(--warm-500);
 }
 
 /* Rules */
-.rule {
-    border: 0;
-    border-top: var(--border-muted);
-    height: 0;
-    margin: 12px 0;
-}
+.rule { border: 0; border-top: var(--border-muted); height: 0; margin: 12px 0; }
 .rule.dotted { border-top-style: dotted; }
 .rule.solid { border-top: var(--border); }
 .rule.flush { margin-bottom: 0; padding-bottom: 0; }
 
-/* Art Deco double rule */
-.deco-rule {
-    border: none;
-    height: 5px;
-    border-top: 1px solid light-dark(var(--warm-200), var(--dark-border));
-    border-bottom: 1px solid light-dark(var(--warm-100), var(--dark-border-muted));
-    margin: 24px 0;
-    background: transparent;
-}
-
-/* Content area */
+/* Content area — overflow:hidden lets home split use negative margins */
 .content {
     padding: var(--pad-lg);
     padding-top: var(--pad);
     padding-bottom: var(--pad);
     min-height: 280px;
+    overflow: hidden;
 }
 
-/* Footer */
+/* Footer — centered */
 .foot {
     padding: var(--pad-sm) var(--pad-lg) var(--pad-lg);
     border-top: 1px solid light-dark(var(--warm-200), var(--dark-border));
     margin-top: var(--pad);
+    text-align: center;
 }
 .foot-meta {
     display: flex;
+    justify-content: center;
     gap: var(--pad-sm);
     color: var(--warm-500);
     font-size: var(--font-xs);
     font-family: var(--font-mono);
     text-transform: uppercase;
-    letter-spacing: 0.07em;
+    letter-spacing: 0.1em;
 }
 
 /* ── Mobile ──────────────────────────────────────────────── */
 @media (max-width: 768px) {
     .frame { margin: 12px; }
     .masthead { position: relative; }
-    .masthead-inner { flex-wrap: wrap; padding: 10px var(--pad); gap: 8px; }
+    .masthead-ornament { padding: 8px 16px 0; }
+    .masthead-brand-block { padding: 5px 52px 9px; }
+    .brand-name { font-size: var(--font-xl); letter-spacing: 0.14em; }
     .hamburger { display: flex; }
     .navbars {
         display: none;
-        width: 100%;
         flex-direction: column;
         align-items: stretch;
+        justify-content: flex-start;
         border-top: 1px solid rgba(245,240,232,0.1);
-        padding-top: 8px;
-        margin-top: 4px;
+        padding: 4px 0;
     }
     .navbars.open { display: flex; }
-    .navbtn { justify-content: flex-start; width: 100%; }
+    .navbtn { justify-content: center; padding: 10px; }
     .navbtn::after { display: none; }
-    .content { padding: var(--pad); padding-top: var(--pad-sm); }
+    .content { padding: var(--pad); padding-top: var(--pad-sm); overflow: hidden; }
     .foot { padding: var(--pad-sm) var(--pad) var(--pad); }
 }
 
 @media (max-width: 480px) {
     .frame { margin: 8px; }
-    .brand-name { font-size: var(--font-base); }
+    .brand-name { font-size: var(--font-lg); letter-spacing: 0.1em; }
     .brand-role { display: none; }
 }
         </style>
@@ -465,19 +455,27 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     <div class="frame">
 
         <header class="masthead">
-            <div class="masthead-inner">
+            <!-- Row 1: ornamental lines with diamond -->
+            <div class="masthead-ornament">
+                <span class="masthead-orn-line"></span>
+                <span class="masthead-orn-diamond"></span>
+                <span class="masthead-orn-line"></span>
+            </div>
+
+            <!-- Row 2: centered brand (icon, name, role) + utility buttons -->
+            <div class="masthead-brand-block">
                 <a href="#home" class="brand">
                     <img id="brand-icon"
                          src="1_assets/images/people_index/MichaelSparks_Outline_GPT.webp"
                          alt="Michael Dwight Sparks"
                          width="512" height="768">
-                    <div class="brand-text">
-                        <span class="brand-name">Michael Dwight Sparks</span>
-                        <span class="brand-role">Economics · Atlanta Fed → UCSD PhD</span>
-                    </div>
+                    <span class="brand-name">Michael Dwight Sparks</span>
+                    <span class="brand-role">Economics · Atlanta Fed → UCSD PhD</span>
                 </a>
 
-                <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode">
+                <button class="theme-toggle" id="theme-toggle"
+                        aria-label="Switch to dark mode"
+                        aria-pressed="false">
                     <span class="theme-icon" aria-hidden="true">☾</span>
                 </button>
 
@@ -488,17 +486,18 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>
                 </button>
-
-                <nav class="navbars" aria-label="Site navigation">
-                    <a class="navbtn" href="#home" data-page="home">Home</a>
-                    <a class="navbtn" href="#research" data-page="research">Research</a>
-                    <a class="navbtn" href="#code" data-page="code">Code & Data</a>
-                    <a class="navbtn" href="#applications" data-page="applications">PhD Tracker</a>
-                    <a class="navbtn" href="#people" data-page="people">People</a>
-                    <a class="navbtn" href="#specimen" data-page="specimen">Design Ref.</a>
-                    <a class="navbtn" href="#sitemap" data-page="sitemap">Sitemap</a>
-                </nav>
             </div>
+
+            <!-- Row 3: centered nav -->
+            <nav class="navbars" aria-label="Site navigation">
+                <a class="navbtn" href="#home" data-page="home">Home</a>
+                <a class="navbtn" href="#research" data-page="research">Research</a>
+                <a class="navbtn" href="#code" data-page="code">Code & Data</a>
+                <a class="navbtn" href="#applications" data-page="applications">PhD Tracker</a>
+                <a class="navbtn" href="#people" data-page="people">People</a>
+                <a class="navbtn" href="#specimen" data-page="specimen">Design Ref.</a>
+                <a class="navbtn" href="#sitemap" data-page="sitemap">Sitemap</a>
+            </nav>
         </header>
 
         <main id="app" class="content">
