@@ -499,6 +499,10 @@ Work In Progress Signal
     gap: 8px;
 }
 
+.card-actions .btn {
+    min-width: 6rem;
+}
+
 .card-press-links {
     display: flex;
     flex-wrap: wrap;
