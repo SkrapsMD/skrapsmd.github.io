@@ -41,7 +41,7 @@
     font-weight: 200;
     line-height: 0.82;
     letter-spacing: -0.04em;
-    color: var(--ws-gold);
+    color: var(--gov-blue);
     opacity: 0.28;
     font-variant-numeric: tabular-nums;
     flex-shrink: 0;
@@ -60,7 +60,7 @@
     font-size: var(--font-xs);
     text-transform: uppercase;
     letter-spacing: 0.22em;
-    color: var(--ws-gold);
+    color: var(--gov-blue);
     font-weight: 600;
 }
 
@@ -68,7 +68,7 @@
     display: block;
     height: 1px;
     width: 56px;
-    background: linear-gradient(90deg, var(--ws-gold) 0%, transparent 100%);
+    background: linear-gradient(90deg, var(--gov-blue) 0%, transparent 100%);
 }
 
 /* ========================================
@@ -134,7 +134,7 @@
     gap: 12px;
     margin-top: 24px;
     padding-top: 20px;
-    border-top: 1px solid rgba(200,144,42,0.3);
+    border-top: 1px solid rgba(120,170,220,0.3);
 }
 
 .home-contact-row {
@@ -148,7 +148,7 @@
     font-size: 9px;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: rgba(200, 144, 42, 0.65);
+    color: rgba(150, 200, 240, 0.75);
     font-weight: 600;
 }
 
@@ -166,7 +166,7 @@
 }
 
 .home-link:hover {
-    color: var(--ws-gold);
+    color: var(--gov-blue);
 }
 
 /* ========================================
@@ -198,7 +198,7 @@
         border-top: none;
         gap: 10px;
         padding-left: 4px;
-        border-left: 1px solid rgba(200,144,42,0.3);
+        border-left: 1px solid rgba(120,170,220,0.3);
     }
 
     .home-editorial {
@@ -225,7 +225,7 @@
     .home-contact-block {
         border-left: none;
         padding-left: 0;
-        border-top: 1px solid rgba(200,144,42,0.3);
+        border-top: 1px solid rgba(120,170,220,0.3);
         padding-top: 16px;
         margin-top: 0;
         width: 100%;

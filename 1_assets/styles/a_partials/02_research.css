@@ -18,7 +18,7 @@
     left: 0;
     width: 48px;
     height: 2px;
-    background: var(--ws-gold);
+    background: var(--gov-blue);
 }
 
 .research-page-title {
@@ -80,7 +80,7 @@
     padding: 40px 28px 28px;
     background: var(--bg-surface);
     border: 1px solid light-dark(var(--warm-200), var(--dark-border));
-    border-top: 3px solid var(--ws-gold);
+    border-top: 3px solid var(--gov-blue);
     z-index: 1001;
     max-height: calc(100vh - 80px);
     overflow-y: auto;
@@ -101,7 +101,7 @@
     transition: color 0.15s ease;
 }
 
-.story-modal-close:hover { color: var(--ws-gold); }
+.story-modal-close:hover { color: var(--gov-blue); }
 
 .story-modal-title {
     font-size: var(--font-xs);

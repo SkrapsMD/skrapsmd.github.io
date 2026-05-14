@@ -31,7 +31,7 @@
 
         <!-- Critical CSS — inlined for instant first paint -->
         <style>
-/* ── 00_tokens  ·  Atelier Économique ──────────────────── */
+/* ── 00_tokens  ·  Government Blue palette ──────────────── */
 :root {
     color-scheme: light dark;
     --font-sans: "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -49,23 +49,36 @@
     --black: #000000;
     --white: #ffffff;
 
-    --ivory:       #f2eed8;
-    --ivory-mid:   #e6e1c8;
-    --ivory-deep:  #d9d3b8;
+    /* Paper cream — the document's printed page */
+    --ivory:       #f2f0e8;
+    --ivory-mid:   #e6e4dc;
+    --ivory-deep:  #d8d6ce;
 
+    /* Deep ink navy — masthead and structural elements */
     --navy:        #0e1b2d;
     --navy-mid:    #1e3350;
     --navy-light:  #2e4d72;
 
+    /* Government blue — US Dept. of Commerce 1954 palette */
+    /* Replaces warm gold as the accent; excellent contrast on cream */
+    --gov-blue:       #2d5580;   /* main accent — ~7:1 on ivory */
+    --gov-blue-dark:  #1e3d5c;   /* hover / darker state */
+    --gov-blue-mid:   #3d6b96;   /* mid tone for UI elements */
+    --gov-blue-light: #c4d9ec;   /* tint for backgrounds / highlights */
+    --gov-blue-pale:  #edf3f8;   /* very pale surface */
+
+    /* Warm teal — secondary accent (kept for contrast variety) */
+    --ws-teal:     #2e7d7d;
+    --teal-dark:   #1f5a5a;
+    --teal-light:  #d4eeee;
+
+    /* Legacy gold — retained for dark-mode only contexts */
     --ws-gold:     #c8902a;
     --gold-dark:   #a87020;
     --gold-light:  #f5e6be;
     --gold-pale:   #fdf8ef;
 
-    --ws-teal:     #2e7d7d;
-    --teal-dark:   #1f5a5a;
-    --teal-light:  #d4eeee;
-
+    /* Warm gray scale */
     --warm-black:  #1a1612;
     --warm-900:    #2c2520;
     --warm-700:    #7a6e5e;
@@ -75,6 +88,7 @@
     --warm-100:    #ece8df;
     --warm-50:     #f5f2ea;
 
+    /* Dark mode surfaces */
     --dark-bg:           #07101c;
     --dark-surface:      #0e1b2d;
     --dark-border:       #1e3350;
@@ -82,33 +96,40 @@
     --dark-ink:          #f2eedd;
     --dark-ink-muted:    #9a8e7a;
 
+    /* ── Semantic tokens ── */
     --bg:          light-dark(var(--ivory),      var(--dark-bg));
     --bg-muted:    light-dark(var(--ivory-mid),  var(--dark-surface));
-    --bg-surface:  light-dark(var(--gold-pale),  #0a1420);
+    --bg-surface:  light-dark(var(--gov-blue-pale), #0a1420);
     --ink:         light-dark(var(--warm-black), var(--dark-ink));
     --ink-muted:   light-dark(var(--warm-700),   var(--dark-ink-muted));
     --ink-inv:     light-dark(var(--white),      var(--warm-black));
     --ink-muted-inv: light-dark(var(--warm-300), var(--warm-900));
+
     --text-primary:    var(--ink);
     --text-secondary:  var(--ink-muted);
-    --text-emph:       light-dark(var(--ws-gold),    var(--ws-gold));
-    --text-emph-hover: light-dark(var(--gold-dark),  #e8b050);
-    --text-emph-2:     light-dark(var(--ws-teal),    #6ec8c8);
-    --text-emph-2-hover: light-dark(var(--teal-dark), #a0d8d8);
-    --text-strong:     var(--text-emph);
+
+    /* Government blue as content accent — high contrast on cream */
+    --text-emph:       light-dark(var(--gov-blue),      #7aacce);
+    --text-emph-hover: light-dark(var(--gov-blue-dark), #9ac8e8);
+    --text-emph-2:     light-dark(var(--ws-teal),       #6ec8c8);
+    --text-emph-2-hover: light-dark(var(--teal-dark),   #a0d8d8);
+    --text-strong:     var(--text-primary);
     --text-italic:     var(--text-secondary);
     --text-link:       var(--text-emph);
     --text-link-hover: var(--text-emph-hover);
+
     --code-bg:         var(--bg-muted);
     --code-text:       var(--text-primary);
     --code-block-bg:   var(--bg-muted);
-    --blockquote-border: var(--ws-teal);
+    --blockquote-border: var(--gov-blue);
     --blockquote-text:   var(--text-secondary);
-    --text-highlight:         light-dark(var(--gold-light),  #4a3800);
-    --text-highlight-2:       light-dark(var(--teal-light),  #0e2840);
-    --text-highlight-3:       light-dark(#d8f0e8,            #09301e);
-    --text-highlight-warning: light-dark(#fff3e0,            #7a3600);
-    --active-indicator: var(--ws-gold);
+
+    --text-highlight:         light-dark(var(--gov-blue-light), #1e3040);
+    --text-highlight-2:       light-dark(var(--teal-light),     #0e2840);
+    --text-highlight-3:       light-dark(#d8f0e8,               #09301e);
+    --text-highlight-warning: light-dark(#fff3e0,               #7a3600);
+
+    --active-indicator: var(--gov-blue);
     --frame-width: 980px;
     --pad:    16px;
     --pad-sm: 10px;
@@ -119,10 +140,10 @@
     --border-radius: 0;
 
     /* Legacy terra aliases */
-    --terra:       var(--ws-gold);
-    --terra-dark:  var(--gold-dark);
-    --terra-light: var(--gold-light);
-    --terra-mid:   #d4aa60;
+    --terra:       var(--gov-blue);
+    --terra-dark:  var(--gov-blue-dark);
+    --terra-light: var(--gov-blue-light);
+    --terra-mid:   var(--gov-blue-mid);
 }
 
 /* ── 01_base ───────────────────────────────────────────── */
@@ -148,7 +169,7 @@ a:hover { color: var(--text-link-hover); }
 .ink-link { color: var(--ink); }
 .ink-link:hover { color: var(--text-link-hover); }
 .emph-link { color: var(--text-emph); }
-strong, b { color: var(--text-strong); font-weight: 600; }
+strong, b { font-weight: 600; }
 em, i { color: var(--text-italic); font-style: italic; }
 code, pre, kbd, samp { font-family: var(--font-mono); }
 .mono { font-family: var(--font-mono); }
@@ -162,7 +183,7 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     clip: rect(0,0,0,0); white-space: nowrap; border: 0;
 }
 
-/* ── 02_shell  ·  Deco Press — monumental centered header ── */
+/* ── 02_shell  ·  Deco Press — Government Blue edition ─── */
 
 .frame {
     max-width: var(--frame-width);
@@ -170,66 +191,28 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     background: var(--bg);
     min-width: 0;
     border: 1px solid light-dark(var(--warm-200), var(--dark-border));
-    box-shadow: 0 4px 40px light-dark(rgba(14,27,45,0.13), rgba(0,0,0,0.5));
+    box-shadow: 0 4px 40px light-dark(rgba(14,27,45,0.10), rgba(0,0,0,0.5));
 }
 
 @media (max-width: 1040px) { .frame { margin: 20px; } }
 
-/* Masthead — centered, monumental, three rows */
+/* Masthead — centered, monumental, two rows */
 .masthead {
     position: sticky;
     top: 0;
     background: var(--navy);
     z-index: 100;
     text-align: center;
+    /* Clean solid rule — no gradient ornament */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
 }
 
-/* Centered gold gradient rule at bottom */
-.masthead::after {
-    content: '';
-    display: block;
-    height: 2px;
-    background: linear-gradient(
-        90deg,
-        transparent    0%,
-        var(--gold-dark) 12%,
-        var(--ws-gold) 38%,
-        #e8c060        55%,
-        var(--ws-gold) 72%,
-        var(--gold-dark) 88%,
-        transparent   100%
-    );
-}
-
-/* Row 1 — ornamental lines with diamond */
-.masthead-ornament {
-    display: flex;
-    align-items: center;
-    padding: 10px 48px 0;
-}
-.masthead-orn-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(200,144,42,0.32));
-}
-.masthead-orn-line:last-child {
-    background: linear-gradient(90deg, rgba(200,144,42,0.32), transparent);
-}
-.masthead-orn-diamond {
-    width: 7px;
-    height: 7px;
-    background: var(--ws-gold);
-    transform: rotate(45deg);
-    flex-shrink: 0;
-    margin: 0 18px;
-}
-
-/* Row 2 — brand: icon → name → role stacked and centered */
+/* Brand block: centered column — icon → name → role */
 .masthead-brand-block {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 7px 60px 10px;
+    padding: 14px 60px 12px;
     position: relative;
 }
 
@@ -237,18 +220,19 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     text-decoration: none;
     color: inherit;
 }
 .brand:hover { text-decoration: none; }
 
+/* Logo fix: original is dark lines on transparent — invert() makes them white */
 #brand-icon {
     height: 2.2em;
     width: auto;
     display: block;
-    filter: invert(1) sepia(0.12) brightness(0.88);
-    opacity: 0.75;
+    filter: invert(1);
+    opacity: 0.82;
     margin-bottom: 2px;
 }
 
@@ -256,23 +240,23 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     font-weight: 300;
     font-size: var(--font-2xl);
     line-height: 1;
-    color: #f5f0e8;
+    color: #f2f0e8;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     transition: color 0.2s ease;
 }
-.brand:hover .brand-name { color: var(--ws-gold); }
+.brand:hover .brand-name { color: #ffffff; }
 
 .brand-role {
     font-size: 10px;
     font-family: var(--font-mono);
-    color: rgba(245, 240, 232, 0.36);
+    color: rgba(242, 240, 232, 0.38);
     line-height: 1;
     letter-spacing: 0.14em;
     text-transform: uppercase;
 }
 
-/* Theme toggle — absolutely positioned right of brand */
+/* Theme toggle — absolutely positioned right */
 .theme-toggle {
     position: absolute;
     right: 16px;
@@ -284,10 +268,10 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     width: 28px;
     height: 28px;
     background: transparent;
-    border: 1px solid rgba(200,144,42,0.22);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 0;
     cursor: pointer;
-    color: rgba(245, 240, 232, 0.42);
+    color: rgba(242, 240, 232, 0.42);
     font-size: 13px;
     line-height: 1;
     transition: color 0.15s ease, border-color 0.15s ease;
@@ -295,8 +279,8 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     flex-shrink: 0;
 }
 .theme-toggle:hover {
-    color: var(--ws-gold);
-    border-color: var(--ws-gold);
+    color: #f2f0e8;
+    border-color: rgba(255, 255, 255, 0.55);
 }
 
 /* Hamburger — hidden by default, absolute left */
@@ -318,26 +302,26 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     display: block;
     width: 20px;
     height: 2px;
-    background: rgba(245, 240, 232, 0.72);
+    background: rgba(242, 240, 232, 0.72);
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Row 3 — nav: centered, thin gold top rule */
+/* Navigation row: centered, thin top rule */
 .navbars {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0;
     flex-wrap: nowrap;
-    border-top: 1px solid rgba(200,144,42,0.16);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .navbtn {
     display: inline-flex;
     align-items: center;
-    padding: 8px 12px;
+    padding: 8px 13px;
     text-decoration: none;
-    color: rgba(245, 240, 232, 0.4);
+    color: rgba(242, 240, 232, 0.40);
     font-size: 10px;
     font-family: var(--font-mono);
     line-height: 1;
@@ -358,17 +342,17 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     transform: translateX(-50%);
     width: 0;
     height: 2px;
-    background: var(--ws-gold);
+    background: rgba(255, 255, 255, 0.6);
     transition: width 0.2s ease;
 }
 .navbtn:hover {
-    color: rgba(245, 240, 232, 0.88);
-    background: rgba(200,144,42,0.07);
+    color: rgba(242, 240, 232, 0.88);
+    background: rgba(255, 255, 255, 0.05);
     text-decoration: none;
 }
 .navbtn:hover::after { width: 55%; }
-.navbtn.active { color: var(--ws-gold); font-weight: 600; }
-.navbtn.active::after { width: 55%; }
+.navbtn.active { color: #f2f0e8; font-weight: 600; }
+.navbtn.active::after { width: 55%; background: rgba(255,255,255,0.8); }
 
 /* Section helpers */
 .section-head { margin-top: 6px; margin-bottom: 8px; }
@@ -386,7 +370,7 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
 .rule.solid { border-top: var(--border); }
 .rule.flush { margin-bottom: 0; padding-bottom: 0; }
 
-/* Content area — overflow:hidden lets home split use negative margins */
+/* Content area */
 .content {
     padding: var(--pad-lg);
     padding-top: var(--pad);
@@ -395,7 +379,7 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     overflow: hidden;
 }
 
-/* Footer — centered */
+/* Footer */
 .foot {
     padding: var(--pad-sm) var(--pad-lg) var(--pad-lg);
     border-top: 1px solid light-dark(var(--warm-200), var(--dark-border));
@@ -417,8 +401,7 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
 @media (max-width: 768px) {
     .frame { margin: 12px; }
     .masthead { position: relative; }
-    .masthead-ornament { padding: 8px 16px 0; }
-    .masthead-brand-block { padding: 5px 52px 9px; }
+    .masthead-brand-block { padding: 10px 52px 10px; }
     .brand-name { font-size: var(--font-xl); letter-spacing: 0.14em; }
     .hamburger { display: flex; }
     .navbars {
@@ -426,7 +409,7 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
         flex-direction: column;
         align-items: stretch;
         justify-content: flex-start;
-        border-top: 1px solid rgba(245,240,232,0.1);
+        border-top: 1px solid rgba(255,255,255,0.06);
         padding: 4px 0;
     }
     .navbars.open { display: flex; }
@@ -451,14 +434,7 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
     <div class="frame">
 
         <header class="masthead">
-            <!-- Row 1: ornamental lines with diamond -->
-            <div class="masthead-ornament">
-                <span class="masthead-orn-line"></span>
-                <span class="masthead-orn-diamond"></span>
-                <span class="masthead-orn-line"></span>
-            </div>
-
-            <!-- Row 2: centered brand (icon, name, role) + utility buttons -->
+            <!-- Centered brand: icon, name, role — no ornamental lines -->
             <div class="masthead-brand-block">
                 <a href="#home" class="brand">
                     <img id="brand-icon"
@@ -484,7 +460,7 @@ code, pre, kbd, samp { font-family: var(--font-mono); }
                 </button>
             </div>
 
-            <!-- Row 3: centered nav -->
+            <!-- Centered nav row -->
             <nav class="navbars" aria-label="Site navigation">
                 <a class="navbtn" href="#home" data-page="home">Home</a>
                 <a class="navbtn" href="#research" data-page="research">Research</a>
