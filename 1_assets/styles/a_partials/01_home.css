@@ -56,19 +56,21 @@
 }
 
 .home-section-tag {
-    font-family: var(--font-mono);
-    font-size: var(--font-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.22em;
-    color: var(--gov-blue);
-    font-weight: 600;
+    font-family: 'Lora', 'Georgia', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: var(--font-xl);         /* 30px — prominent, paired with ghost "01" */
+    color: light-dark(var(--gov-blue), #8ab8d8);
+    text-transform: none;
+    letter-spacing: 0;
+    line-height: 1.1;
 }
 
 .home-section-rule {
     display: block;
     height: 1px;
     width: 56px;
-    background: linear-gradient(90deg, var(--gov-blue) 0%, transparent 100%);
+    background: light-dark(var(--gov-blue-light), var(--dark-border));
 }
 
 /* ========================================

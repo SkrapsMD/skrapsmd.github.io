@@ -1,47 +1,26 @@
 /* Research page styles  ·  Government Publication edition */
 
 /* ========================================
-   PAGE HEADER — clean, minimal
+   PAGE HEADER — script title style
    ======================================== */
 .research-header {
-    margin-bottom: 0;
+    margin-bottom: 32px;
     padding-bottom: 0;
+    border-bottom: 1px solid light-dark(var(--warm-300), var(--dark-border));
+    padding-bottom: 20px;
 }
 
+/* "Research" in Lora italic — same script treatment as home "About" */
 .research-page-title {
-    font-size: var(--font-3xl);        /* 48px — monumental */
-    font-weight: 200;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink);
-    line-height: 1;
-    margin-bottom: 0;
-}
-
-/* ========================================
-   ITALIC SCRIPT BANNER
-   Reference: "for Business Programs and
-   Economic Research" interior-page banner
-   in the 1954 National Income catalog.
-   Italic Lora serif on government blue.
-   ======================================== */
-.research-script-banner {
-    background: var(--gov-blue);
-    /* Break out of .content padding to go edge-to-edge */
-    margin: 20px calc(-1 * var(--pad-lg)) 36px;
-    padding: 18px var(--pad-lg);
-    text-align: center;
-}
-
-.research-script-text {
-    display: block;
     font-family: 'Lora', 'Georgia', serif;
     font-style: italic;
     font-weight: 400;
-    font-size: var(--font-2xl);        /* 36px */
-    color: #ffffff;
-    letter-spacing: 0.01em;
-    line-height: 1.25;
+    font-size: clamp(36px, 5vw, 56px);
+    color: light-dark(var(--gov-blue), #8ab8d8);
+    letter-spacing: 0;
+    text-transform: none;
+    line-height: 1.1;
+    margin: 0;
 }
 
 /* ========================================
