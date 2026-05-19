@@ -1,57 +1,59 @@
 /*
 03_components.css
-Reusable UI Components: Buttons, forms, tables, panels, cards,
-badges, and other interactive or display elements.
+Reusable UI Components: Buttons, forms, tables, panels, and other
+interactive or display elements used across multiple pages.
 
-1/17/2026 Michael Dwight Sparks
-Redesigned: 5/2026  ·  Atelier Économique — Deco Press edition
+1/17/2026
+Michael Dwight Sparks
 */
 
 
-/* ==========================================
-   WORK IN PROGRESS SIGNAL
-   ========================================== */
+/*
+===========================================
+Work In Progress Signal
+===========================================
+*/
 .panel.wip {
-    display: grid;
-    min-height: 450px;
+  display: grid;
+  min-height: 450px;      /* controls how tall the WIP panel is */
 }
 
 .wip-banner {
-    display: grid;
-    place-items: center;
-    width: 100%;
-    height: 100%;
-    border: 2px solid #c53139;
-    background: repeating-linear-gradient(
-        135deg,
-        #c53139 0 18px,
-        var(--bg) 18px 36px
-    );
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+
+  border: 2px solid var(--atlDanger);
+  background: repeating-linear-gradient(
+    135deg,
+    var(--atlDanger) 0 18px,
+    var(--bg) 18px 36px
+  );
 }
 
 .wip-label {
-    padding: 0.2em 0.5em;
+    padding: 0.2em 0.4em;
     font-family: var(--font-mono);
     font-size: clamp(var(--font-lg), var(--font-3xl), var(--font-3xl));
     font-weight: 700;
     letter-spacing: 0.22em;
-    background: var(--bg);
-    border: 2px dashed var(--ink);
+
+  background: var(--bg);
+  border: 2px dashed var(--ink);
 }
 
 .panel.wip_small {
-    display: grid;
-    min-height: 200px;
+  display: grid;
+  min-height: 200px;
 }
 
 .wip_small .wip-label {
-    font-size: var(--font-sm);
+  font-size: var(--font-sm);
 }
-
-
-/* ==========================================
-   BUTTONS  ·  navy primary / teal ghost
-   ========================================== */
+/* ========================================
+   BUTTONS
+   ======================================== */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -60,11 +62,9 @@ Redesigned: 5/2026  ·  Atelier Économique — Deco Press edition
     border: var(--border);
     background: transparent;
     color: var(--text-primary);
-    padding: 5px 12px;
+    padding: 4px 8px;
     font-family: var(--font-mono);
     font-size: var(--font-xs);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     line-height: 1;
     cursor: pointer;
     text-decoration: none;
@@ -72,50 +72,46 @@ Redesigned: 5/2026  ·  Atelier Économique — Deco Press edition
 }
 
 .btn:hover {
-    background: var(--navy);
-    color: #f5f0e8;
-    border-color: var(--navy);
+    background: var(--ink);
+    color: var(--ink-inv);
 }
 
 .btn--primary {
-    background: var(--navy);
-    color: #f5f0e8;
-    border-color: var(--navy);
+    background: var(--text-emph);
+    color: var(--ink-inv);
+    border-color: var(--text-emph);
 }
 
 .btn--primary:hover {
-    background: var(--gov-blue);
-    border-color: var(--gov-blue);
-    color: var(--warm-black);
+    background: var(--text-emph-hover);
+    border-color: var(--text-emph-hover);
+    color: var(--ink);
 }
 
 .btn--ghost {
     background: transparent;
-    color: var(--ws-teal);
-    border-color: var(--ws-teal);
+    color: var(--text-emph);
+    border-color: var(--text-emph);
 }
 
 .btn--ghost:hover {
-    background: var(--teal-light);
-    color: var(--teal-dark);
-    border-color: var(--ws-teal);
+    background: var(--text-highlight-2);
+    color: var(--text-emph);
 }
 
 .btn:disabled {
-    opacity: 0.45;
+    opacity: 0.5;
     cursor: not-allowed;
 }
 
 .btn:disabled:hover {
     color: var(--text-primary);
     background: transparent;
-    border-color: light-dark(var(--warm-200), var(--dark-border));
 }
 
-
-/* ==========================================
+/* ========================================
    FORM INPUTS
-   ========================================== */
+   ======================================== */
 .field {
     display: grid;
     gap: 4px;
@@ -130,13 +126,13 @@ Redesigned: 5/2026  ·  Atelier Économique — Deco Press edition
     border: var(--border);
     background: transparent;
     color: var(--text-primary);
-    padding: 5px 8px;
+    padding: 4px 6px;
     font-family: var(--font-sans);
     font-size: var(--font-sm);
 }
 
 .input:focus {
-    outline: 2px solid var(--gov-blue);
+    outline: 2px solid var(--text-emph);
     outline-offset: 1px;
 }
 
@@ -144,24 +140,20 @@ Redesigned: 5/2026  ·  Atelier Économique — Deco Press edition
     color: var(--text-secondary);
 }
 
-
-/* ==========================================
+/* ========================================
    TABLES
-   ========================================== */
+   ======================================== */
 .table-caption {
     font-size: var(--font-xs);
-    font-family: var(--font-mono);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     margin-bottom: 8px;
-    color: var(--text-secondary);
 }
 
 .table-caption--lg {
     font-size: var(--font-sm);
-    font-family: var(--font-mono);
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin-top:16px;
+    margin-bottom: 8px;
 }
 
 .table-caption__category {
@@ -173,26 +165,27 @@ Redesigned: 5/2026  ·  Atelier Économique — Deco Press edition
     color: var(--text-primary);
     font-weight: 600;
 }
-
 .table-footer {
-    display: grid;
-    gap: 12px;
+  display: grid;
+  gap: 12px;
 }
 
 .table-notes ol {
-    margin: 6px 0 0 18px;
-    padding: 0;
+  margin: 6px 0 0 16px;
+  padding: 0;
 }
 
 .table-notes li {
-    margin-bottom: 4px;
+  margin-bottom: 4px;
 }
 
 .table-legend .badge {
-    margin-right: 6px;
-    margin-top: 4px;
-    font-size: 0.75rem;
+  margin-right: 6px;
+  margin-top: 4px;
+  font-size: 0.75rem;
 }
+
+
 
 .table {
     width: 100%;
@@ -203,33 +196,39 @@ Redesigned: 5/2026  ·  Atelier Économique — Deco Press edition
 .table th,
 .table td {
     border: var(--border-muted);
-    padding: 6px 10px;
+    padding: 6px 8px;
     vertical-align: middle;
     text-align: left;
 }
 
 .table thead th {
-    background: light-dark(var(--gov-blue-light), #1a3020);
+    background: var(--text-highlight);
     font-weight: 600;
-    font-family: var(--font-mono);
-    font-size: var(--font-xs);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
     border: var(--border-muted);
-    border-bottom: 1px solid light-dark(var(--warm-200), var(--dark-border));
+    border-top-style: dotted;
+    border-top-width: 2px;
+    border-bottom: var(--border);
 }
 
 .table--hoverable tbody tr:hover {
     background: var(--bg-muted);
 }
 
+
 .table--compact th,
 .table--compact td {
-    padding: 4px 8px;
+    padding: 4px 6px;
 }
 
-.person-profile-table { table-layout: fixed; }
-.person-profile-table th { width: 36%; }
+/* Person profile table: prevent long content from forcing overflow */
+.person-profile-table {
+    table-layout: fixed;
+}
+
+.person-profile-table th {
+    width: 36%;
+}
+
 .person-profile-table td,
 .person-profile-table td a {
     overflow-wrap: anywhere;
@@ -240,6 +239,7 @@ Redesigned: 5/2026  ·  Atelier Économique — Deco Press edition
     border-bottom: var(--border-muted);
 }
 
+/* Borderless: no horizontal lines, vertical lines only (including edges) */
 .table--borderless th,
 .table--borderless td {
     border-top: none;
@@ -249,264 +249,259 @@ Redesigned: 5/2026  ·  Atelier Économique — Deco Press edition
 }
 
 .table--borderless th:last-child,
-.table--borderless td:last-child { border-right: var(--border-muted); }
-.table--borderless thead th { border-left: var(--border-muted); border-right: none; }
-.table--borderless thead th:last-child { border-right: var(--border-muted); }
-.table--borderless tbody tr:last-child td { border-bottom: var(--border-muted); }
+.table--borderless td:last-child {
+    border-right: var(--border-muted);
+}
 
-.aligned-list .label { display: inline-block; width: 7.5em; }
-.aligned-list .sep { margin-right: 0.4em; }
-.badge-cell { text-align: center; }
+.table--borderless thead th {
+    border-left: var(--border-muted);
+    border-right: none;
+}
+
+.table--borderless thead th:last-child {
+    border-right: var(--border-muted);
+}
+
+.table--borderless tbody tr:last-child td {
+    border-bottom: var(--border-muted);
+}
+
+.aligned-list .label {
+    display: inline-block;
+    width: 7.5em;
+}
+
+.aligned-list .sep {
+    margin-right: 0.4em;
+}
+
+.badge-cell {
+    text-align: center;
+}
 
 
-/* ==========================================
-   PANELS
-   ========================================== */
+/* ========================================
+   PANELS (Boxed Content Areas)
+   ======================================== */
 .panel {
     border: var(--border);
-    padding: 12px;
+    padding: 10px;
     margin-bottom: 16px;
 }
 
 .panel-title {
     font-size: var(--font-xs);
-    font-family: var(--font-mono);
     font-weight: 600;
     margin: 0 0 10px 0;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
 }
 
 .panel--muted {
     background: var(--bg-muted);
-    border-color: light-dark(var(--warm-100), var(--dark-border-muted));
+    border-color: var(--ink-muted);
 }
 
-
-/* ==========================================
-   PAGE HEADER  ·  shared across all pages
-   ==========================================
-   Lora italic title — the consistent visual
-   identity for every section/page heading.
-   Used on Home ("About"), Research, Tracker,
-   People, and Design Ref pages.
-   ========================================== */
-.page-header {
-    margin-bottom: 32px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid light-dark(var(--warm-300), var(--dark-border));
-}
-
-.page-title {
-    font-family: 'Lora', 'Georgia', serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: clamp(36px, 5vw, 56px);
-    color: light-dark(var(--gov-blue), #8ab8d8);
-    letter-spacing: 0;
-    text-transform: none;
-    line-height: 1.1;
-    margin: 0;
-}
-
-
-/* ==========================================
-   CARDS  ·  Government Publication style
-   ==========================================
-   Reference: US Dept. of Commerce catalog
-   interior pages (1954). Entries separated
-   by horizontal rules only — NO box borders,
-   NO background surface. Bold uppercase title
-   in government blue, compact body text.
-   ========================================== */
+/* ========================================
+   CARDS (For Research Items, etc.)
+   ======================================== */
 .card {
-    border: none;
-    border-top: 1px solid light-dark(var(--warm-300), var(--dark-border));
-    padding: 24px 0 20px;
-    margin-bottom: 0;
-    background: transparent;
+    border: var(--border);
+    border-left: 15px solid light-dark(var(--darkGray), var(--lightGray));
+    padding: var(--pad);
+    margin-bottom: var(--pad);
 }
 
-/* First card in each section has no top rule */
-.research-section .card:first-child {
-    border-top: none;
-    padding-top: 4px;
-}
-
-/* Cards with data stories — left rule as indicator instead of wide sidebar */
 .card--has-story {
-    border-left: 3px solid light-dark(var(--gov-blue-light), var(--dark-border));
-    padding-left: 20px;
-    display: block;
+    border-left: none;
+    padding-left: 0;
+    display: flex;
+    align-items: stretch;
 }
 
-.card--has-story:hover {
-    border-left-color: var(--gov-blue);
+.card-sidebar {
+    flex: 0 0 15px;
+    background: light-dark(var(--darkGray), var(--lightGray));
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: flex-basis 0.3s ease, background-color 0.3s ease;
+    user-select: none;
 }
 
-/* Sidebar div (added by JS) — hidden; the left border is the indicator */
-.card-sidebar { display: none; }
+.card-sidebar::after {
+    content: "See Data Story";
+    font-size: var(--font-xs);
+    color: light-dark(var(--white), var(--black));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-family: var(--font-mono);
+    writing-mode: vertical-rl;
+    rotate: 180deg;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+}
 
-/* Card content wrapper (added by JS for story cards) — no extra padding */
+.card--has-story:hover .card-sidebar {
+    flex-basis: 30px;
+    background: var(--text-emph);
+}
+
+.card--has-story:hover .card-sidebar::after {
+    opacity: 1;
+}
+
+.card-sidebar:active {
+    background: light-dark(var(--atlBlue1000), var(--atlBlue200));
+}
+
 .card-content {
-    display: block;
-    padding: 0;
+    flex: 1;
+    min-width: 0;
+    padding: var(--pad);
 }
 
-.card--swiped { border-left-color: var(--gov-blue); }
-.card--has-story .story-btn { display: inline-flex; }
+/* Swipe-right visual feedback (mobile) */
+.card--swiped .card-sidebar {
+    flex-basis: 30px;
+    background: var(--text-emph);
+}
+.card--swiped .card-sidebar::after {
+    opacity: 1;
+}
 
-/* ── Card title: BOLD UPPERCASE government label ── */
+.card--has-story .story-btn {
+    display: none;
+}
+
 .card-title {
-    font-weight: 700;
-    font-size: var(--font-md);           /* 18px bold — authority, not decoration */
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: light-dark(var(--gov-blue), #8ab8d8);
-    margin-bottom: 8px;
-    line-height: 1.4;
+    font-weight: 600;
+    font-size: var(--font-sm);
+    margin-bottom: 4px;
 }
 
-.card-title a { color: inherit; text-decoration: none; }
-.card-title a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
-
-/* ── Card meta: compact author byline ── */
 .card-meta {
     font-size: var(--font-xs);
-    font-family: var(--font-mono);
     color: var(--text-secondary);
-    margin-bottom: 14px;
-    line-height: 1.65;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    margin-bottom: 8px;
 }
 
-.card-meta .name-link { color: inherit; text-decoration: none; }
-.card-meta .name-link:hover { color: var(--gov-blue); }
-.name-link { color: inherit; text-decoration: none; }
-.name-link:hover { color: var(--gov-blue); }
+.card-meta .name-link {
+    color: inherit;
+    text-decoration: none;
+}
 
-.card-body { font-size: var(--font-sm); }
+.card-meta .name-link:hover {
+    text-decoration: none;
+    color: var(--text-emph);
+}
 
+.name-link {
+    color: inherit;
+    text-decoration: none;
+}
 
-/* ==========================================
+.name-link:hover {
+    text-decoration: none;
+    color: var(--text-emph);
+}
+
+.card-body {
+    font-size: var(--font-sm);
+}
+
+/* ========================================
    BADGES & TAGS
-   ========================================== */
+   ======================================== */
 .badge {
     display: inline-block;
-    padding: 2px 7px;
+    padding: 2px 6px;
     font-family: var(--font-mono);
     font-size: var(--font-xs);
     font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
     border: var(--border);
-    cursor: default;
-    user-select: none;
-    pointer-events: none;
-    line-height: 1.5;
+    cursor:default;
+    user-select:none;
+    pointer-events:none;
 }
 
 .badge--highlight {
-    background: var(--gov-blue-light);
-    border-color: light-dark(#d4b060, #8a6c00);
-    color: var(--warm-black);
+    background: var(--text-highlight);
 }
 
 .badge--info {
-    background: var(--teal-light);
-    border-color: light-dark(#80c0c0, #1e4a70);
+    background: var(--text-highlight-2);
 }
 
 .badge--success {
-    background: light-dark(#d8f0e8, #09301e);
-    border-color: light-dark(#80c8a8, #1a5e38);
+    background: var(--text-highlight-3);
 }
 
 .badge--failure {
-    background: #c53139;
+    background: var(--atlDanger);
     color: var(--white);
-    border-color: #c53139;
 }
-
-.badge--warning {
-    background: light-dark(#fff3e0, #7a3600);
-    border-color: light-dark(#d4a040, #9a5000);
-    color: var(--warm-black);
+.badge--warning{
+    background: var(--text-highlight-warning);
+    color: var(--black);
 }
-
-.badge--unsure {
-    opacity: 0.5;
+.badge--unsure{
+    opacity:0.5;
     background: var(--bg-muted);
     color: var(--ink);
 }
 
 
-/* ==========================================
+/* ========================================
    CODE BLOCKS
-   ========================================== */
+   ======================================== */
 .code-block {
     font-family: var(--font-mono);
     font-size: var(--font-xs);
     background: var(--code-block-bg);
     color: var(--code-text);
     border: var(--border);
-    padding: var(--pad);
+    padding: var(--pad-sm);
     overflow-x: auto;
     white-space: pre;
-    line-height: 1.6;
 }
 
-code {
-    font-size: 0.875em;
-    background: var(--bg-muted);
-    color: var(--ws-teal);
-    padding: 1px 5px;
-    border: var(--border-muted);
-}
-
-
-/* ==========================================
-   CARD SUB-COMPONENTS
-   ========================================== */
+/* ========================================
+   CARD SUB-COMPONENT LAYOUT
+   ======================================== */
 .card-abstract {
-    border-left: 3px solid var(--ws-teal);
+    border-left: 3px solid var(--blockquote-border);
     padding-left: 16px;
     margin: 16px 0;
-    color: var(--text-secondary);
-    line-height: 1.75;
-    font-style: italic;
-    font-size: var(--font-sm);
 }
 
 .card-footer {
-    margin-top: 20px;
+    margin-top: 12px;
     display: flex;
     gap: 12px;
     justify-content: space-between;
-    align-items: flex-start;
 }
 
 .card-footer__left {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
 .card-badges {
     display: flex;
-    gap: 6px;
+    gap: 8px;
     flex-wrap: wrap;
 }
 
 .card-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
 }
 
-.card-actions .btn { min-width: 6rem; }
+.card-actions .btn {
+    min-width: 6rem;
+}
 
 .card-press-links {
     display: flex;
@@ -516,41 +511,62 @@ code {
     font-family: var(--font-mono);
     justify-content: flex-end;
     align-content: flex-start;
-    color: var(--text-secondary);
 }
 
-.card-press-links:empty { display: none; }
+.card-press-links:empty {
+    display: none;
+}
 
-
-/* ==========================================
+/* ========================================
    PERSON PROFILE PAGE LAYOUT
-   ========================================== */
+   ======================================== */
 .person-profile-header {
     display: grid;
     grid-template-columns: 1fr 280px;
-    gap: 20px;
+    gap: 16px;
     align-items: start;
     margin-bottom: 32px;
 }
 
-.person-papers-section { margin-bottom: 32px; }
+/* Separate from .research-section (02_research.css) which is only loaded
+   on the research route and is not available on person-profile pages. */
+.person-papers-section {
+    margin-bottom: 32px;
+}
 
 .person-papers-title {
     margin-bottom: 16px;
     font-weight: 600;
     font-size: var(--font-sm);
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-secondary);
 }
 
 @media (max-width: 700px) {
-    .person-profile-header { grid-template-columns: 1fr; gap: 16px; }
-    .person-profile-header > div:last-child { order: -1; }
+    .person-profile-header {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .person-profile-header > div:last-child {
+        order: -1;
+    }
 }
 
+/* Card footer responsive: stack on narrow screens */
 @media (max-width: 560px) {
-    .card-footer { flex-direction: column; gap: 8px; }
-    .card-press-links { justify-content: flex-start; }
+    .card-footer {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .card-press-links {
+        justify-content: flex-start;
+    }
+}
+
+/* Inline code styling (font-family set in 01_base.css) */
+code {
+    font-size: 0.9em;
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 1px 4px;
 }

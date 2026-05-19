@@ -1,190 +1,107 @@
 /*
-01_home.css  ·  Deco Press split-panel home
+01_home.css
+Page-specific styles for the Home page
+
+1/28/2026
+Michael Dwight Sparks
 */
 
 /* ========================================
-   SPLIT PANEL — breaks out of .content padding
+   HOME PAGE LAYOUT
    ======================================== */
-.home-split {
+.home-grid {
     display: grid;
-    grid-template-columns: 1fr 260px;
-    min-height: 460px;
-    /* Escape the .content padding to go edge-to-edge */
-    margin-top:    calc(-1 * var(--pad));
-    margin-bottom: calc(-1 * var(--pad));
-    margin-left:   calc(-1 * var(--pad-lg));
-    margin-right:  calc(-1 * var(--pad-lg));
+    grid-template-columns: 1fr 280px;
+    gap: 16px;
+    align-items: start;
+    margin-bottom: 16px;
 }
 
-/* ========================================
-   LEFT: editorial column
-   ======================================== */
-.home-editorial {
-    padding: 40px 44px 40px 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
+.home-content {
+    /* Container for main text content */
 }
 
-/* Section marker removed — home now uses shared .page-header / .page-title */
-
-/* ========================================
-   BIO TEXT
-   ======================================== */
-.home-text {
-    line-height: 1.8;
-    color: var(--text-primary);
-}
-
-.home-text p {
-    margin-bottom: 1em;
-    font-size: var(--font-base);
-}
-
-.home-text p:last-child {
-    margin-bottom: 0;
-}
-
-/* ========================================
-   PHD NOTICE  —  navy left-border callout
-   ======================================== */
-.home-phd-notice {
-    padding: 14px 20px;
-    background: light-dark(
-        color-mix(in srgb, var(--navy) 6%, var(--ivory)),
-        rgba(14,27,45,0.5)
-    );
-    border-left: 3px solid var(--navy);
+.home-section-title {
+    margin-top: 2px;
+    font-weight: 600;
     font-size: var(--font-sm);
-    font-family: var(--font-mono);
-    color: light-dark(var(--navy-mid), var(--dark-ink-muted));
-    line-height: 1.55;
-    letter-spacing: 0.01em;
+}
+
+.home-text {
+    margin-top: 6px;
 }
 
 /* ========================================
-   RIGHT: dark navy panel
+   CONTACT CARD
    ======================================== */
-.home-panel {
-    background: var(--navy);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 32px 20px 28px;
-    gap: 0;
+.home-contact {
+    /* Container for contact table */
 }
 
-/* Portrait — fills most of the panel */
+.home-portrait-cell {
+    text-align: center;
+}
+
 .home-portrait {
-    width: 100%;
-    max-width: 200px;
+    max-width: 150px;
     height: auto;
     display: block;
-    flex-shrink: 0;
-}
-
-/* Contact block — below portrait */
-.home-contact-block {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 24px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(120,170,220,0.3);
-}
-
-.home-contact-row {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.home-contact-label {
-    font-family: var(--font-mono);
-    font-size: 9px;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: rgba(150, 200, 240, 0.75);
-    font-weight: 600;
-}
-
-.home-contact-value {
-    font-size: var(--font-xs);
-    color: rgba(245, 240, 232, 0.75);
+    margin: 0 auto;
 }
 
 .home-link {
-    font-size: var(--font-xs);
-    color: rgba(245, 240, 232, 0.72);
-    word-break: break-all;
-    text-decoration: none;
-    transition: color 0.15s ease;
+    color: var(--text-emph);
 }
 
-.home-link:hover {
-    color: var(--gov-blue);
+/* ========================================
+   PHD NOTICE
+   ======================================== */
+.home-phd-notice {
+    font-weight: 600;
+    font-size: var(--font-sm);
+    color: var(--text-emph);
+    text-align: center;
+    margin-top: 16px;
 }
 
 /* ========================================
    MOBILE RESPONSIVE
    ======================================== */
 @media (max-width: 700px) {
-    .home-split {
+    /* Stack content vertically on mobile */
+    .home-grid {
         grid-template-columns: 1fr;
-        min-height: auto;
+        gap: 24px;
     }
 
-    /* Panel goes above bio on mobile */
-    .home-panel {
-        flex-direction: row;
-        align-items: flex-start;
-        padding: 20px;
-        gap: 20px;
+    /* Reorder: show contact card first on mobile for immediate access */
+    .home-contact {
         order: -1;
     }
 
+    /* Center and constrain contact card on mobile */
+    .home-contact .table {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 320px;
+    }
+
+    /* Slightly smaller portrait on mobile */
     .home-portrait {
-        max-width: 90px;
-        flex-shrink: 0;
-    }
-
-    .home-contact-block {
-        margin-top: 0;
-        padding-top: 0;
-        border-top: none;
-        gap: 10px;
-        padding-left: 4px;
-        border-left: 1px solid rgba(120,170,220,0.3);
-    }
-
-    .home-editorial {
-        padding: 24px 20px;
-        gap: 20px;
-    }
-
-    .home-section-num {
-        font-size: 52px;
+        max-width: 120px;
     }
 }
 
 @media (max-width: 480px) {
-    .home-panel {
-        flex-direction: column;
-        align-items: center;
+    .home-grid {
         gap: 16px;
     }
-
+    /* Even more compact on very small screens */
     .home-portrait {
-        max-width: 130px;
+        max-width: 100px;
     }
 
-    .home-contact-block {
-        border-left: none;
-        padding-left: 0;
-        border-top: 1px solid rgba(120,170,220,0.3);
-        padding-top: 16px;
-        margin-top: 0;
-        width: 100%;
+    .home-phd-notice {
+        font-size: var(--font-xs);
     }
 }

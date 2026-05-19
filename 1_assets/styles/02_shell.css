@@ -1,119 +1,119 @@
 /*
 02_shell.css
-Page Shell — structural skeleton shared by every page.
-NOTE: This file is for documentation/reference. The actual shell CSS
-is inlined in index.html <style> for instant first paint.
+Page Shell: The structural skeleton shared by every page.
 
-Frame, masthead, navigation, rules, content area, footer.
+This includes the frame container, masthead, navigation, section headers,
+and footer. Everything here appears on every page of the site.
 
-1/17/2026 Michael Dwight Sparks
-Redesigned: 5/2026
+1/17/2026
+Michael Dwight Sparks
 */
 
-/* Thin accent stripe at top */
-.frame::before {
-    content: '';
-    display: block;
-    height: 3px;
-    background: linear-gradient(90deg, var(--terra) 0%, var(--terra-mid) 100%);
-}
-
 /* ========================================
-   FRAME
+   FRAME (Main Container)
    ======================================== */
 .frame {
     max-width: var(--frame-width);
-    margin: 28px auto;
+    margin: 32px auto;
+    border: var(--border);
+    padding: 0; 
     background: var(--bg);
-    min-width: 0;
-    box-shadow: 0 1px 8px light-dark(rgba(0,0,0,0.07), rgba(0,0,0,0.35));
-}
-
-@media (max-width: 1040px) {
-    .frame { margin: 20px; }
 }
 
 /* ========================================
-   MASTHEAD
+   MASTHEAD (Header)
    ======================================== */
 .masthead {
     position: sticky;
     top: 0;
     background: var(--bg);
+    padding: var(--pad);
+    padding-bottom: 0;
     z-index: 100;
-    border-bottom: var(--border-muted);
 }
 
-.masthead-inner {
+.masthead-top {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 12px var(--pad-lg);
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
 }
 
-/* ========================================
-   BRAND
-   ======================================== */
 .brand {
     display: flex;
     align-items: center;
     gap: 12px;
     text-decoration: none;
     color: inherit;
-    flex-shrink: 0;
-    margin-right: auto;
 }
 
-.brand:hover { text-decoration: none; }
-
-.brand-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+.brand:hover {
+    text-decoration: none;
 }
 
-.brand-name {
+.brand:hover .brand-title {
+    color: var(--text-emph);
+}
+
+.brand-title {
     font-weight: 600;
-    font-size: var(--font-md);
-    line-height: 1.1;
-    color: var(--ink);
-    transition: color 0.15s ease;
+    font-size: var(--font-lg);
 }
 
-.brand:hover .brand-name { color: var(--text-emph); }
-
-.brand-role {
-    font-size: var(--font-xs);
-    font-family: var(--font-mono);
-    color: var(--text-secondary);
-    line-height: 1;
-    letter-spacing: 0.01em;
-}
-
+/* Brand icon sizing - prevent flash of large image on load */
 #brand-icon {
-    height: 3em;
+    height: 4em;
     width: auto;
     display: block;
 }
 
+/* Color swatches in header */
+.swatches {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 2px;
+    align-items: center;
+}
+
+.swatch {
+    width: 16px;
+    height: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+/* Swatch colors - mapped to FRBA palette */
+.s1  { background: var(--atlRed600, #ce5158); }
+.s2  { background: var(--atlGold200, #f3bb00); }
+.s3  { background: var(--atlTeal400, #25acca); }
+.s4  { background: var(--atlBlue600, #3581b4); }
+.s5  { background: var(--atlIndigo600, #7d70c1); }
+.s6  { background: var(--charcoal, #1a1a1a); }
+.s7  { background: var(--medGray, #d0d0d0); }
+.s8  { background: var(--white, #ffffff); }
+.s9  { background: var(--atlFuchsia700, #c5266a); }
+.s10 { background: var(--atlTeal800, #006278); }
+.s11 { background: var(--atlBlue300, #88b7d4); }
+.s12 { background: var(--atlGold50, #ffe89a); }
+
 /* ========================================
    NAVIGATION
    ======================================== */
+/* Hamburger menu button - hidden on desktop */
 .hamburger {
     display: none;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
     background: transparent;
     border: none;
     padding: 8px;
     cursor: pointer;
     z-index: 101;
-    flex-shrink: 0;
 }
 
 .hamburger-line {
     display: block;
-    width: 22px;
+    width: 24px;
     height: 2px;
     background: var(--ink);
     transition: transform 0.2s ease, opacity 0.2s ease;
@@ -121,40 +121,49 @@ Redesigned: 5/2026
 
 .navbars {
     display: flex;
-    align-items: center;
-    gap: 2px;
-    flex-wrap: nowrap;
+    gap: var(--pad-sm);
+    flex-wrap: wrap;
+    margin-bottom: 10px;
 }
 
 .navbtn {
     display: inline-flex;
     align-items: center;
-    padding: 6px 10px;
+    gap: 6px;
+    border: var(--border);
+    padding: 4px 10px;
     text-decoration: none;
-    color: var(--text-secondary);
-    font-size: var(--font-sm);
-    font-family: var(--font-mono);
+    color: var(--ink);
+    font-size: var(--font-xs);
     line-height: 1;
     background: transparent;
-    border: none;
-    border-radius: 3px;
-    transition: color 0.15s ease, background-color 0.15s ease;
-    white-space: nowrap;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .navbtn:hover {
-    color: var(--text-emph);
-    background: var(--terra-light);
+    background: var(--ink);
+    color: var(--ink-inv);
     text-decoration: none;
 }
+.navbtn:hover .dot{
+    border: 1px solid var(--ink-inv);
+}
 
-.navbtn.active {
-    color: var(--text-emph);
-    font-weight: 600;
+.navbtn .dot {
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    background: transparent;
+}
+
+
+.navbtn.active .dot {
+    background: var(--active-indicator);
 }
 
 /* ========================================
-   SECTION HELPERS
+   SECTION HEADER
    ======================================== */
 .section-head {
     margin-top: 6px;
@@ -167,35 +176,41 @@ Redesigned: 5/2026
 }
 
 /* ========================================
-   RULES
+   RULES (Horizontal Dividers)
    ======================================== */
 .rule {
     border: 0;
     border-top: var(--border-muted);
     height: 0;
-    margin: 12px 0;
+    margin: 10px 0;
 }
 
-.rule.dotted { border-top-style: dotted; }
-.rule.solid { border-top: var(--border); }
-.rule.flush { margin-bottom: 0; padding-bottom: 0; }
+.rule.dotted {
+    border-top-style: dotted;
+}
 
+.rule.solid {
+    border-top: var(--border);
+}
+.rule.flush {
+    margin-bottom: 0;
+    padding-bottom:0;
+}
 /* ========================================
    CONTENT AREA
    ======================================== */
 .content {
-    padding: var(--pad-lg);
-    padding-top: var(--pad);
-    padding-bottom: var(--pad);
-    min-height: 280px;
+    padding: var(--pad);
+    padding-top: 4px;
+    padding-bottom: 12px;
+    min-height: 200px;
 }
 
 /* ========================================
    FOOTER
    ======================================== */
 .foot {
-    padding: var(--pad-sm) var(--pad-lg) var(--pad-lg);
-    border-top: var(--border-muted);
+    padding: 0 var(--pad) var(--pad);
     margin-top: var(--pad);
 }
 
@@ -204,34 +219,60 @@ Redesigned: 5/2026
     gap: var(--pad-sm);
     color: var(--text-secondary);
     font-size: var(--font-xs);
-    font-family: var(--font-mono);
 }
 
 /* ========================================
    MOBILE RESPONSIVE
    ======================================== */
 @media (max-width: 768px) {
-    .frame { margin: 12px; }
-    .masthead { position: relative; }
-    .masthead-inner { flex-wrap: wrap; padding: 10px var(--pad); gap: 8px; }
-    .hamburger { display: flex; }
+    /* Reduce frame margins on mobile to prevent horizontal overflow */
+    .frame {
+        margin: 12px;
+    }
+
+    /* Remove sticky header on mobile - let it scroll away */
+    .masthead {
+        position: relative;
+    }
+
+    /* Reduce padding on mobile to maximize content space */
+    .masthead,
+    .content,
+    .foot {
+        padding-left: var(--pad-sm);
+        padding-right: var(--pad-sm);
+    }
+
+    /* Show hamburger menu on mobile */
+    .hamburger {
+        display: flex;
+    }
+
+    /* Hide navigation by default on mobile */
     .navbars {
         display: none;
-        width: 100%;
         flex-direction: column;
         align-items: stretch;
-        border-top: var(--border-muted);
-        padding-top: 8px;
-        margin-top: 4px;
     }
-    .navbars.open { display: flex; }
-    .navbtn { justify-content: flex-start; width: 100%; border-radius: 0; }
-    .content { padding: var(--pad); padding-top: var(--pad-sm); }
-    .foot { padding: var(--pad-sm) var(--pad) var(--pad); }
+
+    /* Show navigation when open class is present */
+    .navbars.open {
+        display: flex;
+    }
+
+    .navbtn {
+        justify-content: flex-start;
+    }
 }
 
 @media (max-width: 480px) {
-    .frame { margin: 8px; }
-    .brand-name { font-size: var(--font-base); }
-    .brand-role { display: none; }
+    /* Even tighter spacing on very small screens */
+    .frame {
+        margin: 8px;
+    }
+
+    /* Smaller brand title on tiny screens */
+    .brand-title {
+        font-size: var(--font-base);
+    }
 }

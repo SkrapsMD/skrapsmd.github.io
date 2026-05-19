@@ -17,16 +17,13 @@
    SPECIMEN SECTION HEADERS
    ======================================== */
 .spec-id {
-    display: none;      /* AT-xxx code labels removed — page uses .page-title now */
+    margin-top: 6px;
+    font-weight: 600;
 }
 
 .spec-title {
-    margin-top: 0;
-    font-weight: 700;
-    font-size: var(--font-sm);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: light-dark(var(--gov-blue), #8ab8d8);
+    margin-top: 2px;
+    font-weight: 600;
 }
 
 .spec-desc {

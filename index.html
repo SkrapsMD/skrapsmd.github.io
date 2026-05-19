@@ -2,39 +2,26 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Michael Dwight Sparks — Economics Research</title>
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+        <title> Michael Dwight Sparks Academic, Professional, and Personal Website</title>
         <link rel="icon" type="image/png" href="1_assets/images/people_index/MichaelSparks_Outline_GPT.webp" sizes="any">
         <link rel="apple-touch-icon" href="1_assets/images/people_index/MichaelSparks_Outline_GPT.webp">
-
-        <!-- Apply stored theme before render to prevent flash -->
-        <script>
-            (function(){
-                var t = localStorage.getItem('theme');
-                if (t === 'dark' || t === 'light') {
-                    document.documentElement.style.colorScheme = t;
-                }
-            })();
-        </script>
 
         <!-- Preload critical fonts for instant text rendering -->
         <link rel="preload" as="font" type="font/woff2" href="1_assets/styles/b_palettes_and_fonts/FONTS/fonts/complete/woff2/IBMPlexSans-Light.woff2" crossorigin>
         <link rel="preload" as="font" type="font/woff2" href="1_assets/styles/b_palettes_and_fonts/FONTS/fonts/complete/woff2/IBMPlexSans-Regular.woff2" crossorigin>
         <link rel="preload" as="font" type="font/woff2" href="1_assets/styles/b_palettes_and_fonts/FONTS/fonts/complete/woff2/IBMPlexMono-Regular.woff2" crossorigin>
 
-        <!-- Prefetch secondary fonts -->
+        <!-- Prefetch secondary fonts for faster subsequent page loads -->
         <link rel="prefetch" as="font" type="font/woff2" href="1_assets/styles/b_palettes_and_fonts/FONTS/fonts/complete/woff2/IBMPlexSans-SemiBold.woff2" crossorigin>
         <link rel="prefetch" as="font" type="font/woff2" href="1_assets/styles/b_palettes_and_fonts/FONTS/fonts/complete/woff2/IBMPlexMono-Light.woff2" crossorigin>
 
         <!-- Fonts -->
         <link rel="stylesheet" href="1_assets/styles/b_palettes_and_fonts/FONTS/css/ibm-plex-fonts.css">
-        <!-- Lora italic — used only for the research script banner -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital@1&display=swap">
 
-        <!-- Critical CSS — inlined for instant first paint -->
+        <!-- Critical CSS - Inlined for instant first paint -->
         <style>
-/* ── 00_tokens  ·  Government Blue palette ──────────────── */
+/* 00_tokens.css - Design System Tokens */
 :root {
     color-scheme: light dark;
     --font-sans: "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -48,431 +35,407 @@
     --font-2xl: 36px;
     --font-3xl: 48px;
     --font-4xl: 72px;
-
     --black: #000000;
     --white: #ffffff;
-
-    /* Paper cream — the document's printed page */
-    --ivory:       #f2f0e8;
-    --ivory-mid:   #e6e4dc;
-    --ivory-deep:  #d8d6ce;
-
-    /* Deep ink navy — masthead and structural elements */
-    --navy:        #0e1b2d;
-    --navy-mid:    #1e3350;
-    --navy-light:  #2e4d72;
-
-    /* Government blue — US Dept. of Commerce 1954 palette */
-    /* Replaces warm gold as the accent; excellent contrast on cream */
-    --gov-blue:       #2d5580;   /* main accent — ~7:1 on ivory */
-    --gov-blue-dark:  #1e3d5c;   /* hover / darker state */
-    --gov-blue-mid:   #3d6b96;   /* mid tone for UI elements */
-    --gov-blue-light: #c4d9ec;   /* tint for backgrounds / highlights */
-    --gov-blue-pale:  #edf3f8;   /* very pale surface */
-
-    /* Warm teal — secondary accent (kept for contrast variety) */
-    --ws-teal:     #2e7d7d;
-    --teal-dark:   #1f5a5a;
-    --teal-light:  #d4eeee;
-
-    /* Legacy gold — retained for dark-mode only contexts */
-    --ws-gold:     #c8902a;
-    --gold-dark:   #a87020;
-    --gold-light:  #f5e6be;
-    --gold-pale:   #fdf8ef;
-
-    /* Warm gray scale */
-    --warm-black:  #1a1612;
-    --warm-900:    #2c2520;
-    --warm-700:    #7a6e5e;
-    --warm-500:    #a09480;
-    --warm-300:    #c8bfaf;
-    --warm-200:    #ddd8cc;
-    --warm-100:    #ece8df;
-    --warm-50:     #f5f2ea;
-
-    /* Dark mode surfaces */
-    --dark-bg:           #07101c;
-    --dark-surface:      #0e1b2d;
-    --dark-border:       #1e3350;
-    --dark-border-muted: #142035;
-    --dark-ink:          #f2eedd;
-    --dark-ink-muted:    #9a8e7a;
-
-    /* ── Semantic tokens ── */
-    --bg:          light-dark(var(--ivory),      var(--dark-bg));
-    --bg-muted:    light-dark(var(--ivory-mid),  var(--dark-surface));
-    --bg-surface:  light-dark(var(--gov-blue-pale), #0a1420);
-    --ink:         light-dark(var(--warm-black), var(--dark-ink));
-    --ink-muted:   light-dark(var(--warm-700),   var(--dark-ink-muted));
-    --ink-inv:     light-dark(var(--white),      var(--warm-black));
-    --ink-muted-inv: light-dark(var(--warm-300), var(--warm-900));
-
-    --text-primary:    var(--ink);
-    --text-secondary:  var(--ink-muted);
-
-    /* Government blue as content accent — high contrast on cream */
-    --text-emph:       light-dark(var(--gov-blue),      #7aacce);
-    --text-emph-hover: light-dark(var(--gov-blue-dark), #9ac8e8);
-    --text-emph-2:     light-dark(var(--ws-teal),       #6ec8c8);
-    --text-emph-2-hover: light-dark(var(--teal-dark),   #a0d8d8);
-    --text-strong:     var(--text-primary);
-    --text-italic:     var(--text-secondary);
-    --text-link:       var(--text-emph);
+    --bg: light-dark(var(--white), var(--charcoal));
+    --bg-muted: light-dark(var(--marbleColumn), var(--darkGray));
+    --ink: light-dark(var(--black), var(--white));
+    --ink-muted: light-dark(var(--darkGray), var(--medGray));
+    --ink-inv: light-dark(var(--white), var(--black));
+    --ink-muted-inv: light-dark(var(--medGray), var(--darkGray));
+    --text-primary: var(--ink);
+    --text-secondary: var(--ink-muted);
+    --text-emph: light-dark(var(--atlBlue900), var(--atlBlue300));
+    --text-emph-hover: light-dark(var(--atlBlue600), var(--atlBlue600));
+    --text-emph-2: light-dark(var(--atlOrange900), var(--atlOrange300));
+    --text-emph-2-hover: light-dark(var(--atlOrange700), var(--atlOrange400));
+    --text-strong: var(--text-emph);
+    --text-italic: var(--text-secondary);
+    --text-link: var(--text-emph);
     --text-link-hover: var(--text-emph-hover);
-
-    --code-bg:         var(--bg-muted);
-    --code-text:       var(--text-primary);
-    --code-block-bg:   var(--bg-muted);
-    --blockquote-border: var(--gov-blue);
-    --blockquote-text:   var(--text-secondary);
-
-    --text-highlight:         light-dark(var(--gov-blue-light), #1e3040);
-    --text-highlight-2:       light-dark(var(--teal-light),     #0e2840);
-    --text-highlight-3:       light-dark(#d8f0e8,               #09301e);
-    --text-highlight-warning: light-dark(#fff3e0,               #7a3600);
-
-    --active-indicator: var(--gov-blue);
+    --code-bg: var(--bg-muted);
+    --code-text: var(--text-primary);
+    --code-block-bg: var(--bg-muted);
+    --blockquote-border: var(--text-emph);
+    --blockquote-text: var(--text-secondary);
+    --text-highlight: light-dark(var(--atlGold100), var(--atlGold800));
+    --text-highlight-2: light-dark(var(--atlBlue100), var(--atlBlue600));
+    --text-highlight-3: light-dark(var(--atlGreen100), var(--atlGreen800));
+    --text-highlight-warning: light-dark(var(--atlPrimaryWarning), var(--atlSecondaryWarning));
+    --active-indicator: light-dark(var(--atlDanger), var(--atlDanger));
     --frame-width: 980px;
-    --pad:    16px;
-    --pad-sm: 10px;
-    --pad-lg: 28px;
-    --border:        1px solid light-dark(var(--warm-200), var(--dark-border));
-    --border-muted:  1px solid light-dark(var(--warm-100), var(--dark-border-muted));
-    --border-accent: 2px solid var(--text-emph);
+    --pad: 14px;
+    --pad-sm: 8px;
+    --pad-lg: 24px;
+    --border: 1px solid var(--ink);
+    --border-muted: 1px solid var(--ink-muted);
     --border-radius: 0;
-
-    /* Legacy terra aliases */
-    --terra:       var(--gov-blue);
-    --terra-dark:  var(--gov-blue-dark);
-    --terra-light: var(--gov-blue-light);
-    --terra-mid:   var(--gov-blue-mid);
 }
 
-/* ── 01_base ───────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; }
-* { margin: 0; padding: 0; }
+/* 01_base.css - Base Styles */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
 html {
-    font-size: var(--font-base);
-    line-height: 1.6;
+    font-size: var(--font-sm);
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 body {
     font-family: var(--font-sans);
-    font-size: var(--font-base);
-    line-height: 1.6;
+    font-size: var(--font-sm);
+    line-height: 1.35;
     color: var(--ink);
-    background: light-dark(var(--ivory-deep), #040c16);
+    background: var(--bg);
 }
-h1, h2, h3, h4, h5, h6 { font-weight: 600; line-height: 1.2; }
-p { margin-bottom: 1em; }
-a { color: var(--text-link); text-decoration: none; }
-a:hover { color: var(--text-link-hover); }
-.ink-link { color: var(--ink); }
-.ink-link:hover { color: var(--text-link-hover); }
-.emph-link { color: var(--text-emph); }
-strong, b { font-weight: 600; }
-em, i { color: var(--text-italic); font-style: italic; }
-code, pre, kbd, samp { font-family: var(--font-mono); }
-.mono { font-family: var(--font-mono); }
-.muted { color: var(--text-secondary); }
-.small { font-size: var(--font-xs); }
-.medsmall { font-size: var(--font-sm); }
-.medium { font-size: var(--font-md); }
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+}
+p {
+    margin-bottom: 1em;
+}
+a {
+    color: var(--text-link);
+    text-decoration: none;
+}
+a:hover {
+    color: var(--text-link-hover);
+}
+.ink-link{
+    color:var(--ink);
+}
+.ink-link:hover{
+    color: var(--text-link-hover);
+}
+.emph-link {
+    color: var(--text-emph);
+}
+strong, b {
+    color: var(--text-strong);
+    font-weight: 600;
+}
+em, i {
+    color: var(--text-italic);
+    font-style: italic;
+}
+code, pre, kbd, samp {
+    font-family: var(--font-mono);
+}
+.mono {
+    font-family: var(--font-mono);
+}
+.muted {
+    color: var(--text-secondary);
+}
+.small {
+    font-size: var(--font-xs);
+}
+.medsmall {
+    font-size: var(--font-sm);
+}
+.medium{
+    font-size:var(--font-md);
+}
 .visually-hidden {
-    position: absolute; width: 1px; height: 1px;
-    padding: 0; margin: -1px; overflow: hidden;
-    clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
-/* ── 02_shell  ·  Deco Press — Government Blue edition ─── */
-
+/* 02_shell.css - Page Shell */
 .frame {
     max-width: var(--frame-width);
-    margin: 28px auto;
+    margin: 32px auto;
+    border: var(--border);
+    padding: 0;
     background: var(--bg);
     min-width: 0;
-    border: 1px solid light-dark(var(--warm-200), var(--dark-border));
-    box-shadow: 0 4px 40px light-dark(rgba(14,27,45,0.10), rgba(0,0,0,0.5));
 }
-
-@media (max-width: 1040px) { .frame { margin: 20px; } }
-
-/* Masthead — centered, monumental, two rows */
+@media (max-width: 1040px) {
+    .frame {
+        margin: 24px;
+    }
+}
 .masthead {
     position: sticky;
     top: 0;
-    background: var(--navy);
+    background: var(--bg);
+    padding: var(--pad);
+    padding-bottom: 0;
     z-index: 100;
-    text-align: center;
-    /* Clean solid rule — no gradient ornament */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
 }
-
-/* Brand block: centered column — name → role (no icon) */
-.masthead-brand-block {
+.masthead-top {
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 20px 60px 14px;
-    position: relative;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
 }
-
 .brand {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 12px;
     text-decoration: none;
     color: inherit;
 }
-.brand:hover { text-decoration: none; }
-
-.brand-name {
-    font-weight: 300;
-    font-size: var(--font-2xl);
-    line-height: 1;
-    color: #f2f0e8;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    transition: color 0.2s ease;
+.brand-title {
+    font-weight: 600;
+    font-size: var(--font-lg);
 }
-.brand:hover .brand-name { color: #ffffff; }
-
-.brand-role {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: rgba(242, 240, 232, 0.38);
-    line-height: 1;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+#brand-icon {
+    height: 4em;
+    width: auto;
+    display: block;
 }
-
-/* Theme toggle — absolutely positioned right */
-.theme-toggle {
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: inline-flex;
+.swatches {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 2px;
     align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 0;
-    cursor: pointer;
-    color: rgba(242, 240, 232, 0.42);
-    font-size: 13px;
-    line-height: 1;
-    transition: color 0.15s ease, border-color 0.15s ease;
-    padding: 0;
-    flex-shrink: 0;
 }
-.theme-toggle:hover {
-    color: #f2f0e8;
-    border-color: rgba(255, 255, 255, 0.55);
+.swatch {
+    width: 16px;
+    height: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
 }
-
-/* Hamburger — hidden by default, absolute left */
+.s1  { background: var(--atlRed600, #ce5158); }
+.s2  { background: var(--atlGold200, #f3bb00); }
+.s3  { background: var(--atlTeal400, #25acca); }
+.s4  { background: var(--atlBlue600, #3581b4); }
+.s5  { background: var(--atlIndigo600, #7d70c1); }
+.s6  { background: var(--charcoal, #1a1a1a); }
+.s7  { background: var(--medGray, #d0d0d0); }
+.s8  { background: var(--white, #ffffff); }
+.s9  { background: var(--atlFuchsia700, #c5266a); }
+.s10 { background: var(--atlTeal800, #006278); }
+.s11 { background: var(--atlBlue300, #88b7d4); }
+.s12 { background: var(--atlGold50, #ffe89a); }
 .hamburger {
     display: none;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
     background: transparent;
     border: none;
     padding: 8px;
     cursor: pointer;
     z-index: 101;
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
 }
 .hamburger-line {
     display: block;
-    width: 20px;
+    width: 24px;
     height: 2px;
-    background: rgba(242, 240, 232, 0.72);
+    background: var(--ink);
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
-
-/* Navigation row: centered, thin top rule */
 .navbars {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    flex-wrap: nowrap;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    gap: var(--pad-sm);
+    flex-wrap: wrap;
+    margin-bottom: 10px;
 }
-
 .navbtn {
     display: inline-flex;
     align-items: center;
-    padding: 8px 13px;
+    gap: 6px;
+    border: var(--border);
+    padding: 4px 10px;
     text-decoration: none;
-    color: rgba(242, 240, 232, 0.40);
-    font-size: 10px;
-    font-family: var(--font-mono);
+    color: var(--ink);
+    font-size: var(--font-xs);
     line-height: 1;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
     background: transparent;
-    border: none;
-    border-radius: 0;
-    transition: color 0.15s ease, background-color 0.15s ease;
-    white-space: nowrap;
-    position: relative;
-}
-.navbtn::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.6);
-    transition: width 0.2s ease;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 .navbtn:hover {
-    color: rgba(242, 240, 232, 0.88);
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--ink);
+    color: var(--ink-inv);
     text-decoration: none;
 }
-.navbtn:hover::after { width: 55%; }
-.navbtn.active { color: #f2f0e8; font-weight: 600; }
-.navbtn.active::after { width: 55%; background: rgba(255,255,255,0.8); }
-
-/* Section helpers */
-.section-head { margin-top: 6px; margin-bottom: 8px; }
+.navbtn:hover .dot{
+    border: 1px solid var(--ink-inv);
+}
+.navbtn .dot {
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    background: transparent;
+}
+.navbtn.active .dot {
+    background: var(--active-indicator);
+}
+.section-head {
+    margin-top: 6px;
+    margin-bottom: 8px;
+}
 .section-title {
     font-weight: 600;
     font-size: var(--font-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--warm-500);
 }
-
-/* Rules */
-.rule { border: 0; border-top: var(--border-muted); height: 0; margin: 12px 0; }
-.rule.dotted { border-top-style: dotted; }
-.rule.solid { border-top: var(--border); }
-.rule.flush { margin-bottom: 0; padding-bottom: 0; }
-
-/* Content area */
+.rule {
+    border: 0;
+    border-top: var(--border-muted);
+    height: 0;
+    margin: 10px 0;
+}
+.rule.dotted {
+    border-top-style: dotted;
+}
+.rule.solid {
+    border-top: var(--border);
+}
+.rule.flush {
+    margin-bottom: 0;
+    padding-bottom:0;
+}
 .content {
-    padding: var(--pad-lg);
-    padding-top: var(--pad);
-    padding-bottom: var(--pad);
-    min-height: 280px;
-    overflow: hidden;
+    padding: var(--pad);
+    padding-top: 4px;
+    padding-bottom: 12px;
+    min-height: 200px;
 }
-
-/* Footer */
 .foot {
-    padding: var(--pad-sm) var(--pad-lg) var(--pad-lg);
-    border-top: 1px solid light-dark(var(--warm-200), var(--dark-border));
+    padding: 0 var(--pad) var(--pad);
     margin-top: var(--pad);
-    text-align: center;
 }
 .foot-meta {
     display: flex;
-    justify-content: center;
     gap: var(--pad-sm);
-    color: var(--warm-500);
+    color: var(--text-secondary);
     font-size: var(--font-xs);
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
 }
-
-/* ── Mobile ──────────────────────────────────────────────── */
 @media (max-width: 768px) {
-    .frame { margin: 12px; }
-    .masthead { position: relative; }
-    .masthead-brand-block { padding: 10px 52px 10px; }
-    .brand-name { font-size: var(--font-xl); letter-spacing: 0.14em; }
-    .hamburger { display: flex; }
+    .frame {
+        margin: 12px;
+    }
+    .masthead {
+        position: relative;
+    }
+    .masthead,
+    .content,
+    .foot {
+        padding-left: var(--pad-sm);
+        padding-right: var(--pad-sm);
+    }
+    .hamburger {
+        display: flex;
+    }
     .navbars {
         display: none;
         flex-direction: column;
         align-items: stretch;
-        justify-content: flex-start;
-        border-top: 1px solid rgba(255,255,255,0.06);
-        padding: 4px 0;
     }
-    .navbars.open { display: flex; }
-    .navbtn { justify-content: center; padding: 10px; }
-    .navbtn::after { display: none; }
-    .content { padding: var(--pad); padding-top: var(--pad-sm); overflow: hidden; }
-    .foot { padding: var(--pad-sm) var(--pad) var(--pad); }
+    .navbars.open {
+        display: flex;
+    }
+    .navbtn {
+        justify-content: flex-start;
+    }
 }
-
 @media (max-width: 480px) {
-    .frame { margin: 8px; }
-    .brand-name { font-size: var(--font-lg); letter-spacing: 0.1em; }
-    .brand-role { display: none; }
+    .frame {
+        margin: 8px;
+    }
+    .brand-title {
+        font-size: var(--font-base);
+    }
 }
         </style>
 
-        <!-- Non-critical components CSS -->
+        <!-- Color primitives: loaded non-blocking so they don't delay first paint.
+             Custom property values (--atlBlue900 etc.) cascade lazily at paint time,
+             so no visible flash on a cached or fast connection. -->
+        <link rel="stylesheet" media="print" onload="this.media='all'" href="1_assets/styles/b_palettes_and_fonts/FRBA_scheme.css">
+        <noscript><link rel="stylesheet" href="1_assets/styles/b_palettes_and_fonts/FRBA_scheme.css"></noscript>
+
+        <!-- Non-critical components CSS loaded separately -->
         <link rel="stylesheet" href="1_assets/styles/03_components.css">
+
+        <!-- Application -->
     </head>
+
 
     <body>
     <div class="frame">
-
         <header class="masthead">
-            <!-- Centered brand: icon, name, role — no ornamental lines -->
-            <div class="masthead-brand-block">
-                <a href="#home" class="brand">
-                    <span class="brand-name">Michael Dwight Sparks</span>
-                    <span class="brand-role">Economics · Atlanta Fed → UCSD PhD</span>
-                </a>
 
-                <button class="theme-toggle" id="theme-toggle"
-                        aria-label="Switch to dark mode"
-                        aria-pressed="false">
-                    <span class="theme-icon" aria-hidden="true">☾</span>
-                </button>
+        <div class="masthead-top">
+            <a href="#home" class="brand">
+            <img id="brand-icon" src="1_assets/images/people_index/MichaelSparks_Outline_GPT.webp" alt="Michael Dwight Sparks Logo" width="512" height="768">
+            <span class="brand-title">Michael Dwight Sparks</span>
+            </a>
+            <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
 
-                <button class="hamburger" id="menu-toggle"
-                        aria-label="Toggle navigation menu"
-                        aria-expanded="false">
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
-                    <span class="hamburger-line"></span>
-                </button>
-            </div>
+        <nav class="navbars">
+            <a class="navbtn" href="#home" data-page="home">
+            <span class="dot" aria-hidden="true"></span>
+            Home
+            </a>
 
-            <!-- Centered nav row -->
-            <nav class="navbars" aria-label="Site navigation">
-                <a class="navbtn" href="#home" data-page="home">Home</a>
-                <a class="navbtn" href="#research" data-page="research">Research</a>
-                <a class="navbtn" href="#code" data-page="code">Code & Data</a>
-                <a class="navbtn" href="#applications" data-page="applications">PhD Tracker</a>
-                <a class="navbtn" href="#people" data-page="people">People</a>
-                <a class="navbtn" href="#specimen" data-page="specimen">Design Ref.</a>
-                <a class="navbtn" href="#sitemap" data-page="sitemap">Sitemap</a>
-            </nav>
+            <a class="navbtn" href="#research" data-page="research">
+            <span class="dot" aria-hidden="true"></span>
+            Research
+            </a>
+
+            <a class="navbtn" href="#code" data-page="code">
+            <span class="dot" aria-hidden="true"></span>
+            Code & Data
+            </a>
+
+            <a class="navbtn" href="#applications" data-page="applications">
+            <span class="dot" aria-hidden="true"></span>
+            PhD App. Tracker
+            </a>
+
+            <a class="navbtn" href="#people" data-page="people">
+            <span class="dot" aria-hidden="true"></span>
+            People
+            </a>
+
+            <a class="navbtn" href="#specimen" data-page="specimen">
+            <span class="dot" aria-hidden="true"></span>
+            Design Reference
+            </a>
+
+            <a class="navbtn" href="#sitemap" data-page="sitemap">
+            <span class="dot" aria-hidden="true"></span>
+            Sitemap
+            </a>
+        </nav>
+
+
+        <div class="rule flush"></div>
         </header>
 
         <main id="app" class="content">
-            <!-- page partial injected here by 0_app.js -->
+        <!-- injected partial -->
         </main>
 
         <footer class="foot">
-            <div class="foot-meta">
-                <span>© 2026 Michael Dwight Sparks</span>
-                <span>·</span>
-                <span>Built static</span>
-            </div>
+        <div class="rule"></div>
+        <div class="foot-meta">
+            <span class="mono">© 2026</span>
+            <span class="mono">·</span>
+            <span class="mono">Built static</span>
+        </div>
         </footer>
-
     </div>
 
     <script src="0_code/b_scripts/0_app.js"></script>
