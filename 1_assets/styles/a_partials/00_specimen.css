@@ -320,32 +320,6 @@
     align-items: center;
 }
 
-/* ========================================
-   CARD SUB-COMPONENTS (specimen use)
-   ======================================== */
-.card-badges {
-    margin-top: 12px;
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.card-actions {
-    margin-top: 12px;
-    display: flex;
-    gap: 8px;
-}
-
-.card-action {
-    margin-top: 12px;
-}
-
-.card-title-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    margin-bottom: 4px;
-}
 
 .card-date {
     font-size: var(--font-xs);

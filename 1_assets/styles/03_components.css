@@ -487,13 +487,22 @@ Work In Progress Signal
     gap: 12px;
 }
 
+.card-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 4px;
+}
+
 .card-badges {
+    margin-top: 12px;
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
 }
 
 .card-actions {
+    margin-top: 12px;
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
@@ -501,6 +510,10 @@ Work In Progress Signal
 
 .card-actions .btn {
     min-width: 6rem;
+}
+
+.card-action {
+    margin-top: 12px;
 }
 
 .card-press-links {

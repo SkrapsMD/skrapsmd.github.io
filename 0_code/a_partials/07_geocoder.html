@@ -1,0 +1,157 @@
+<section class="geocoder-app">
+  <header class="geocoder-header">
+    <h2 class="geocoder-title">Geocoder</h2>
+    <p class="geocoder-intro">
+      Upload a spreadsheet with columns <code>Address</code>, <code>City</code>,
+      <code>State</code>, and <code>Zip Code</code>. The tool adds
+      <code>latitude</code> and <code>longitude</code> columns and downloads the result.
+      Runs entirely in your browser; addresses are sent only to the U.S. Census public
+      geocoding endpoint.
+    </p>
+    <p class="geocoder-back">
+      <a href="#code" class="btn btn--ghost">&larr; Back to Code &amp; Data</a>
+    </p>
+  </header>
+
+  <div class="geocoder-card card">
+    <section class="geocoder-step">
+      <label class="geocoder-label" for="file-input">1. Choose a file</label>
+      <input class="geocoder-file" type="file" id="file-input" accept=".xlsx,.xls,.csv">
+    </section>
+
+    <section class="geocoder-step">
+      <span class="geocoder-label">2. Run</span>
+      <button class="btn btn--primary" id="run-btn" disabled>Geocode</button>
+    </section>
+
+    <section class="geocoder-step">
+      <span class="geocoder-label">3. Progress</span>
+      <p class="geocoder-status mono" id="status">No file loaded.</p>
+      <progress class="geocoder-progress" id="progress-bar" value="0" max="1" hidden></progress>
+    </section>
+  </div>
+</section>
+
+<script>
+(function () {
+  const XLSX_URL = "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js";
+
+  function ensureXLSX() {
+    if (window.XLSX) return Promise.resolve();
+    if (window.__xlsxLoading) return window.__xlsxLoading;
+    window.__xlsxLoading = new Promise((resolve, reject) => {
+      const existing = document.querySelector('script[data-lib="xlsx"]');
+      if (existing) {
+        existing.addEventListener('load', () => resolve());
+        existing.addEventListener('error', () => reject(new Error("XLSX load failed")));
+        return;
+      }
+      const s = document.createElement('script');
+      s.src = XLSX_URL;
+      s.async = true;
+      s.dataset.lib = "xlsx";
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error("XLSX load failed"));
+      document.head.appendChild(s);
+    });
+    return window.__xlsxLoading;
+  }
+
+  const CENSUS_URL = "https://geocoding.geo.census.gov/geocoder/locations/address";
+  const BENCHMARK = "Public_AR_Current";
+  const REQUIRED_COLS = ["Address", "City", "State", "Zip Code"];
+
+  const fileInput   = document.getElementById("file-input");
+  const runBtn      = document.getElementById("run-btn");
+  const statusEl    = document.getElementById("status");
+  const progressBar = document.getElementById("progress-bar");
+  if (!fileInput || !runBtn || !statusEl || !progressBar) return;
+
+  let loadedRows = null;
+  let loadedName = null;
+  let loadedExt  = null;
+
+  statusEl.textContent = "Loading geocoding library...";
+  ensureXLSX()
+    .then(() => { statusEl.textContent = "No file loaded."; })
+    .catch((e) => { statusEl.textContent = "Error loading library: " + e.message; });
+
+  fileInput.addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    try {
+      await ensureXLSX();
+      const buf = await file.arrayBuffer();
+      const wb = XLSX.read(buf, { type: "array" });
+      const sheet = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+      if (rows.length === 0) throw new Error("No rows in spreadsheet.");
+      const missing = REQUIRED_COLS.filter((c) => !(c in rows[0]));
+      if (missing.length) throw new Error("Missing column(s): " + missing.join(", "));
+      loadedRows = rows;
+      loadedName = file.name.replace(/\.[^.]+$/, "");
+      loadedExt  = file.name.split(".").pop().toLowerCase();
+      statusEl.textContent = "Loaded " + rows.length + " rows. Ready to geocode.";
+      runBtn.disabled = false;
+    } catch (err) {
+      statusEl.textContent = "Error: " + err.message;
+      runBtn.disabled = true;
+    }
+  });
+
+  runBtn.addEventListener("click", async () => {
+    if (!loadedRows) return;
+    runBtn.disabled = true;
+    fileInput.disabled = true;
+    progressBar.hidden = false;
+    progressBar.max = loadedRows.length;
+    progressBar.value = 0;
+
+    let matched = 0;
+    for (let i = 0; i < loadedRows.length; i++) {
+      const row = loadedRows[i];
+      statusEl.textContent = "Geocoding " + (i + 1) + " of " + loadedRows.length + "...";
+      const coords = await geocodeRow(row);
+      row.latitude  = coords ? coords.lat : "";
+      row.longitude = coords ? coords.lon : "";
+      if (coords) matched++;
+      progressBar.value = i + 1;
+    }
+
+    statusEl.textContent = "Done. Matched " + matched + " of " + loadedRows.length + ". Preparing download...";
+    downloadResult();
+    statusEl.textContent = "Done. Matched " + matched + " of " + loadedRows.length + ".";
+    fileInput.disabled = false;
+  });
+
+  async function geocodeRow(row) {
+    const params = new URLSearchParams({
+      street: row["Address"] || "",
+      city:   row["City"] || "",
+      state:  row["State"] || "",
+      zip:    String(row["Zip Code"] || ""),
+      benchmark: BENCHMARK,
+      format: "json",
+    });
+    try {
+      const resp = await fetch(CENSUS_URL + "?" + params.toString());
+      if (!resp.ok) return null;
+      const data = await resp.json();
+      const match = data && data.result && data.result.addressMatches && data.result.addressMatches[0];
+      if (!match) return null;
+      return { lat: match.coordinates.y, lon: match.coordinates.x };
+    } catch {
+      return null;
+    }
+  }
+
+  function downloadResult() {
+    const ws = XLSX.utils.json_to_sheet(loadedRows);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    const outName = loadedName + "_geocoded." + loadedExt;
+    const bookType = loadedExt === "csv" ? "csv" : "xlsx";
+    XLSX.writeFile(wb, outName, { bookType });
+  }
+})();
+</script>
