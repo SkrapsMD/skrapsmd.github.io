@@ -9,6 +9,7 @@
       override the mapping. If a street address isn't available, we'll geocode
       using City + State + ZIP instead. Runs entirely in your browser;
       addresses are sent only to the U.S. Census public geocoding endpoint.
+      <!--> Documentation on the Census Public Encoding Endpoint (https://www.census.gov/data/developers/data-sets/Geocoding-services.html), for the Nominatim Zip Centroid (https://nominatim.org/release-docs/3.6/develop/Postcodes/)<--> 
     </p>
     <p class="geocoder-back">
       <a href="#code" class="btn btn--ghost">&larr; Back to Code &amp; Data</a>
@@ -445,6 +446,9 @@
     // Excel often stores zips as floats ("30309" → 30309 → "30309" but
     // "30309.0" after toString); strip trailing ".0" defensively.
     const zipStr    = String(zipRaw == null ? "" : zipRaw).trim().replace(/\.0+$/, "");
+    // Digits-only, first 5 chars: handles ZIP+4 ("20110-1234") and ranges
+    // ("20110-20130") for the Nominatim fallback, which keys on 5-digit ZIPs.
+    const zipDigits = (zipStr.match(/\d/g) || []).join("").slice(0, 5);
     const streetStr = addressCol ? String(row[addressCol] ?? "").trim() : "";
 
     if (!cityStr && !stateStr && !zipStr && !streetStr) return null;
@@ -471,9 +475,11 @@
     }
 
     // Tier 3 (last resort): ZIP centroid via Nominatim. Census's geocoder
-    // doesn't accept a bare ZIP, so we fall back to OSM here.
-    if (zipStr) {
-      const r = await nominatimZipCentroid(zipStr);
+    // doesn't accept a bare ZIP, so we fall back to OSM here. Use the
+    // digit-normalized 5-digit ZIP because Nominatim's postcode index won't
+    // match ZIP+4 or hyphenated ranges.
+    if (zipDigits.length === 5) {
+      const r = await nominatimZipCentroid(zipDigits);
       if (r) return r;
     }
 
