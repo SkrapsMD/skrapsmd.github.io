@@ -1,33 +1,95 @@
-<section class="geocoder-app">
+<section class="geocoder-app" data-active-step="upload">
   <header class="geocoder-header">
     <h2 class="geocoder-title">Geocoder</h2>
     <p class="geocoder-intro">
-      Upload a spreadsheet with columns <code>Address</code>, <code>City</code>,
-      <code>State</code>, and <code>Zip Code</code>. The tool adds
-      <code>latitude</code> and <code>longitude</code> columns and downloads the result.
-      Runs entirely in your browser; addresses are sent only to the U.S. Census public
-      geocoding endpoint.
+      Upload a spreadsheet of U.S. addresses and the tool will append
+      <code>latitude</code> and <code>longitude</code> columns. Column names
+      don't have to match exactly &mdash; we'll try to identify which columns
+      hold the address, city, state, and ZIP code, and let you confirm or
+      override the mapping. If a street address isn't available, we'll geocode
+      using City + State + ZIP instead. Runs entirely in your browser;
+      addresses are sent only to the U.S. Census public geocoding endpoint.
     </p>
     <p class="geocoder-back">
       <a href="#code" class="btn btn--ghost">&larr; Back to Code &amp; Data</a>
     </p>
   </header>
 
-  <div class="geocoder-card card">
+  <!-- Step 1: Upload -->
+  <div class="geocoder-card card" data-step="upload">
     <section class="geocoder-step">
       <label class="geocoder-label" for="file-input">1. Choose a file</label>
       <input class="geocoder-file" type="file" id="file-input" accept=".xlsx,.xls,.csv">
+      <p class="geocoder-status mono" id="upload-status">No file loaded.</p>
+    </section>
+  </div>
+
+  <!-- Step 2: Confirm column mapping -->
+  <div class="geocoder-card card geocoder-step--hidden" data-step="confirm">
+    <section class="geocoder-step">
+      <span class="geocoder-label">2. Confirm column mapping</span>
+      <p class="geocoder-status mono" id="detect-status"></p>
+      <div class="geocoder-table-wrap">
+        <table class="table table--compact" id="preview-input">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </section>
 
     <section class="geocoder-step">
-      <span class="geocoder-label">2. Run</span>
+      <span class="geocoder-label">Which columns are which?</span>
+      <div class="geocoder-mapping-grid">
+        <div class="field">
+          <label class="field-label" for="map-address">Address <span class="geocoder-helper-text">(optional)</span></label>
+          <select class="input" id="map-address"></select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="map-city">City</label>
+          <select class="input" id="map-city"></select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="map-state">State</label>
+          <select class="input" id="map-state"></select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="map-zip">ZIP Code</label>
+          <select class="input" id="map-zip"></select>
+        </div>
+      </div>
+      <p class="geocoder-helper-text">
+        Leave Address as &mdash; none &mdash; and we'll geocode by City + State + ZIP.
+      </p>
+    </section>
+
+    <section class="geocoder-step geocoder-step--actions">
+      <button class="btn btn--ghost" id="back-to-upload">&larr; Choose a different file</button>
       <button class="btn btn--primary" id="run-btn" disabled>Geocode</button>
     </section>
 
+    <section class="geocoder-step" id="progress-section" hidden>
+      <span class="geocoder-label">Progress</span>
+      <p class="geocoder-status mono" id="run-status"></p>
+      <progress class="geocoder-progress" id="progress-bar" value="0" max="1"></progress>
+    </section>
+  </div>
+
+  <!-- Step 3: Review & download -->
+  <div class="geocoder-card card geocoder-step--hidden" data-step="review">
     <section class="geocoder-step">
-      <span class="geocoder-label">3. Progress</span>
-      <p class="geocoder-status mono" id="status">No file loaded.</p>
-      <progress class="geocoder-progress" id="progress-bar" value="0" max="1" hidden></progress>
+      <span class="geocoder-label">3. Review &amp; download</span>
+      <p class="geocoder-status mono" id="review-status"></p>
+      <div class="geocoder-table-wrap">
+        <table class="table table--compact" id="preview-output">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="geocoder-step geocoder-step--actions">
+      <button class="btn btn--ghost" id="restart-btn">Start over</button>
+      <button class="btn btn--primary" id="download-btn">Download</button>
     </section>
   </div>
 </section>
@@ -57,84 +119,301 @@
     return window.__xlsxLoading;
   }
 
-  const CENSUS_URL = "https://geocoding.geo.census.gov/geocoder/locations/address";
+  const CENSUS_STRUCTURED = "https://geocoding.geo.census.gov/geocoder/locations/address";
+  const CENSUS_ONELINE    = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress";
   const BENCHMARK = "Public_AR_Current";
-  const REQUIRED_COLS = ["Address", "City", "State", "Zip Code"];
+  const PREVIEW_ROWS = 5;
 
-  const fileInput   = document.getElementById("file-input");
-  const runBtn      = document.getElementById("run-btn");
-  const statusEl    = document.getElementById("status");
-  const progressBar = document.getElementById("progress-bar");
-  if (!fileInput || !runBtn || !statusEl || !progressBar) return;
+  const ALIASES = {
+    address: {
+      exact: ["address", "addr", "street", "streetaddress", "addressline1", "address1", "addr1", "line1", "addressline", "streetaddr"],
+      contains: ["street", "address"]
+    },
+    city: {
+      exact: ["city", "town", "municipality", "locality"],
+      contains: ["city", "town"]
+    },
+    state: {
+      exact: ["state", "st", "stateabbreviation", "statecode", "stateabbr", "province", "usstate"],
+      contains: ["state"],
+      containsReject: ["estate", "interstate", "realestate", "statement", "stateside"]
+    },
+    zip: {
+      exact: ["zip", "zipcode", "zip5", "postalcode", "postcode", "postal", "zipcodes"],
+      contains: ["zip", "postal"]
+    }
+  };
+
+  const root          = document.querySelector('.geocoder-app');
+  const fileInput     = document.getElementById("file-input");
+  const uploadStatus  = document.getElementById("upload-status");
+  const detectStatus  = document.getElementById("detect-status");
+  const previewInput  = document.getElementById("preview-input");
+  const mapAddress    = document.getElementById("map-address");
+  const mapCity       = document.getElementById("map-city");
+  const mapState      = document.getElementById("map-state");
+  const mapZip        = document.getElementById("map-zip");
+  const backBtn       = document.getElementById("back-to-upload");
+  const runBtn        = document.getElementById("run-btn");
+  const progressSec   = document.getElementById("progress-section");
+  const runStatus     = document.getElementById("run-status");
+  const progressBar   = document.getElementById("progress-bar");
+  const reviewStatus  = document.getElementById("review-status");
+  const previewOutput = document.getElementById("preview-output");
+  const restartBtn    = document.getElementById("restart-btn");
+  const downloadBtn   = document.getElementById("download-btn");
+
+  if (!root || !fileInput || !runBtn) return;
 
   let loadedRows = null;
+  let loadedHeaders = null;
   let loadedName = null;
   let loadedExt  = null;
+  let latKey = "latitude";
+  let lonKey = "longitude";
 
-  statusEl.textContent = "Loading geocoding library...";
+  uploadStatus.textContent = "Loading geocoding library...";
   ensureXLSX()
-    .then(() => { statusEl.textContent = "No file loaded."; })
-    .catch((e) => { statusEl.textContent = "Error loading library: " + e.message; });
+    .then(() => { uploadStatus.textContent = "No file loaded."; })
+    .catch((e) => { uploadStatus.textContent = "Error loading library: " + e.message; });
+
+  function showStep(name) {
+    root.setAttribute("data-active-step", name);
+    root.querySelectorAll('[data-step]').forEach(panel => {
+      panel.classList.toggle("geocoder-step--hidden", panel.dataset.step !== name);
+    });
+  }
+
+  function normalize(s) {
+    return String(s == null ? "" : s).toLowerCase().replace(/[^a-z0-9]/g, "");
+  }
+
+  function detectMapping(headers) {
+    const normHeaders = headers.map(h => ({ raw: h, norm: normalize(h) }));
+    const used = new Set();
+    const result = { address: null, city: null, state: null, zip: null };
+
+    // Pass 1: exact alias matches (in the order address → zip → state → city,
+    // so the rarer/more specific aliases get their pick first).
+    const order = ["address", "zip", "state", "city"];
+    order.forEach(field => {
+      const cfg = ALIASES[field];
+      for (const h of normHeaders) {
+        if (used.has(h.raw)) continue;
+        if (cfg.exact.includes(h.norm)) {
+          result[field] = h.raw;
+          used.add(h.raw);
+          break;
+        }
+      }
+    });
+
+    // Pass 2: substring fallback for any still-missing field.
+    order.forEach(field => {
+      if (result[field]) return;
+      const cfg = ALIASES[field];
+      for (const h of normHeaders) {
+        if (used.has(h.raw)) continue;
+        const matches = cfg.contains.some(needle => h.norm.includes(needle));
+        if (!matches) continue;
+        const rejected = (cfg.containsReject || []).some(bad => h.norm.includes(bad));
+        if (rejected) continue;
+        result[field] = h.raw;
+        used.add(h.raw);
+        break;
+      }
+    });
+
+    return result;
+  }
+
+  function populateSelect(select, headers, selected, includeNone) {
+    select.innerHTML = "";
+    const none = document.createElement("option");
+    none.value = "";
+    none.textContent = includeNone ? "— none —" : "— select a column —";
+    select.appendChild(none);
+    headers.forEach(h => {
+      const opt = document.createElement("option");
+      opt.value = h;
+      opt.textContent = h;
+      if (h === selected) opt.selected = true;
+      select.appendChild(opt);
+    });
+  }
+
+  function renderPreview(table, headers, rows, extraTrailingHeaders) {
+    const thead = table.querySelector("thead");
+    const tbody = table.querySelector("tbody");
+    thead.innerHTML = "";
+    tbody.innerHTML = "";
+
+    const allHeaders = headers.concat(extraTrailingHeaders || []);
+    const tr = document.createElement("tr");
+    allHeaders.forEach(h => {
+      const th = document.createElement("th");
+      th.textContent = h;
+      tr.appendChild(th);
+    });
+    thead.appendChild(tr);
+
+    rows.slice(0, PREVIEW_ROWS).forEach(row => {
+      const r = document.createElement("tr");
+      allHeaders.forEach(h => {
+        const td = document.createElement("td");
+        const v = row[h];
+        td.textContent = (v == null || v === "") ? "" : String(v);
+        r.appendChild(td);
+      });
+      tbody.appendChild(r);
+    });
+  }
+
+  function updateRunButtonState() {
+    const hasCity  = !!mapCity.value;
+    const hasState = !!mapState.value;
+    const hasZip   = !!mapZip.value;
+    runBtn.disabled = !(hasCity && hasState && hasZip);
+  }
+
+  function describeDetection(mapping) {
+    const fields = [
+      ["Address", mapping.address, true],
+      ["City",    mapping.city,    false],
+      ["State",   mapping.state,   false],
+      ["ZIP",     mapping.zip,     false]
+    ];
+    const missing = fields.filter(([_, v, optional]) => !v && !optional).map(([name]) => name);
+    const found   = fields.filter(([_, v]) => v).length;
+    if (missing.length === 0) {
+      return "Auto-detected " + found + " of 4 columns. Review and adjust below if needed.";
+    }
+    return "Couldn't auto-detect: " + missing.join(", ") + ". Please choose the right column(s) below.";
+  }
 
   fileInput.addEventListener("change", async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     try {
+      uploadStatus.textContent = "Reading file...";
       await ensureXLSX();
       const buf = await file.arrayBuffer();
       const wb = XLSX.read(buf, { type: "array" });
       const sheet = wb.Sheets[wb.SheetNames[0]];
       const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
       if (rows.length === 0) throw new Error("No rows in spreadsheet.");
-      const missing = REQUIRED_COLS.filter((c) => !(c in rows[0]));
-      if (missing.length) throw new Error("Missing column(s): " + missing.join(", "));
-      loadedRows = rows;
-      loadedName = file.name.replace(/\.[^.]+$/, "");
-      loadedExt  = file.name.split(".").pop().toLowerCase();
-      statusEl.textContent = "Loaded " + rows.length + " rows. Ready to geocode.";
-      runBtn.disabled = false;
+
+      // Headers in the order they appear in the sheet (sheet_to_json preserves
+      // insertion order from the first row).
+      const headerSet = new Set();
+      rows.forEach(r => Object.keys(r).forEach(k => headerSet.add(k)));
+      const headers = Array.from(headerSet);
+
+      loadedRows    = rows;
+      loadedHeaders = headers;
+      loadedName    = file.name.replace(/\.[^.]+$/, "");
+      loadedExt     = (file.name.split(".").pop() || "xlsx").toLowerCase();
+
+      const mapping = detectMapping(headers);
+      populateSelect(mapAddress, headers, mapping.address, true);
+      populateSelect(mapCity,    headers, mapping.city,    false);
+      populateSelect(mapState,   headers, mapping.state,   false);
+      populateSelect(mapZip,     headers, mapping.zip,     false);
+
+      detectStatus.textContent = "Loaded " + rows.length + " row" + (rows.length === 1 ? "" : "s") + ". " + describeDetection(mapping);
+      renderPreview(previewInput, headers, rows);
+      updateRunButtonState();
+
+      uploadStatus.textContent = "Loaded " + rows.length + " rows from " + file.name + ".";
+      showStep("confirm");
     } catch (err) {
-      statusEl.textContent = "Error: " + err.message;
-      runBtn.disabled = true;
+      uploadStatus.textContent = "Error: " + err.message;
+      loadedRows = null;
     }
+  });
+
+  [mapAddress, mapCity, mapState, mapZip].forEach(sel => {
+    sel.addEventListener("change", updateRunButtonState);
+  });
+
+  backBtn.addEventListener("click", () => {
+    fileInput.value = "";
+    uploadStatus.textContent = "No file loaded.";
+    showStep("upload");
   });
 
   runBtn.addEventListener("click", async () => {
     if (!loadedRows) return;
+
+    const addressCol = mapAddress.value || null;
+    const cityCol    = mapCity.value;
+    const stateCol   = mapState.value;
+    const zipCol     = mapZip.value;
+
+    if (!cityCol || !stateCol || !zipCol) return;
+
+    // Pick non-clashing output column names so we never overwrite source data.
+    const headerLower = new Set(loadedHeaders.map(h => String(h).toLowerCase()));
+    latKey = headerLower.has("latitude")  ? "latitude_geocoded"  : "latitude";
+    lonKey = headerLower.has("longitude") ? "longitude_geocoded" : "longitude";
+
     runBtn.disabled = true;
+    backBtn.disabled = true;
     fileInput.disabled = true;
-    progressBar.hidden = false;
+    progressSec.hidden = false;
     progressBar.max = loadedRows.length;
     progressBar.value = 0;
 
     let matched = 0;
     for (let i = 0; i < loadedRows.length; i++) {
       const row = loadedRows[i];
-      statusEl.textContent = "Geocoding " + (i + 1) + " of " + loadedRows.length + "...";
-      const coords = await geocodeRow(row);
-      row.latitude  = coords ? coords.lat : "";
-      row.longitude = coords ? coords.lon : "";
+      runStatus.textContent = "Geocoding " + (i + 1) + " of " + loadedRows.length + "...";
+      const coords = await geocodeRow(row, addressCol, cityCol, stateCol, zipCol);
+      row[latKey] = coords ? coords.lat : "";
+      row[lonKey] = coords ? coords.lon : "";
       if (coords) matched++;
       progressBar.value = i + 1;
     }
 
-    statusEl.textContent = "Done. Matched " + matched + " of " + loadedRows.length + ". Preparing download...";
-    downloadResult();
-    statusEl.textContent = "Done. Matched " + matched + " of " + loadedRows.length + ".";
+    runStatus.textContent = "Geocoded " + matched + " of " + loadedRows.length + " rows.";
+
+    const outputHeaders = loadedHeaders.concat([latKey, lonKey]);
+    renderPreview(previewOutput, outputHeaders, loadedRows);
+    reviewStatus.textContent = "Matched " + matched + " of " + loadedRows.length + " row" + (loadedRows.length === 1 ? "" : "s") + ". Showing the first " + Math.min(PREVIEW_ROWS, loadedRows.length) + ".";
+
+    backBtn.disabled = false;
     fileInput.disabled = false;
+    showStep("review");
   });
 
-  async function geocodeRow(row) {
-    const params = new URLSearchParams({
-      street: row["Address"] || "",
-      city:   row["City"] || "",
-      state:  row["State"] || "",
-      zip:    String(row["Zip Code"] || ""),
-      benchmark: BENCHMARK,
-      format: "json",
-    });
+  async function geocodeRow(row, addressCol, cityCol, stateCol, zipCol) {
+    const cityStr   = String(row[cityCol]  ?? "").trim();
+    const stateStr  = String(row[stateCol] ?? "").trim();
+    const zipRaw    = row[zipCol];
+    // Excel often stores zips as floats ("30309" → 30309 → "30309" but
+    // "30309.0" after toString); strip trailing ".0" defensively.
+    const zipStr    = String(zipRaw == null ? "" : zipRaw).trim().replace(/\.0+$/, "");
+    const streetStr = addressCol ? String(row[addressCol] ?? "").trim() : "";
+
+    if (!cityStr && !stateStr && !zipStr && !streetStr) return null;
+
     try {
-      const resp = await fetch(CENSUS_URL + "?" + params.toString());
+      let url;
+      if (streetStr) {
+        const p = new URLSearchParams({
+          street: streetStr, city: cityStr, state: stateStr, zip: zipStr,
+          benchmark: BENCHMARK, format: "json"
+        });
+        url = CENSUS_STRUCTURED + "?" + p.toString();
+      } else {
+        const oneline = [cityStr, stateStr].filter(Boolean).join(", ") + (zipStr ? " " + zipStr : "");
+        const p = new URLSearchParams({
+          address: oneline.trim(),
+          benchmark: BENCHMARK, format: "json"
+        });
+        url = CENSUS_ONELINE + "?" + p.toString();
+      }
+      const resp = await fetch(url);
       if (!resp.ok) return null;
       const data = await resp.json();
       const match = data && data.result && data.result.addressMatches && data.result.addressMatches[0];
@@ -145,13 +424,39 @@
     }
   }
 
-  function downloadResult() {
-    const ws = XLSX.utils.json_to_sheet(loadedRows);
+  downloadBtn.addEventListener("click", () => {
+    if (!loadedRows) return;
+    const ws = XLSX.utils.json_to_sheet(loadedRows, {
+      header: loadedHeaders.concat([latKey, lonKey])
+    });
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
     const outName = loadedName + "_geocoded." + loadedExt;
     const bookType = loadedExt === "csv" ? "csv" : "xlsx";
     XLSX.writeFile(wb, outName, { bookType });
-  }
+  });
+
+  restartBtn.addEventListener("click", () => {
+    loadedRows = null;
+    loadedHeaders = null;
+    loadedName = null;
+    loadedExt  = null;
+    fileInput.value = "";
+    fileInput.disabled = false;
+    runBtn.disabled = true;
+    backBtn.disabled = false;
+    progressSec.hidden = true;
+    progressBar.value = 0;
+    runStatus.textContent = "";
+    reviewStatus.textContent = "";
+    detectStatus.textContent = "";
+    previewInput.querySelector("thead").innerHTML = "";
+    previewInput.querySelector("tbody").innerHTML = "";
+    previewOutput.querySelector("thead").innerHTML = "";
+    previewOutput.querySelector("tbody").innerHTML = "";
+    [mapAddress, mapCity, mapState, mapZip].forEach(sel => { sel.innerHTML = ""; });
+    uploadStatus.textContent = "No file loaded.";
+    showStep("upload");
+  });
 })();
 </script>
