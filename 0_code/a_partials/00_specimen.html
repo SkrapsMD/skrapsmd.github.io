@@ -390,7 +390,45 @@ COLOR SPECIMEN -- COLORS AND COLORS + FONTS
   </div>
 </section>
 
+<!-- WCAG contrast-ratio overlay controls (governs both palette grids below) -->
+<div class="contrast-controls">
+  <button class="btn" id="contrast-toggle" type="button" aria-pressed="false">Show Contrast Ratios</button>
+  <div class="contrast-bg-switch" role="radiogroup" aria-label="Background color for contrast calculation">
+    <span class="contrast-bg-switch__caption">Background:</span>
+    <button class="contrast-bg-switch__option contrast-bg-switch__option--active" type="button" data-bg="white" role="radio" aria-checked="true">White</button>
+    <button class="contrast-bg-switch__option" type="button" data-bg="black" role="radio" aria-checked="false">Black</button>
+  </div>
+</div>
 
+<div class="contrast-key" id="contrast-key" hidden>
+  <div class="contrast-key__legend">
+    <div class="contrast-key__item">
+      <span class="contrast-key__dot contrast-key__dot--aaa"></span>
+      <span><strong>AAA</strong> &mdash; normal text &ge;7:1</span>
+    </div>
+    <div class="contrast-key__item">
+      <span class="contrast-key__dot contrast-key__dot--aa"></span>
+      <span><strong>AA</strong> &mdash; normal text &ge;4.5:1 / AAA large text &ge;4.5:1</span>
+    </div>
+    <div class="contrast-key__item">
+      <span class="contrast-key__dot contrast-key__dot--aa-large"></span>
+      <span><strong>AA large</strong> &mdash; large text &ge;3:1 / UI &amp; graphics &ge;3:1 (WCAG 2.1)</span>
+    </div>
+    <div class="contrast-key__item">
+      <span class="contrast-key__dot contrast-key__dot--fail"></span>
+      <span><strong>Fail</strong> &mdash; below 3:1</span>
+    </div>
+  </div>
+  <div class="contrast-key__notes small muted">
+    WCAG 2.0 Level AA requires a contrast ratio of at least 4.5:1 for normal text and 3:1 for large text.
+    WCAG 2.1 requires 3:1 for graphics and user-interface components. WCAG Level AAA requires 7:1 for
+    normal text and 4.5:1 for large text. Ratios are computed for each color used as a font color on the
+    selected background; the switch changes only the calculation basis, not the page background.
+  </div>
+  <div class="contrast-key__footnote">
+    Large text is defined as 14 point (18.66px) and bold, or larger, or 18 point (24px) not bold, or larger.
+  </div>
+</div>
 
 <section class="spec-block">
 <div class="table-caption">

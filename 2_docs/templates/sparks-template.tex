@@ -1,0 +1,682 @@
+% =====================================================================
+%  sparks-template.tex
+%  XeLaTeX template + specimen mirroring skrapsmd.github.io
+%
+%  HOW TO USE (Overleaf):
+%    1. New project -> paste this whole file as main.tex.
+%    2. Menu -> Settings -> Compiler -> XeLaTeX.
+%    3. Recompile. The first page is the masthead + a specimen body
+%       walking through every element of the design system.
+%
+%  TOGGLES:
+%    \sparkspapertrue   enables paper mode (abstract, narrower margins).
+%    \sparkspaperfalse  (default) is technical-doc mode (wider, no abstract).
+%
+%  Light mode only. To preview the dark palette, swap the values in
+%  section "02 -- Tokens: colors (semantic)" below to the commented
+%  dark-mode lines.
+%
+%  Michael Dwight Sparks  -  Companion to skrapsmd.github.io
+% =====================================================================
+
+% ---------------------------------------------------------------------
+% 00 -- System & engine
+% ---------------------------------------------------------------------
+\documentclass[11pt]{article}
+
+% XeLaTeX guard: refuse to compile under pdfLaTeX (fonts will fall back)
+\usepackage{iftex}
+\ifXeTeX\else\ifLuaTeX\else
+  \PackageError{sparks-template}%
+    {This template needs XeLaTeX or LuaLaTeX (Menu -> Settings -> Compiler in Overleaf).}%
+    {}\fi\fi
+
+% Paper-vs-doc toggle
+\newif\ifsparkspaper
+\sparkspaperfalse  % set to \sparkspapertrue for paper mode
+
+% ---------------------------------------------------------------------
+% 01 -- Tokens: fonts, sizes, spacing
+% ---------------------------------------------------------------------
+\usepackage{fontspec}
+\usepackage{microtype}
+\usepackage{etoolbox}
+
+% IBM Plex Sans / Mono.  Overleaf TeXLive ships the OTF files via the
+% plex-otf bundle, so name-based resolution works.  If a project can't
+% find them, upload the .otf files from
+% 1_assets/styles/b_palettes_and_fonts/FONTS/fonts/complete/otf/
+% and add Path=./ to each \setmainfont/\setmonofont call.
+\setmainfont{IBM Plex Sans}[
+  UprightFont    = * Light,
+  BoldFont       = * SemiBold,
+  ItalicFont     = * Light Italic,
+  BoldItalicFont = * SemiBold Italic,
+  Ligatures      = TeX
+]
+% Named weight families for explicit access in the specimen
+\newfontfamily\plexsansregular{IBM Plex Sans}[
+  UprightFont    = * Regular,
+  ItalicFont     = * Italic,
+  BoldFont       = * SemiBold,
+  BoldItalicFont = * SemiBold Italic,
+  Ligatures      = TeX
+]
+\newfontfamily\plexlight{IBM Plex Sans}[
+  UprightFont    = * Light,
+  ItalicFont     = * Light Italic,
+  Ligatures      = TeX
+]
+\newfontfamily\plexsemibold{IBM Plex Sans}[
+  UprightFont    = * SemiBold,
+  ItalicFont     = * SemiBold Italic,
+  Ligatures      = TeX
+]
+\setmonofont{IBM Plex Mono}[
+  UprightFont    = * Regular,
+  BoldFont       = * SemiBold,
+  ItalicFont     = * Italic,
+  Ligatures      = TeX,
+  Scale          = MatchLowercase
+]
+
+% Spacing tokens (matching --pad / --pad-sm / --pad-lg).
+\newlength{\sparkspadsm}\setlength{\sparkspadsm}{0.5em}
+\newlength{\sparkspad}\setlength{\sparkspad}{1em}
+\newlength{\sparkspadlg}\setlength{\sparkspadlg}{1.75em}
+
+% Body line spacing (~1.35 effective)
+\linespread{1.15}
+
+% Paragraph spacing: 1em bottom margin, no indent (matches CSS body)
+\usepackage{parskip}
+\setlength{\parskip}{0.8em plus 0.1em minus 0.1em}
+\setlength{\parindent}{0pt}
+
+% ---------------------------------------------------------------------
+% 02 -- Tokens: colors (FRBA primitives + semantic)
+% ---------------------------------------------------------------------
+\usepackage[table,dvipsnames]{xcolor}
+
+% --- FRBA primitives (light-mode canonical values) -------------------
+% Neutrals
+\definecolor{spblack}{HTML}{000000}
+\definecolor{spwhite}{HTML}{FFFFFF}
+\definecolor{charcoal}{HTML}{1A1A1A}
+\definecolor{darkGray}{HTML}{323232}
+\definecolor{medGray}{HTML}{D0D0D0}
+\definecolor{lightGray}{HTML}{C0C0C0}
+\definecolor{marbleColumn}{HTML}{F6F6F6}
+
+% Atlanta Blue
+\definecolor{atlBlue100}{HTML}{C2D9E8}
+\definecolor{atlBlue300}{HTML}{88B7D4}
+\definecolor{atlBlue400}{HTML}{6DA4C9}
+\definecolor{atlBlue600}{HTML}{3581B4}
+\definecolor{atlBlue700}{HTML}{176FA9}
+\definecolor{atlBlue900}{HTML}{004C7F}
+
+% Atlanta Orange
+\definecolor{atlOrange300}{HTML}{F39D61}
+\definecolor{atlOrange400}{HTML}{F08033}
+\definecolor{atlOrange600}{HTML}{CA590C}
+\definecolor{atlOrange700}{HTML}{AE4D0A}
+\definecolor{atlOrange900}{HTML}{7A3607}
+
+% Atlanta Red / Danger
+\definecolor{atlRed600}{HTML}{CE5158}
+\definecolor{atlRed700}{HTML}{C53139}
+\definecolor{atlRed800}{HTML}{B11921}
+\definecolor{atlDanger}{HTML}{C53139}
+
+% Atlanta Gold (highlights)
+\definecolor{atlGold100}{HTML}{FFD138}
+\definecolor{atlGold200}{HTML}{F3BB00}
+\definecolor{atlGold800}{HTML}{715600}
+
+% Atlanta Green (highlights / success)
+\definecolor{atlGreen100}{HTML}{A9E2CF}
+\definecolor{atlGreen300}{HTML}{53C49F}
+\definecolor{atlGreen800}{HTML}{006746}
+
+% Atlanta Teal
+\definecolor{atlTeal400}{HTML}{25ACCA}
+\definecolor{atlTeal800}{HTML}{006278}
+
+% Atlanta Indigo
+\definecolor{atlIndigo600}{HTML}{7D70C1}
+\definecolor{atlIndigo900}{HTML}{4A3E8E}
+
+% Atlanta Fuchsia
+\definecolor{atlFuchsia600}{HTML}{D34682}
+\definecolor{atlFuchsia700}{HTML}{C5266A}
+
+% --- Semantic tokens (LIGHT MODE) ------------------------------------
+% (Dark-mode values, for reference, are commented out beside each line.)
+\colorlet{bg}{spwhite}             % dark: charcoal
+\colorlet{bgmuted}{marbleColumn}   % dark: darkGray
+\colorlet{ink}{spblack}            % dark: spwhite
+\colorlet{inkmuted}{darkGray}      % dark: medGray
+\colorlet{inkinv}{spwhite}         % dark: spblack
+\colorlet{textprimary}{ink}
+\colorlet{textsecondary}{inkmuted}
+\colorlet{textemph}{atlBlue900}    % dark: atlBlue300
+\colorlet{textemphhover}{atlBlue600}
+\colorlet{textemph2}{atlOrange900} % dark: atlOrange300
+\colorlet{textstrong}{textemph}
+\colorlet{textitalic}{textsecondary}
+\colorlet{textlink}{textemph}
+\colorlet{codebg}{bgmuted}
+\colorlet{codeblockbg}{bgmuted}
+\colorlet{codetext}{textprimary}
+\colorlet{blockquoteborder}{textemph}
+\colorlet{blockquotetext}{textsecondary}
+\colorlet{highlight}{atlGold100}   % dark: atlGold800
+\colorlet{highlightblue}{atlBlue100}  % dark: atlBlue600
+\colorlet{highlightgreen}{atlGreen100} % dark: atlGreen800
+\colorlet{activeindicator}{atlDanger}
+
+% ---------------------------------------------------------------------
+% 03 -- Base styles: page geometry, links, lists, body color
+% ---------------------------------------------------------------------
+\usepackage{geometry}
+\ifsparkspaper
+  \geometry{letterpaper, top=1.1in, bottom=1.1in, left=1.25in, right=1.25in}
+\else
+  \geometry{letterpaper, top=1in, bottom=1in, left=1in, right=1in}
+\fi
+
+\AtBeginDocument{\color{textprimary}}
+
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=1.4em, itemsep=0.2em, topsep=0.3em}
+\setlist[enumerate]{leftmargin=1.6em, itemsep=0.2em, topsep=0.3em}
+
+% Strong / em color tinting
+\let\sptextbf\textbf
+\renewcommand{\textbf}[1]{{\color{textstrong}\sptextbf{#1}}}
+\let\sptextit\textit
+\renewcommand{\textit}[1]{{\color{textitalic}\sptextit{#1}}}
+
+% ---------------------------------------------------------------------
+% 04 -- Shell: frame border, masthead, footer
+% ---------------------------------------------------------------------
+\usepackage{tikz}
+\usepackage{eso-pic}
+
+% Thin border drawn inside the page margins on every page
+\AddToShipoutPictureBG{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \draw[color=ink, line width=0.4pt]
+      ([xshift=0.5in, yshift=-0.5in]current page.north west) rectangle
+      ([xshift=-0.5in, yshift=0.5in]current page.south east);
+  \end{tikzpicture}%
+}
+
+% Footer
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyfoot[L]{\color{inkmuted}\ttfamily\footnotesize\textcopyright\ \the\year\ \,\textperiodcentered\,\ \sparksbrandtext}
+\fancyfoot[R]{\color{inkmuted}\ttfamily\footnotesize\thepage\,/\,\pageref{LastPage}}
+\usepackage{lastpage}
+
+% Masthead inputs (set in document body before \sparksmaketitle)
+\newcommand{\sparksbrandtext}{Untitled Document}
+\newcommand{\sparkscategory}{DOCUMENT}
+\newcommand{\sparksauthor}{Author Name}
+\newcommand{\sparksdate}{\the\year}
+\newcommand{\sparksversion}{v0.1}
+\newcommand{\sparkssubtitle}{}
+
+\newcommand{\sparksbrand}[1]{\renewcommand{\sparksbrandtext}{#1}}
+\newcommand{\sparkssetcategory}[1]{\renewcommand{\sparkscategory}{#1}}
+\newcommand{\sparkssetauthor}[1]{\renewcommand{\sparksauthor}{#1}}
+\newcommand{\sparkssetdate}[1]{\renewcommand{\sparksdate}{#1}}
+\newcommand{\sparkssetversion}[1]{\renewcommand{\sparksversion}{#1}}
+\newcommand{\sparkssetsubtitle}[1]{\renewcommand{\sparkssubtitle}{#1}}
+
+% The masthead block (call once at the start of the document)
+\newcommand{\sparksmaketitle}{%
+  \begingroup
+  \noindent
+  {\fontsize{22pt}{26pt}\selectfont\bfseries\color{ink}\sparksbrandtext\par}
+  \ifdefempty{\sparkssubtitle}{}{%
+    \vspace{0.2em}%
+    {\plexsansregular\fontsize{12pt}{15pt}\selectfont\color{textsecondary}\sparkssubtitle\par}%
+  }
+  \vspace{0.6em}
+  {\ttfamily\fontsize{8pt}{10pt}\selectfont\color{inkmuted}%
+    \MakeUppercase{\sparkscategory}\;\textperiodcentered\;%
+    \sparksauthor\;\textperiodcentered\;%
+    \sparksdate\;\textperiodcentered\;%
+    \sparksversion\par}
+  \vspace{0.4em}
+  {\color{inkmuted}\hrule height 0.4pt}%
+  \vspace{1.2em}
+  \endgroup
+}
+
+% ---------------------------------------------------------------------
+% 05a -- Components: headings (titlesec)
+% ---------------------------------------------------------------------
+\usepackage{titlesec}
+
+% h1 -> section: 22pt, weight Light (mainfont upright is Light by setup),
+%   but for headings we want it readable, so use SemiBold via \bfseries.
+%   To mirror website's "h1/h2 lighter, h3/h4 heavier" pattern, we use
+%   the regular weight (via \plexsansregular) for section/subsection and
+%   semibold (\bfseries) for subsubsection/paragraph.
+\titleformat{\section}
+  {\plexsansregular\fontsize{22pt}{26pt}\selectfont\color{ink}}
+  {\thesection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.4em}{0.4em}
+
+\titleformat{\subsection}
+  {\plexsansregular\fontsize{17pt}{21pt}\selectfont\color{ink}}
+  {\thesubsection}{0.5em}{}
+\titlespacing*{\subsection}{0pt}{1.1em}{0.3em}
+
+\titleformat{\subsubsection}
+  {\bfseries\fontsize{13pt}{16pt}\selectfont\color{ink}}
+  {\thesubsubsection}{0.4em}{}
+\titlespacing*{\subsubsection}{0pt}{0.9em}{0.25em}
+
+\titleformat{\paragraph}[runin]
+  {\bfseries\fontsize{11pt}{14pt}\selectfont\color{ink}}
+  {}{0pt}{}[\,---]
+\titlespacing*{\paragraph}{0pt}{0.6em}{0.4em}
+
+% ---------------------------------------------------------------------
+% 05b -- Components: captions ("CATEGORY | Title" pattern)
+% ---------------------------------------------------------------------
+\usepackage{caption}
+\DeclareCaptionFormat{sparks}{%
+  {\ttfamily\footnotesize\color{inkmuted}\MakeUppercase{#1}}\;%
+  {\color{inkmuted}\textbar}\;%
+  {\footnotesize\color{textprimary}#3}%
+}
+\captionsetup{format=sparks, labelsep=none, justification=raggedright, singlelinecheck=false}
+
+% Standalone "Category | Title" header (not tied to a float)
+\newcommand{\sparkscaption}[2]{%
+  \par\vspace{0.4em}%
+  {\noindent\ttfamily\footnotesize\color{inkmuted}\MakeUppercase{#1}}\;%
+  {\color{inkmuted}\textbar}\;%
+  {\footnotesize\color{textprimary}#2}\par%
+  \vspace{0.3em}%
+}
+
+% ---------------------------------------------------------------------
+% 05c -- Components: rules (.rule / .rule.dotted / .rule.solid)
+% ---------------------------------------------------------------------
+\newcommand{\sparksrule}{\par\vspace{0.5em}{\color{inkmuted}\hrule height 0.4pt}\vspace{0.5em}}
+\newcommand{\sparksruledotted}{\par\vspace{0.5em}\noindent\textcolor{inkmuted}{\rule[2pt]{\linewidth}{0pt}}%
+  \tikz[baseline=0pt]{\draw[dotted, color=inkmuted, line width=0.6pt] (0,0)--(\linewidth,0);}\par\vspace{0.5em}}
+\newcommand{\sparksrulesolid}{\par\vspace{0.5em}{\color{ink}\hrule height 0.6pt}\vspace{0.5em}}
+
+% ---------------------------------------------------------------------
+% 05d -- Components: code (listings)
+% ---------------------------------------------------------------------
+\usepackage{listings}
+\lstdefinestyle{sparks}{
+  basicstyle       = \ttfamily\footnotesize\color{codetext},
+  backgroundcolor  = \color{codeblockbg},
+  frame            = single,
+  framerule        = 0.4pt,
+  rulecolor        = \color{inkmuted},
+  framesep         = 6pt,
+  xleftmargin      = 8pt,
+  xrightmargin     = 8pt,
+  aboveskip        = 0.8em,
+  belowskip        = 0.8em,
+  breaklines       = true,
+  breakatwhitespace= true,
+  showstringspaces = false,
+  keywordstyle     = \color{textemph}\bfseries,
+  commentstyle     = \color{textsecondary}\itshape,
+  stringstyle      = \color{atlOrange900},
+  columns          = fullflexible,
+  keepspaces       = true,
+  tabsize          = 4,
+}
+\lstset{style=sparks}
+
+% Inline code
+\newcommand{\sparkscode}[1]{{\setlength{\fboxsep}{1.5pt}%
+  \colorbox{codebg}{\strut\ttfamily\small #1}}}
+
+% ---------------------------------------------------------------------
+% 05e -- Components: cards, panels, badges (tcolorbox)
+% ---------------------------------------------------------------------
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{skins, breakable}
+
+% Card: 0.4pt full border + thick left accent rule (mimics 15px left border)
+\newtcolorbox{sparkscard}[1][]{
+  enhanced,
+  breakable,
+  sharp corners,
+  colback=bg,
+  colframe=ink,
+  boxrule=0.4pt,
+  leftrule=4.5pt,
+  left=10pt, right=10pt, top=8pt, bottom=8pt,
+  fontupper=\plexsansregular,
+  #1
+}
+\newcommand{\cardtitle}[1]{{\bfseries\fontsize{11pt}{14pt}\selectfont\color{ink}#1\par}\vspace{0.2em}}
+\newcommand{\cardmeta}[1]{{\ttfamily\footnotesize\color{textsecondary}#1\par}\vspace{0.4em}}
+\newcommand{\cardbody}[1]{{\fontsize{10pt}{13pt}\selectfont #1\par}}
+
+% Panel (muted callout, no left accent)
+\newtcolorbox{sparkspanel}[1][]{
+  enhanced,
+  breakable,
+  sharp corners,
+  colback=bgmuted,
+  colframe=inkmuted,
+  boxrule=0.4pt,
+  left=10pt, right=10pt, top=8pt, bottom=8pt,
+  fontupper=\plexsansregular,
+  #1
+}
+
+% Blockquote: left rule only, italic muted
+\newtcolorbox{sparksquote}{
+  enhanced,
+  breakable,
+  sharp corners,
+  colback=bg,
+  colframe=blockquoteborder,
+  boxrule=0pt,
+  leftrule=2pt,
+  top=4pt, bottom=4pt, left=10pt, right=10pt,
+  toprule=0pt, rightrule=0pt, bottomrule=0pt,
+  fontupper=\plexsansregular\itshape\color{blockquotetext}
+}
+
+% Badges (inline pill labels, mono small)
+\newtcbox{\sparksbadgedefault}[1][]{
+  enhanced, on line, sharp corners, boxrule=0.4pt,
+  colframe=ink, colback=bg, fontupper=\ttfamily\scriptsize\bfseries\color{ink},
+  top=0.5pt, bottom=0.5pt, left=3pt, right=3pt, boxsep=0pt, #1
+}
+\newtcbox{\sparksbadgehighlight}[1][]{
+  enhanced, on line, sharp corners, boxrule=0.4pt,
+  colframe=ink, colback=highlight, fontupper=\ttfamily\scriptsize\bfseries\color{ink},
+  top=0.5pt, bottom=0.5pt, left=3pt, right=3pt, boxsep=0pt, #1
+}
+\newtcbox{\sparksbadgeinfo}[1][]{
+  enhanced, on line, sharp corners, boxrule=0.4pt,
+  colframe=ink, colback=highlightblue, fontupper=\ttfamily\scriptsize\bfseries\color{ink},
+  top=0.5pt, bottom=0.5pt, left=3pt, right=3pt, boxsep=0pt, #1
+}
+\newtcbox{\sparksbadgesuccess}[1][]{
+  enhanced, on line, sharp corners, boxrule=0.4pt,
+  colframe=ink, colback=highlightgreen, fontupper=\ttfamily\scriptsize\bfseries\color{ink},
+  top=0.5pt, bottom=0.5pt, left=3pt, right=3pt, boxsep=0pt, #1
+}
+\newtcbox{\sparksbadgefailure}[1][]{
+  enhanced, on line, sharp corners, boxrule=0.4pt,
+  colframe=atlDanger, colback=atlDanger, fontupper=\ttfamily\scriptsize\bfseries\color{spwhite},
+  top=0.5pt, bottom=0.5pt, left=3pt, right=3pt, boxsep=0pt, #1
+}
+\newtcbox{\sparksbadgewarning}[1][]{
+  enhanced, on line, sharp corners, boxrule=0.4pt,
+  colframe=ink, colback=atlGold100, fontupper=\ttfamily\scriptsize\bfseries\color{ink},
+  top=0.5pt, bottom=0.5pt, left=3pt, right=3pt, boxsep=0pt, #1
+}
+
+% Color swatch + label (for the palette specimen)
+% Usage: \sparksswatch{colorname}{label}
+\newcommand{\sparksswatch}[2]{%
+  {\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{0.3pt}%
+   \fcolorbox{inkmuted}{#1}{\rule{0pt}{8pt}\hspace{18pt}}}%
+  \,{\ttfamily\scriptsize\color{inkmuted}#2}%
+}
+
+% ---------------------------------------------------------------------
+% 05f -- Components: tables
+% ---------------------------------------------------------------------
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\arrayrulecolor{inkmuted}
+\setlength{\arrayrulewidth}{0.4pt}
+\renewcommand{\arraystretch}{1.15}
+
+% Convenience: gold-highlighted header row + sans-serif cells
+\newcommand{\sparksrowheader}{\rowcolor{highlight}}
+
+% ---------------------------------------------------------------------
+% 05g -- Hyperlinks (load last)
+% ---------------------------------------------------------------------
+\usepackage[
+  colorlinks=true,
+  linkcolor=textemph,
+  citecolor=textemph,
+  urlcolor=textemph,
+  filecolor=textemph,
+  pdfborder={0 0 0}
+]{hyperref}
+
+% =====================================================================
+% 06 -- Document body (specimen)
+% =====================================================================
+
+% Set masthead values for this document
+\sparksbrand{Sparks Design System}
+\sparkssetsubtitle{A LaTeX companion to skrapsmd.github.io}
+\sparkssetcategory{Design Reference}
+\sparkssetauthor{Michael Dwight Sparks}
+\sparkssetdate{2026-05-27}
+\sparkssetversion{v0.1.0}
+
+\begin{document}
+
+\sparksmaketitle
+
+\ifsparkspaper
+\begin{sparkspanel}
+\textbf{Abstract.} This document demonstrates the Sparks design system rendered in LaTeX.
+It mirrors the typography, color palette, and visual identity of \href{https://skrapsmd.github.io}{skrapsmd.github.io},
+translated into print-appropriate primitives. The body that follows walks through every
+component---typography scale, colors, headings, captions, code blocks, cards, badges,
+panels, blockquotes, tables, and rules---in the same order as the website's design-reference page.
+\end{sparkspanel}
+\fi
+
+\sparkscaption{Design Reference}{Font Specimen}
+
+The site uses two typefaces from IBM's Plex family: \textbf{IBM Plex Sans} for prose and
+\textbf{IBM Plex Mono} for metadata, code, and technical references. Three weights
+are loaded: Light (300), Regular (400), and SemiBold (600).
+
+\begin{center}
+\begin{tabular}{@{}>{\ttfamily\small}l l@{}}
+\toprule
+\sparksrowheader Weight & IBM Plex Sans \\
+\midrule
+300 & {\plexlight The quick brown fox jumps over the lazy dog} \\
+400 & {\plexsansregular The quick brown fox jumps over the lazy dog} \\
+600 & {\plexsemibold The quick brown fox jumps over the lazy dog} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\sparksrule
+
+\sparkscaption{Design Reference}{Type Scale}
+
+\noindent
+{\fontsize{36pt}{40pt}\selectfont IBM Plex 36}\par\vspace{0.3em}
+{\fontsize{24pt}{28pt}\selectfont IBM Plex 24}\par\vspace{0.3em}
+{\fontsize{18pt}{22pt}\selectfont IBM Plex 18}\par\vspace{0.3em}
+{\fontsize{14pt}{17pt}\selectfont IBM Plex 14}\par\vspace{0.3em}
+{\fontsize{11pt}{14pt}\selectfont IBM Plex 11}\par\vspace{0.3em}
+{\fontsize{9pt}{11pt}\selectfont IBM Plex 9}\par
+
+\sparksrule
+
+\sparkscaption{Design Reference}{Color Specimen}
+
+The Atlanta Fed palette, used for emphasis, highlights, and research plots. Light-mode
+canonical values shown below; the preamble documents dark-mode swaps.
+
+\vspace{0.4em}\noindent
+\sparksswatch{atlBlue900}{atlBlue900}\quad
+\sparksswatch{atlBlue600}{atlBlue600}\quad
+\sparksswatch{atlBlue300}{atlBlue300}\\[0.4em]
+\sparksswatch{atlOrange900}{atlOrange900}\quad
+\sparksswatch{atlOrange600}{atlOrange600}\quad
+\sparksswatch{atlOrange300}{atlOrange300}\\[0.4em]
+\sparksswatch{atlGold200}{atlGold200}\quad
+\sparksswatch{atlGold100}{atlGold100}\quad
+\sparksswatch{atlGreen300}{atlGreen300}\quad
+\sparksswatch{atlTeal400}{atlTeal400}\\[0.4em]
+\sparksswatch{atlIndigo600}{atlIndigo600}\quad
+\sparksswatch{atlFuchsia600}{atlFuchsia600}\quad
+\sparksswatch{atlDanger}{atlDanger}
+
+\sparksrule
+
+\section{Heading Level 1 (section)}
+
+This is a standard paragraph demonstrating body text styling. The text maintains
+comfortable line-height and spacing for extended reading. Inline styles include
+\textbf{bold emphasis} (rendered in the emphasis blue), \textit{italic emphasis}
+(rendered in muted secondary), and \sparkscode{inline code} (mono on a muted
+background). Hyperlinks point to \href{https://skrapsmd.github.io}{the source website}
+in the same emphasis blue.
+
+\subsection{Heading Level 2 (subsection)}
+
+\subsubsection{Heading Level 3 (subsubsection)}
+
+\paragraph{Heading Level 4 (paragraph)} A run-in heading for inline section breaks within a body of text.
+
+\sparksrule
+
+\sparkscaption{UI Specimen}{Blockquote}
+
+\begin{sparksquote}
+The curious task of economics is to demonstrate to men how little they really know
+about what they imagine they can design.\\[0.2em]
+\normalfont\footnotesize\color{textsecondary}--- F.A. Hayek
+\end{sparksquote}
+
+\sparkscaption{UI Specimen}{Card}
+
+\begin{sparkscard}
+\cardtitle{Lorem Ipsum Dolor Sit Amet Consectetur: A Methodological Approach}
+\cardmeta{Author, A.B. \textperiodcentered\ Journal Name \textperiodcentered\ 2024}
+\cardbody{Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.}
+\vspace{0.4em}
+\sparksbadgeinfo{Topic One}\;\sparksbadgeinfo{Topic Two}\;\sparksbadgeinfo{Methodology}
+\end{sparkscard}
+
+\sparkscaption{UI Specimen}{Panel (muted callout)}
+
+\begin{sparkspanel}
+A panel callout uses a muted background and muted border to host secondary
+information --- notes, asides, or framing context that supports but does not
+interrupt the body. Sharp corners, no rounded radii.
+\end{sparkspanel}
+
+\sparksrule
+
+\sparkscaption{UI Specimen}{Badges}
+
+\noindent
+\sparksbadgedefault{Default}\;
+\sparksbadgehighlight{Macroeconomics}\;
+\sparksbadgeinfo{Julia}\;
+\sparksbadgesuccess{Published}\;
+\sparksbadgewarning{Revise}\;
+\sparksbadgefailure{Rejected}
+
+\sparksrule
+
+\sparkscaption{UI Specimen}{Tables}
+
+\begin{center}
+\begin{tabular}{@{}l l r@{}}
+\toprule
+\sparksrowheader \textbf{Variable} & \textbf{Description} & \textbf{Value} \\
+\midrule
+\ttfamily gdp\_growth   & Annualized real GDP growth (\%)        & \texttt{2.34} \\
+\ttfamily inflation     & Headline CPI YoY (\%)                  & \texttt{3.12} \\
+\ttfamily fed\_funds    & Federal funds effective rate (\%)      & \texttt{5.33} \\
+\ttfamily unemp\_rate   & U-3 unemployment rate (\%)             & \texttt{3.80} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\sparksrule
+
+\sparkscaption{UI Specimen}{Code Blocks}
+
+\textbf{Python} --- inline use of \sparkscode{numpy} for a simple Bellman iteration:
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+def solve_bellman(params, tol=1e-6, max_iter=1000):
+    """Value-function iteration for a discrete state space."""
+    V = np.zeros(params.n_states)
+    for it in range(max_iter):
+        V_new, policy = bellman_operator(V, params)
+        if np.max(np.abs(V_new - V)) < tol:
+            return V_new, policy, it
+        V = V_new
+    return V, policy, max_iter
+\end{lstlisting}
+
+\textbf{Stata} --- a minimal \sparkscode{reghdfe} call:
+
+\begin{lstlisting}
+* High-dimensional fixed effects panel regression
+use "panel.dta", clear
+
+reghdfe y x1 x2 x3, ///
+    absorb(firm_id year industry#year) ///
+    vce(cluster firm_id)
+
+estimates store m1
+esttab m1 using "table1.tex", replace booktabs ///
+    se star(* 0.10 ** 0.05 *** 0.01)
+\end{lstlisting}
+
+\sparksrule
+
+\sparkscaption{UI Specimen}{Lists}
+
+\begin{itemize}
+    \item Unordered list item demonstrating enumeration.
+    \item Lists are useful for presenting multiple related points.
+    \item They maintain consistent spacing and alignment with body text.
+\end{itemize}
+
+\begin{enumerate}
+    \item Ordered lists provide sequential structure.
+    \item Particularly useful for methodological steps.
+    \item Or for ranked findings.
+\end{enumerate}
+
+\sparksrule
+
+\sparkscaption{Design Reference}{End of Specimen}
+
+If everything above renders cleanly --- IBM Plex Sans body text, Atlanta Fed blue
+emphasis, gold table headers, sharp-cornered cards and badges, a thin page-border
+frame, and a monospace footer with page numbers --- the template is working.
+Compare side-by-side against the website's design-reference page (run
+\sparkscode{python -m http.server 8000} from the repo root, then open the
+\sparkscode{specimen} route in a browser) to validate visual parity.
+
+\end{document}

@@ -142,6 +142,105 @@ function setupColorCopyListeners() {
   });
 }
 
+// Function 2: WCAG contrast-ratio overlay for the color specimen grids.
+// Renders a per-swatch ratio pill (color-coded by WCAG level) for every
+// color in the Full Color Palette (.color-grid) and Light Plot Palette
+// (.plot-grid), computed against a white or black background. The switch
+// only changes the calculation basis, never the actual page background.
+function setupContrastChecker() {
+  const toggle = document.getElementById('contrast-toggle');
+  const key = document.getElementById('contrast-key');
+  const bgSwitch = document.querySelector('.contrast-bg-switch');
+  if (!toggle || !key || !bgSwitch) return;
+
+  // The partial is re-injected on navigation but <body> is not, so clear any
+  // leftover overlay state from a previous visit.
+  document.body.classList.remove('contrast-active');
+
+  // Parse "rgb(r, g, b)" / "rgba(...)" from getComputedStyle into [r,g,b].
+  const parseRgb = (str) => {
+    const m = str.match(/\d+(\.\d+)?/g);
+    return m ? m.slice(0, 3).map(Number) : null;
+  };
+
+  // WCAG relative luminance of an sRGB color.
+  const relLuminance = ([r, g, b]) => {
+    const lin = (c) => {
+      const s = c / 255;
+      return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+    };
+    return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+  };
+
+  // Contrast ratio of a color (luminance L) against white (1) or black (0).
+  const ratioVsBackground = (L, bg) => {
+    const bgL = bg === 'white' ? 1 : 0;
+    const hi = Math.max(L, bgL);
+    const lo = Math.min(L, bgL);
+    return (hi + 0.05) / (lo + 0.05);
+  };
+
+  const levelClass = (ratio) => {
+    if (ratio >= 7) return 'aaa';
+    if (ratio >= 4.5) return 'aa';
+    if (ratio >= 3) return 'aa-large';
+    return 'fail';
+  };
+
+  const swatches = () => document.querySelectorAll(
+    '.color-grid__swatch:not(.color-grid__swatch--na), .plot-grid__swatch'
+  );
+
+  const clearBadges = () => {
+    document.querySelectorAll('.contrast-badge').forEach(b => b.remove());
+  };
+
+  const renderBadges = (bg) => {
+    clearBadges();
+    swatches().forEach(sw => {
+      const rgb = parseRgb(getComputedStyle(sw).backgroundColor);
+      if (!rgb) return;
+      const ratio = ratioVsBackground(relLuminance(rgb), bg);
+      const badge = document.createElement('div');
+      badge.className = 'contrast-badge contrast-badge--' + levelClass(ratio);
+      badge.textContent = ratio.toFixed(1) + ':1';
+      sw.appendChild(badge);
+    });
+  };
+
+  // Guard against double-binding when the partial is re-injected on navigation.
+  if (toggle.dataset.contrastBound === 'true') return;
+  toggle.dataset.contrastBound = 'true';
+
+  let active = false;
+  let bg = 'white';
+
+  toggle.addEventListener('click', () => {
+    active = !active;
+    toggle.setAttribute('aria-pressed', String(active));
+    toggle.textContent = active ? 'Hide Contrast Ratios' : 'Show Contrast Ratios';
+    document.body.classList.toggle('contrast-active', active);
+    key.hidden = !active;
+    if (active) {
+      renderBadges(bg);
+    } else {
+      clearBadges();
+    }
+  });
+
+  bgSwitch.querySelectorAll('.contrast-bg-switch__option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      bg = opt.dataset.bg;
+      bgSwitch.querySelectorAll('.contrast-bg-switch__option').forEach(o => {
+        const on = o === opt;
+        o.classList.toggle('contrast-bg-switch__option--active', on);
+        o.setAttribute('aria-checked', String(on));
+      });
+      if (active) renderBadges(bg);
+    });
+  });
+}
+
 /*
 ===========================
 Research Card Loading
@@ -965,6 +1064,9 @@ async function loadPage(page){
 
   // Setup color copy listeners after content is loaded
   setupColorCopyListeners();
+
+  // Setup WCAG contrast-ratio overlay on the color specimen grids
+  setupContrastChecker();
 
   // Setup citation copy listeners after content is loaded
   setupCitationCopyListeners();

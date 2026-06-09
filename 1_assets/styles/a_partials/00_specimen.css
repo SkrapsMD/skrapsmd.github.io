@@ -239,6 +239,123 @@
 }
 
 /* ========================================
+   CONTRAST CHECKER (WCAG overlay)
+   ======================================== */
+.contrast-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.contrast-bg-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: var(--border);
+}
+
+.contrast-bg-switch__caption {
+    padding: 0 8px;
+    font-family: var(--font-mono);
+    font-size: var(--font-xs);
+    color: var(--text-secondary);
+}
+
+.contrast-bg-switch__option {
+    border: none;
+    border-left: var(--border);
+    background: transparent;
+    color: var(--text-primary);
+    padding: 4px 10px;
+    font-family: var(--font-mono);
+    font-size: var(--font-xs);
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.contrast-bg-switch__option:hover {
+    background: var(--bg-muted);
+}
+
+.contrast-bg-switch__option--active,
+.contrast-bg-switch__option--active:hover {
+    background: var(--ink);
+    color: var(--ink-inv);
+}
+
+/* Legend / key (shown only while overlay is active) */
+.contrast-key {
+    border: var(--border-muted);
+    padding: var(--pad);
+    margin-bottom: 16px;
+}
+
+.contrast-key__legend {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 24px;
+}
+
+.contrast-key__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--font-sm);
+}
+
+.contrast-key__dot {
+    flex: 0 0 auto;
+    width: 16px;
+    height: 16px;
+    border: var(--border-muted);
+}
+
+.contrast-key__dot--aaa      { background: var(--atlGreen500); }
+.contrast-key__dot--aa       { background: var(--atlBlue700); }
+.contrast-key__dot--aa-large { background: var(--atlGold200); }
+.contrast-key__dot--fail     { background: var(--atlDanger); }
+
+.contrast-key__notes {
+    margin-top: 12px;
+    line-height: 1.5;
+}
+
+.contrast-key__footnote {
+    margin-top: 8px;
+    font-size: var(--font-xs);
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Per-swatch ratio pill */
+.contrast-badge {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    padding: 1px 4px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.2;
+    border: var(--border-muted);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.contrast-badge--aaa      { background: var(--atlGreen500); color: var(--white); }
+.contrast-badge--aa       { background: var(--atlBlue700);  color: var(--white); }
+.contrast-badge--aa-large { background: var(--atlGold200);  color: var(--black); }
+.contrast-badge--fail     { background: var(--atlDanger);   color: var(--white); }
+
+/* Anchor badges inside the (otherwise unpositioned) full-palette swatches */
+.contrast-active .color-grid__swatch {
+    position: relative;
+}
+
+/* ========================================
    SPECIMEN GRID MODIFIER
    ======================================== */
 .specimen-grid--mt {
