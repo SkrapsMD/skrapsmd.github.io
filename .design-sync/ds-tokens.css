@@ -387,3 +387,8 @@ Michael Dwight Sparks
     --border-muted: 1px solid var(--ink-muted);
     --border-radius: 0; /* Engineering aesthetic: sharp corners */
 }
+
+/* design-sync: pin the LIGHT palette so light-dark() resolves consistently
+   against claude.ai/design's white preview cards (the site itself keeps full
+   light/dark; only this synced bundle is pinned). */
+:root { color-scheme: light; }

@@ -9,6 +9,7 @@ Source: the `src/ui/` component library of this Vite + React + TS app (8 compone
 - Components are **not auto-discovered** in synth mode → pinned via `cfg.componentSrcMap` (one entry per export; `Table` and `TableCaption` both live in `Table.tsx`).
 - Props **cannot be auto-extracted** from source in synth mode (they come out `{ [key: string]: unknown }`), so each component's API is hand-written in `cfg.dtsPropsFor`.
 - Tokens are **not an npm package** (`tokensGlob`/`tokensPkg` don't apply). They're injected by appending `.design-sync/ds-tokens.css` (a concatenation of `src/styles/palettes/FRBA_scheme.css` + `USGC_scheme.css` + `tokens.css`) via `cfg.cssEntry` — it lands in `_ds_bundle.css`, which `styles.css` `@import`s.
+- **`ds-tokens.css` ends with `:root { color-scheme: light; }` — this is load-bearing.** The site's tokens use `light-dark()`, but the converter's preview cards hardcode `body{background:#fff}`. Without the pin, a dark-OS / dark-themed claude.ai/design viewer makes `light-dark()` return dark values (white text/borders) → white-on-white, invisible buttons. The pin forces the light palette so colors match the white cards. Keep it when regenerating `ds-tokens.css`.
 - Fonts: the app's `src/styles/fonts.css` uses absolute `/fonts/*.woff2` paths that the converter can't resolve on disk. `.design-sync/ds-fonts.css` is a path-rewritten copy (`../public/fonts/…`) used via `cfg.extraFonts`.
 - Playwright + Chromium for the render check are installed under `.ds-sync/` (gitignored).
 

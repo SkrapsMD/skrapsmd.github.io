@@ -3,7 +3,7 @@
 A small, token-driven React component library (IBM Plex typefaces + the Federal Reserve Bank of Atlanta color palette). Flat, engineering aesthetic: **sharp corners** (`--border-radius: 0`), monospace for UI controls/labels, no shadows or gradients.
 
 ## Setup — no provider needed
-Components are self-contained and need **no provider/wrapper**. They are styled internally; you only need the design system's stylesheet loaded (the bound `styles.css` and its `@import` closure — tokens, fonts, `_ds_bundle.css`). With it loaded, `<Button>`, `<Badge>`, etc. render fully styled. Light/dark mode is automatic via CSS `light-dark()` — do not add a theme toggle or hardcode colors per mode.
+Components are self-contained and need **no provider/wrapper**. They are styled internally; you only need the design system's stylesheet loaded (the bound `styles.css` and its `@import` closure — tokens, fonts, `_ds_bundle.css`). With it loaded, `<Button>`, `<Badge>`, etc. render fully styled. This synced bundle is pinned to the **light** palette (`color-scheme: light`) for consistent rendering; never hardcode colors — always use the tokens.
 
 ## Styling idiom — CSS custom-property tokens (no utility classes)
 There is **no class vocabulary and no Tailwind**. Style the components through their props (e.g. `variant`), and style your OWN layout glue with the design tokens as `var(--*)`:
