@@ -1,0 +1,117 @@
+/* StoryModal — ported from .story-modal* / .story-embed-container in
+   1_assets/styles/a_partials/02_research.css. Visibility is driven by React
+   (the component renders nothing when closed), so the static `display:none`
+   default is dropped in favor of an explicit `.open` block. Colors reference
+   global design tokens. */
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+
+.open {
+  display: block;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.content {
+  position: relative;
+  max-width: var(--frame-width);
+  margin: 40px auto;
+  padding: 40px 24px 24px 24px;
+  background: var(--bg);
+  border: var(--border);
+  border-radius: 0;
+  z-index: 1001;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  font-size: var(--font-xl);
+  line-height: 1;
+  color: var(--ink);
+  transition: color 0.2s ease;
+}
+
+.close:hover {
+  color: var(--atlDanger);
+}
+
+.title {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: var(--border-muted);
+}
+
+.embedContainer {
+  width: 100%;
+  min-height: 500px;
+}
+
+.iframe {
+  width: 100%;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.navIndicator {
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .content {
+    margin: 20px;
+    max-width: calc(100% - 40px);
+    padding: 40px 16px 16px 16px;
+  }
+
+  .embedContainer {
+    min-height: 350px;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+  }
+
+  .nav > * {
+    flex: 1 1 auto;
+  }
+
+  .navIndicator {
+    width: 100%;
+    order: -1;
+  }
+}

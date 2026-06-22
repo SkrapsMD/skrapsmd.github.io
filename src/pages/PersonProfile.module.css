@@ -1,0 +1,65 @@
+/* Person profile — ported from .person-profile-header, .person-profile-table,
+   .person-papers-section, and .person-papers-title in
+   1_assets/styles/03_components.css. */
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 32px;
+}
+
+/* Caption rendered inside the table's <caption> element — left-align and
+   remove default centering. */
+.tableCaption {
+  text-align: left;
+  caption-side: top;
+}
+
+/* Prevent long content (emails, URLs) from forcing horizontal overflow. */
+.profileTable {
+  table-layout: fixed;
+}
+
+.profileTable th {
+  width: 36%;
+}
+
+.profileTable td,
+.profileTable td a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.photoCell {
+  display: flex;
+  justify-content: center;
+}
+
+.photo {
+  max-width: 100%;
+  height: auto;
+}
+
+.papersSection {
+  margin-bottom: 32px;
+}
+
+.papersTitle {
+  margin-bottom: 16px;
+  font-weight: 600;
+  font-size: var(--font-sm);
+}
+
+/* Responsive: stack on narrow screens and move the photo above the table. */
+@media (max-width: 700px) {
+  .header {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .photoCell {
+    order: -1;
+  }
+}

@@ -1,0 +1,49 @@
+/* PersonCard — ported from .people-card* in
+   1_assets/styles/a_partials/06_people.css. */
+
+.card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--pad);
+  padding: var(--pad);
+  border: var(--border);
+  text-decoration: none;
+  color: inherit;
+}
+
+.card:hover {
+  text-decoration: none;
+}
+
+.card:hover .name {
+  color: var(--text-emph);
+  text-decoration: none;
+}
+
+.image {
+  width: 120px;
+  height: 160px;
+  object-fit: cover;
+  object-position: top center;
+  flex-shrink: 0;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Name styled like the table caption title. */
+.name {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.affiliation {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+}

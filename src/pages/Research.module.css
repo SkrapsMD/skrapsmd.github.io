@@ -1,0 +1,13 @@
+/* Research page — ported from .research-section in
+   1_assets/styles/a_partials/02_research.css. The per-group section heading
+   adopts the card-title scale so it reads as a section label, not a hero. */
+
+.section {
+  margin-bottom: 32px;
+}
+
+.heading {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  margin-bottom: 16px;
+}

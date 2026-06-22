@@ -1,0 +1,16 @@
+/* People index — ported from .people-grid in
+   1_assets/styles/a_partials/06_people.css. */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--pad);
+  margin-top: var(--pad);
+  margin-bottom: var(--pad-lg);
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
