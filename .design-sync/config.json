@@ -1,0 +1,30 @@
+{
+  "pkg": "skrapsmd-website",
+  "globalName": "SparksDS",
+  "projectId": "766a7555-4768-40d3-9740-93b24c62bd29",
+  "shape": "package",
+  "tsconfig": "./tsconfig.json",
+  "readmeHeader": ".design-sync/conventions.md",
+  "cssEntry": ".design-sync/ds-tokens.css",
+  "extraFonts": [".design-sync/ds-fonts.css"],
+  "componentSrcMap": {
+    "Button": "src/ui/Button/Button.tsx",
+    "Badge": "src/ui/Badge/Badge.tsx",
+    "Panel": "src/ui/Panel/Panel.tsx",
+    "CodeBlock": "src/ui/CodeBlock/CodeBlock.tsx",
+    "Field": "src/ui/Field/Field.tsx",
+    "Input": "src/ui/Input/Input.tsx",
+    "Table": "src/ui/Table/Table.tsx",
+    "TableCaption": "src/ui/Table/Table.tsx"
+  },
+  "dtsPropsFor": {
+    "Button": "variant?: 'default' | 'primary' | 'ghost'; children: React.ReactNode; href?: string; target?: string; rel?: string; onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>; disabled?: boolean; type?: 'button' | 'submit' | 'reset'; title?: string; 'aria-label'?: string; 'aria-pressed'?: boolean; className?: string;",
+    "Badge": "variant?: 'default' | 'highlight' | 'info' | 'success' | 'failure' | 'warning' | 'unsure'; children: React.ReactNode; className?: string;",
+    "Panel": "title?: string; variant?: 'default' | 'muted'; children: React.ReactNode; className?: string;",
+    "CodeBlock": "children: React.ReactNode; className?: string;",
+    "Field": "label: string; htmlFor?: string; children: React.ReactNode; className?: string;",
+    "Input": "type?: string; value?: string | number; defaultValue?: string | number; placeholder?: string; disabled?: boolean; readOnly?: boolean; name?: string; id?: string; onChange?: React.ChangeEventHandler<HTMLInputElement>; onFocus?: React.FocusEventHandler<HTMLInputElement>; onBlur?: React.FocusEventHandler<HTMLInputElement>; className?: string; 'aria-label'?: string;",
+    "Table": "variant?: 'default' | 'compact' | 'borderless'; hoverable?: boolean; children: React.ReactNode; className?: string;",
+    "TableCaption": "category?: string; title: string; size?: 'sm' | 'lg'; className?: string;"
+  }
+}
