@@ -4,72 +4,62 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Personal academic/professional website for Michael Dwight Sparks, hosted on GitHub Pages. This is a pure static site (HTML, CSS, vanilla JavaScript) with no build pipeline, bundler, or package manager.
+Personal academic/professional website for Michael Dwight Sparks, hosted on GitHub Pages. It is a **Vite + React 18 + TypeScript** single-page app. (It was a hand-authored static HTML/CSS/JS SPA until June 2026; the final static version is preserved on the `archive/pre-react-static` branch.)
 
 ## Development
 
-No build, test, or lint commands are configured. To preview locally:
 ```bash
-python -m http.server 8000
+npm install            # install deps
+npm run dev            # Vite dev server → http://localhost:5173
+npm run build          # production build → dist/
+npm run preview        # preview the built dist/
+npm run typecheck      # tsc --noEmit (the real type gate; build uses esbuild and skips types)
+node scripts/ssr-smoke.mjs   # headless render check across every route (catches render crashes / missing content)
 ```
-Then open http://localhost:8000 in a browser.
 
 ## Architecture
 
-**Single Page Application (SPA)** using hash-based routing:
-- `index.html` - Main container with navigation shell and global CSS imports
-- `0_code/b_scripts/0_app.js` - Router that:
-  - Listens for `hashchange` events
-  - Fetches HTML partials via `fetch()`
-  - Dynamically injects/removes page-specific CSS using `<link data-page-css>`
-  - Contains page-specific interactive logic (e.g., `setupColorCopyListeners()` for specimen page)
-- Routes: `#home`, `#research`, `#code`, `#specimen`, `#sitemap`
-- Navigation: Clicking `.navbtn` links triggers hash change, router handles the rest
+**SPA using `HashRouter`** (`react-router-dom`). Hash routing keeps every URL inside `#…`, which avoids GitHub Pages 404s on refresh and preserves the old `#research`-style links. A small shim in `src/main.tsx` rewrites legacy hashes (`#research` → `#/research`, `#person-<slug>` → `#/person/<slug>`).
 
-**Directory Structure:**
-- `0_code/a_partials/` - HTML page templates loaded dynamically
-- `0_code/b_scripts/` - JavaScript application logic
-- `1_assets/styles/` - CSS organized in layers (global → layout → components → page-specific)
-- `1_assets/styles/b_palettes_and_fonts/` - Color tokens and font files
-- `2_docs/` - Documentation, papers, CV, templates
+**Directory structure (`src/`):**
+- `main.tsx` — React entry; imports `styles/styles.css`; runs the legacy-hash shim.
+- `App.tsx` — `HashRouter` + the route table. Heavy routes (`Specimen`, `Geocoder`) are `React.lazy` code-split.
+- `layout/` — `Layout` (masthead, nav, footer, frame; wraps routed pages via `<Outlet/>` inside `<Suspense>`).
+- `pages/` — one component per route (`Home`, `Research`, `People`, `PersonProfile`, `Specimen`, `Applications`, `Code`, `Geocoder`, `Sitemap`, `Licensing`).
+- `ui/` — **the design-system component library** (`Button`, `Badge`, `Panel`, `Table`/`TableCaption`, `Field`, `Input`, `CodeBlock`). Typed props; re-exported from `ui/index.ts` (the barrel the design-sync reads).
+- `components/` — composite, app-specific components (`ResearchCard`, `StoryModal`, `PersonCard`, `AppTrackerTable`, `ProofModal`, `WipBanner`).
+- `data/` — content as typed data: `research.ts`, `people.ts`, `applications.ts`, `storyGroups.ts`. **Edit these to update content** — pages render from them; nothing is hardcoded per-card.
+- `styles/` — global design language: `tokens.css`, `base.css`, `palettes/` (FRBA/USGC), `fonts.css`, and the `styles.css` `@import` root.
 
-**CSS Layer System:**
-1. `00_tokens.css` - Design tokens (semantic CSS custom properties)
-2. `01_base.css` - Resets, element defaults, utilities
-3. `02_shell.css` - Frame, masthead, footer, navigation
-4. `03_components.css` - Buttons, forms, tables
-5. `a_partials/*.css` - Page-specific overrides dynamically loaded by router
+`public/` holds static assets served at the site root: `fonts/` (IBM Plex woff2), `images/`, `docs/` (PDFs).
+
+**Styling:** global design tokens (CSS custom properties) live in `src/styles`; component/page styles are **CSS Modules** (`*.module.css`) that reference those `var(--*)` tokens. Import the alias `@` → `src` (e.g. `import { Button } from '@/ui'`).
 
 ## Design System
 
-**Typography:** IBM Plex Sans (UI) and IBM Plex Mono (code). Three weights only: Light (300), Regular (400), SemiBold (600). Size scale defined in `00_tokens.css`: `--font-xs` (12px) through `--font-4xl` (72px). Font files hosted locally in `1_assets/styles/b_palettes_and_fonts/FONTS/`.
+**Typography:** IBM Plex Sans (UI) and IBM Plex Mono (code). Three weights: Light (300), Regular (400), SemiBold (600). Size scale `--font-xs` (12px) … `--font-4xl` (72px) in `tokens.css`. Fonts in `public/fonts/`, declared in `src/styles/fonts.css`.
 
-**Colors:**
-- **Primitives:** Federal Reserve Bank of Atlanta (FRBA) palette in `FRBA_scheme.css` (140+ raw color values with scales 50-1100)
-- **Tokens:** Semantic mappings in `00_tokens.css` (e.g., `--text-primary`, `--bg`, `--ink-muted`)
-- Design philosophy: tokens reference primitives for maintainability
+**Colors:** FRBA primitives in `src/styles/palettes/FRBA_scheme.css` (scales 50–1100); semantic tokens in `src/styles/tokens.css` (`--text-primary`, `--bg`, `--ink-muted`, …). Tokens reference primitives.
 
-**Light/Dark Mode:** Uses CSS `light-dark()` function with `color-scheme: light dark`. All color tokens automatically adapt to user's preferred color scheme.
+**Light/Dark Mode:** CSS `light-dark()` with `color-scheme: light dark` — tokens adapt automatically.
 
 ## Important Patterns
 
-**Adding New Routes:**
-1. Create partial in `0_code/a_partials/XX_name.html`
-2. Create stylesheet in `1_assets/styles/a_partials/XX_name.css`
-3. Add route object to `routes` map in `0_app.js`
-4. Add navigation link to `index.html` with matching `data-page` attribute
+**Add a route:**
+1. Create `src/pages/Name.tsx` (+ `Name.module.css` if needed).
+2. Add a `<Route>` to `App.tsx` (use `React.lazy` if the page is heavy).
+3. Add a nav entry to the `NAV` array in `src/layout/Layout.tsx`.
 
-**Adding Interactive Features:**
-- Place page-specific JS functions in `0_app.js`
-- Initialize them in `loadPage()` after content injection (see `setupColorCopyListeners()` example)
-- Use `data-*` attributes for JS hooks rather than classes
+**Add a design-system component:** create `src/ui/<Name>/<Name>.tsx` + `.module.css`, give it typed props, and export it from `src/ui/index.ts`. Composite/page-specific pieces go in `src/components/` instead.
 
-**Styling Guidelines:**
-- Never use inline styles - use CSS custom properties
-- New semantic tokens go in `00_tokens.css`, not in component files
-- Page-specific overrides only - don't duplicate base styles
-- Prefer composition over specificity
+**Routing note:** React Router v6 only matches *full-segment* params — use `/person/:slug`, never `/person-:slug`.
 
-## Current State
+**Styling guidelines:** no inline styles except where the original markup used them; new semantic tokens go in `tokens.css`; component styles in CSS Modules referencing tokens; reuse `@/ui` components rather than re-styling.
 
-The specimen page (`00_specimen.html`) is a working test file displaying design system elements (colors, typography, tables, etc.). Other pages (Home, Research, Code, Sitemap) display WIP placeholder content loaded from `template/wip.html`.
+## Deploy
+
+GitHub Actions (`.github/workflows/deploy.yml`) builds and publishes `dist/` to Pages on push to `main`. Requires repo **Settings → Pages → Source = "GitHub Actions"**.
+
+## Design sync
+
+`src/ui/` is a real component library intended to be synced to claude.ai/design (`/design-sync`) so the design agent builds on-brand UI from these components.
