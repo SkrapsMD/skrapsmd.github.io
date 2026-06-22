@@ -1,3 +1,5 @@
+import { WipBanner } from '@/components/WipBanner/WipBanner'
+
 export default function Sitemap() {
-  return <h1>Sitemap</h1>
+  return <WipBanner />
 }

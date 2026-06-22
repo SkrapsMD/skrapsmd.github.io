@@ -1,3 +1,4 @@
+import { lazy } from 'react'
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Layout from './layout/Layout'
 import Home from './pages/Home'
@@ -6,10 +7,13 @@ import Code from './pages/Code'
 import Applications from './pages/Applications'
 import People from './pages/People'
 import PersonProfile from './pages/PersonProfile'
-import Specimen from './pages/Specimen'
 import Sitemap from './pages/Sitemap'
-import Geocoder from './pages/Geocoder'
 import Licensing from './pages/Licensing'
+
+// Heavy routes are code-split so their weight (the Specimen palette grids; the
+// geocoder's xlsx dependency) stays out of the initial bundle.
+const Specimen = lazy(() => import('./pages/Specimen'))
+const Geocoder = lazy(() => import('./pages/Geocoder'))
 
 export default function App() {
   return (

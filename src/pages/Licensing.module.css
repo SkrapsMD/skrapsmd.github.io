@@ -1,0 +1,40 @@
+.page {
+  font-size: var(--font-sm);
+}
+
+.heading {
+  font-weight: 600;
+  font-size: var(--font-md);
+  margin-bottom: 4px;
+}
+
+.intro {
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.item {
+  border: var(--border);
+  border-left: 4px solid var(--text-emph);
+  padding: var(--pad);
+}
+
+.resource {
+  font-weight: 600;
+}
+
+.license {
+  color: var(--text-secondary);
+}
+
+.note {
+  margin-top: 4px;
+}

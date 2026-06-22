@@ -1,0 +1,23 @@
+/* AppTrackerTable — ported from .table-scroll-wrapper and the proof-button
+   styles in 1_assets/styles/a_partials/05_applicationTracker.css. The original
+   proof button was an icon-only mask button; here it is a small @/ui ghost
+   Button labelled "View", so only the inline spacing is preserved. */
+
+.scrollWrapper {
+  width: 100%;
+}
+
+.proofBtn {
+  margin-left: 6px;
+  vertical-align: middle;
+  padding: 1px 6px;
+  font-size: var(--font-xs);
+}
+
+/* Mobile: enable horizontal scroll for the wide table. */
+@media (max-width: 640px) {
+  .scrollWrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}

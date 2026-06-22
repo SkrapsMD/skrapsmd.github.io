@@ -1,0 +1,68 @@
+/* Card layout ported from the `.card` family in
+   1_assets/styles/03_components.css (the Code & Data page used these
+   classes directly in the static partial). */
+
+.card {
+  border: var(--border);
+  border-left: 15px solid light-dark(var(--darkGray), var(--lightGray));
+  padding: var(--pad);
+  margin-bottom: var(--pad);
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 4px;
+}
+
+.title {
+  font-weight: 600;
+  font-size: var(--font-sm);
+  margin-bottom: 4px;
+}
+
+.date {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+}
+
+.body {
+  font-size: var(--font-sm);
+}
+
+.badges {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.action {
+  margin-top: 12px;
+}
+
+/* Ghost button look (ported from .btn / .btn--ghost) applied to the
+   react-router Link to the geocoder. */
+.linkBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: var(--border);
+  border-color: var(--text-emph);
+  background: transparent;
+  color: var(--text-emph);
+  padding: 4px 8px;
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.linkBtn:hover {
+  background: var(--text-highlight-2);
+  color: var(--text-emph);
+}

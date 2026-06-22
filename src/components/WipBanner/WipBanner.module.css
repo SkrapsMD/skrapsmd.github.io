@@ -1,0 +1,40 @@
+/* Ported from `.panel.wip` / `.wip-banner` / `.wip-label` / `.panel.wip_small`
+   in 1_assets/styles/03_components.css. */
+
+.panel {
+  display: grid;
+  min-height: 450px; /* controls how tall the WIP panel is */
+}
+
+.small {
+  min-height: 200px;
+}
+
+.banner {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+
+  border: 2px solid var(--atlDanger);
+  background: repeating-linear-gradient(
+    135deg,
+    var(--atlDanger) 0 18px,
+    var(--bg) 18px 36px
+  );
+}
+
+.label {
+  padding: 0.2em 0.4em;
+  font-family: var(--font-mono);
+  font-size: clamp(var(--font-lg), var(--font-3xl), var(--font-3xl));
+  font-weight: 700;
+  letter-spacing: 0.22em;
+
+  background: var(--bg);
+  border: 2px dashed var(--ink);
+}
+
+.small .label {
+  font-size: var(--font-sm);
+}

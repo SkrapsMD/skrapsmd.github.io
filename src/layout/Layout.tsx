@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import styles from './Layout.module.css'
 
@@ -63,7 +63,9 @@ export default function Layout() {
       </header>
 
       <main className={styles.content}>
-        <Outlet />
+        <Suspense fallback={null}>
+          <Outlet />
+        </Suspense>
       </main>
 
       <footer className={styles.foot}>

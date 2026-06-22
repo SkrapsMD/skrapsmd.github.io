@@ -1,0 +1,96 @@
+/* Applications page — ported from the tracker header / footer rules in
+   1_assets/styles/a_partials/05_applicationTracker.css plus the .rule,
+   .table-footer, .table-legend, .table-notes, and .aligned-list scaffolding the
+   static page took from the global stylesheets. Colors reference design tokens. */
+
+/* ========================================
+   TRACKER HEADER LAYOUT
+   ======================================== */
+.trackerGrid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 16px;
+}
+
+.trackerDescription {
+  margin-top: 6px;
+}
+
+.trackerLink {
+  color: var(--text-emph);
+}
+
+/* ========================================
+   STATS — aligned GRE list
+   ======================================== */
+.alignedList > div {
+  display: flex;
+  align-items: baseline;
+}
+
+.label {
+  display: inline-block;
+  min-width: 96px;
+}
+
+.sep {
+  flex: 1 1 auto;
+}
+
+/* ========================================
+   RULE (horizontal divider)
+   ======================================== */
+.rule {
+  border: 0;
+  border-top: var(--border-muted);
+  height: 0;
+  margin: 10px 0;
+}
+
+/* ========================================
+   TABLE FOOTER / LEGEND / NOTES
+   ======================================== */
+.tableFooter {
+  margin-top: 16px;
+}
+
+.tableLegend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.tableNotes ol {
+  margin: 4px 0 0;
+  padding-left: 20px;
+}
+
+.tableNotes li {
+  margin-bottom: 4px;
+}
+
+/* ========================================
+   MOBILE RESPONSIVE
+   ======================================== */
+@media (max-width: 640px) {
+  .trackerGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tableLegend {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .tableNotes {
+    font-size: var(--font-xs);
+  }
+}

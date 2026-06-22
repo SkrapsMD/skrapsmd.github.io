@@ -18,6 +18,11 @@ import Research from '@/pages/Research'
 import People from '@/pages/People'
 import PersonProfile from '@/pages/PersonProfile'
 import Specimen from '@/pages/Specimen'
+import Applications from '@/pages/Applications'
+import Code from '@/pages/Code'
+import Geocoder from '@/pages/Geocoder'
+import Sitemap from '@/pages/Sitemap'
+import Licensing from '@/pages/Licensing'
 
 const render = (el, entries) =>
   ReactDOMServer.renderToStaticMarkup(
@@ -48,6 +53,19 @@ check('People', () => render(React.createElement(People), ['/']), {
 })
 check('Specimen', () => render(React.createElement(Specimen), ['/']), {
   fontSpecimen: 'Font Specimen', palette: 'Palette',
+})
+check('Applications', () => render(React.createElement(Applications), ['/']), {
+  cycle: '2025-2026', school: 'Yale',
+})
+check('Code', () => render(React.createElement(Code), ['/']), {
+  tools: 'Tools', geocoderLink: '/geocoder',
+})
+check('Geocoder', () => render(React.createElement(Geocoder), ['/']), {})
+check('Sitemap', () => render(React.createElement(Sitemap), ['/']), {
+  wip: 'WORK IN PROGRESS',
+})
+check('Licensing', () => render(React.createElement(Licensing), ['/']), {
+  licensing: 'Licensing',
 })
 check('PersonProfile', () =>
   ReactDOMServer.renderToStaticMarkup(
@@ -81,7 +99,7 @@ const out = await build({
   format: 'esm',
   jsx: 'automatic',
   alias: { '@': path.join(root, 'src') },
-  external: ['react', 'react-dom', 'react-dom/server', 'react-router-dom'],
+  external: ['react', 'react-dom', 'react-dom/server', 'react-router-dom', 'xlsx'],
   plugins: [cssStub],
   write: false,
 })
