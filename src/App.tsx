@@ -22,7 +22,7 @@ export default function App() {
           <Route path="code" element={<Code />} />
           <Route path="applications" element={<Applications />} />
           <Route path="people" element={<People />} />
-          <Route path="person-:slug" element={<PersonProfile />} />
+          <Route path="person/:slug" element={<PersonProfile />} />
           <Route path="specimen" element={<Specimen />} />
           <Route path="sitemap" element={<Sitemap />} />
           <Route path="geocoder" element={<Geocoder />} />

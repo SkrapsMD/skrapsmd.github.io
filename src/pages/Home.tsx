@@ -30,8 +30,8 @@ export default function Home() {
                 Federal Reserve Bank of Atlanta
               </a>{' '}
               working with Drs.{' '}
-              <Link to="/person-salome-baslandze">Salom&eacute; Baslandze</Link> and{' '}
-              <Link to="/person-lei-fang">Lei Fang</Link>.
+              <Link to="/person/salome-baslandze">Salom&eacute; Baslandze</Link> and{' '}
+              <Link to="/person/lei-fang">Lei Fang</Link>.
             </p>
           </div>
         </div>

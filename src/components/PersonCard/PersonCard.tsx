@@ -16,7 +16,7 @@ export function PersonCard({ person }: PersonCardProps) {
   const alt = person.altDrawing ?? `${name || 'Person'} Drawing`
 
   return (
-    <Link to={`/person-${person.slug}`} className={styles.card}>
+    <Link to={`/person/${person.slug}`} className={styles.card}>
       {person.drawingImage && (
         <img src={person.drawingImage} alt={alt} className={styles.image} />
       )}

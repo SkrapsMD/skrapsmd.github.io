@@ -66,7 +66,7 @@ export function ResearchCard({ paper, onOpenStory }: ResearchCardProps) {
             <Fragment key={`${author.name}-${i}`}>
               {i > 0 && ', '}
               {author.slug ? (
-                <Link to={`/person-${author.slug}`} className={styles.nameLink}>
+                <Link to={`/person/${author.slug}`} className={styles.nameLink}>
                   {author.name}
                 </Link>
               ) : (
