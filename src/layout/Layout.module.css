@@ -1,0 +1,186 @@
+/* Layout (page shell) — ported from 1_assets/styles/02_shell.css.
+   Structural chrome shared by every page: frame, masthead, nav, footer. */
+
+.frame {
+  max-width: var(--frame-width);
+  margin: 32px auto;
+  border: var(--border);
+  padding: 0;
+  background: var(--bg);
+}
+
+/* Masthead */
+.masthead {
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  padding: var(--pad);
+  padding-bottom: 0;
+  z-index: 100;
+}
+
+.mastheadTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+.brand:hover {
+  text-decoration: none;
+}
+.brand:hover .brandTitle {
+  color: var(--text-emph);
+}
+
+.brandTitle {
+  font-weight: 600;
+  font-size: var(--font-lg);
+}
+
+.brandIcon {
+  height: 4em;
+  width: auto;
+  display: block;
+}
+
+/* Navigation */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  z-index: 101;
+}
+
+.hamburgerLine {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--ink);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.navbars {
+  display: flex;
+  gap: var(--pad-sm);
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.navbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: var(--border);
+  padding: 4px 10px;
+  text-decoration: none;
+  color: var(--ink);
+  font-size: var(--font-xs);
+  line-height: 1;
+  background: transparent;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.navbtn:hover {
+  background: var(--ink);
+  color: var(--ink-inv);
+  text-decoration: none;
+}
+.navbtn:hover .dot {
+  border: 1px solid var(--ink-inv);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: transparent;
+}
+
+.navbtn.active .dot {
+  background: var(--active-indicator);
+}
+
+/* Rules (dividers) */
+.rule {
+  border: 0;
+  border-top: var(--border-muted);
+  height: 0;
+  margin: 10px 0;
+}
+.ruleFlush {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* Content area */
+.content {
+  padding: var(--pad);
+  padding-top: 4px;
+  padding-bottom: 12px;
+  min-height: 200px;
+}
+
+/* Footer */
+.foot {
+  padding: 0 var(--pad) var(--pad);
+  margin-top: var(--pad);
+}
+
+.footMeta {
+  display: flex;
+  gap: var(--pad-sm);
+  color: var(--text-secondary);
+  font-size: var(--font-xs);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .frame {
+    margin: 12px;
+  }
+  .masthead {
+    position: relative;
+  }
+  .masthead,
+  .content,
+  .foot {
+    padding-left: var(--pad-sm);
+    padding-right: var(--pad-sm);
+  }
+  .hamburger {
+    display: flex;
+  }
+  .navbars {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .navbarsOpen {
+    display: flex;
+  }
+  .navbtn {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .frame {
+    margin: 8px;
+  }
+  .brandTitle {
+    font-size: var(--font-base);
+  }
+}

@@ -1,0 +1,11 @@
+/*
+  styles.css — global design-language entry (the @import root).
+  Order matters: color primitives first, then semantic tokens that reference
+  them, then @font-face declarations, then element-level base styles.
+  Component-scoped styles live in *.module.css next to each component.
+*/
+@import './palettes/FRBA_scheme.css';
+@import './palettes/USGC_scheme.css';
+@import './tokens.css';
+@import './fonts.css';
+@import './base.css';
