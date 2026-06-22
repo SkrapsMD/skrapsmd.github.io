@@ -14,6 +14,14 @@ There is **no class vocabulary and no Tailwind**. Style the components through t
 
 Never hardcode a hex value — always reference a token so light/dark and brand stay correct.
 
+## Color palette (charts, accents, brand fills)
+The semantic tokens above are for UI surfaces/text. The raw palette below is for data-viz, charts, and explicit brand color — all available as `var(--name)`.
+
+- **Categorical / plot colors** (use in this order for chart series): `--Res-blue1`, `--Res-orange1`, `--Res-green1`, `--Res-yellow1`, `--Res-pink1`, `--Res-blue2`, `--Res-purple1`, `--Res-teal1`, `--Res-maroon1`, `--Res-blue3`, `--Res-green2`, `--Res-gray1`.
+- **Named brand accents:** `--primaryBlue`, `--respectRed`, `--integrityIndigo`, `--teal`, `--shamrockGreen`, `--limeGreen`, `--gold` — each also has `…Light` and `…Dark` (e.g. `--tealDark`, `--goldLight`).
+- **Full hue scales (FRBA primary):** families `--atlBlue`, `--atlRed`, `--atlFuchsia`, `--atlIndigo`, `--atlTeal`, `--atlGreen`, `--atlLime`, `--atlGold`, `--atlOrange`, each at steps `50, 100, 200 … 900, 1000, 1100` (e.g. `--atlOrange600`, `--atlBlue900`). Status: `--atlDanger`, `--atlInfo`, `--atlSuccess`, `--atlPrimaryWarning`, `--atlSecondaryWarning`.
+- **Secondary "US Graphics Company" scheme:** `--usgc-red`, `--usgc-green`, `--usgc-blue`, `--usgc-cyan`, `--usgc-yellow`, `--usgc-magenta`, `--usgc-purple`, `--usgc-beige` (several have `-2` variants, e.g. `--usgc-blue-2`).
+
 ## Where the truth lives
 Read these bound files before styling: `styles.css` (the `@import` root → tokens, fonts, `_ds_bundle.css`), plus each component's `<Name>.prompt.md` and `<Name>.d.ts`.
 
