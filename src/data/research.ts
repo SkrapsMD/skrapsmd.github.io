@@ -44,7 +44,7 @@ export const research: ResearchPaper[] = [
     abstract:
       "We use novel data from a survey of nearly 750 corporate executives to study the effects of artificial intelligence (AI) on productivity and the workforce. We document substantial heterogeneity in AI adoption across firms, with more than half having already invested, though many smaller firms are only beginning to do so. Labor productivity gains are positive, vary across sectors, and are expected to strengthen in 2026, with the largest effects concentrated in high-skill services and finance. These gains are not primarily driven by firms' capital deepening but instead reflect increases in revenue-based total factor productivity, closely associated with innovation- and demand-oriented channels. We document a productivity paradox, in which perceived productivity gains are larger than measured productivity gains, likely reflecting a delay in revenue realizations. In labor markets, we find little evidence of near-term aggregate employment declines due to AI, though larger companies anticipate AI-driven workforce reductions, while smaller firms expect modest gains. We also find evidence of compositional reallocation of labor both within and across firms, with routine clerical roles declining and a relative demand for skilled technical roles increasing. We develop an index that ranks job functions most negatively affected by AI.",
     badges: ['Artificial Intelligence', 'Productivity', 'Labor Markets'],
-    pdfUrl: '2_docs/01_publications/ExecsAndAI_NBERwp34984.pdf',
+    pdfUrl: '/docs/publications/ExecsAndAI_NBERwp34984.pdf',
     doiUrl: 'https://ssrn.com/abstract=6456970',
     storyGroup: 'baslandze2026ai',
     bibtex:
@@ -66,7 +66,7 @@ export const research: ResearchPaper[] = [
     abstract:
       "Following the inflationary surge from 2021 to 2023, which was touched off by supply chain constraints and shipping bottlenecks, we evaluate a new panel of own-firm price and unit cost growth expectations in the Atlanta Fed's Survey of Business Uncertainty for signs that the anticipated impactfrom tariffs is broadening beyond directlry affectedfirms. We find evidence for the potential of tariffs to touch off another bout of high inflation. First, firms that are directly exposed to tariffs have increased their year-ahead price growth expectations sharply (by 0.7 percentage points). Second, firms that are not directly exposed to tariffs but are operating in industries that are highly exposed to tariffs anticipate a moderately higher trajectory for year-ahead price growth (0.3 percentage points). Third, this broadening of overall price pressures --- a key feature of the pandemi-era inflationary impulse --- is only partially offset by lower price increases from tariff-exposed firms that are operating largely in industries not exposed to tariffs.",
     badges: ['Survey Methods', 'Trade Policy', 'Firm Behavior'],
-    pdfUrl: '2_docs/01_publications/TariffsInflationaryImpulse_No4_2025_FRBATL_PHUB.pdf',
+    pdfUrl: '/docs/publications/TariffsInflationaryImpulse_No4_2025_FRBATL_PHUB.pdf',
     doiUrl: 'https://doi.org/10.29338/ph2025-04',
     storySrc: 'story/3246702?',
     bibtex:
@@ -88,7 +88,7 @@ export const research: ResearchPaper[] = [
     abstract:
       'We evaluate the impact of various US tariff scenarios on consumer prices using novel micro-level data linking imports to consumer expenditures. Results indicate that an additional 10 percent tariff on Chinese imports, 25 percent tariff on Canadianand Mexican imports, and 10 percent tariff on other countries could raise consumer prices on everyday retail purchases, such as food and beverage items and general merchandise, covering about a quarter of the total consumption basket, by 81 percent to 1.63 percent, assuming half to full pass-through. Notably, tariffs on Canada and Mexico contribute approximately 45 percent of the total price effect. Our results focus on direct effects of tariffs on a quarter of the total consumption basket, and the aggregate effect on the overall Consumer Price Index (CPI) further hinges on the price sensitivity of the excluded consumption categories, particularly transportation, services, energy, and housing.',
     badges: ['Inflation', 'Trade Policy', 'Industrial Organization'],
-    pdfUrl: '2_docs/01_publications/TariffsAndConsumerPrices_No1_2025_FRBATL_PHUB.pdf',
+    pdfUrl: '/docs/publications/TariffsAndConsumerPrices_No1_2025_FRBATL_PHUB.pdf',
     doiUrl: 'https://doi.org/10.29338/ph2025-01',
     storySrc: 'story/2920835?1940038',
     bibtex:
