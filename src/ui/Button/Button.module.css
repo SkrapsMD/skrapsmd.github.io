@@ -1,0 +1,51 @@
+/* Button — ported from .btn in 03_components.css */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: var(--border);
+  background: transparent;
+  color: var(--text-primary);
+  padding: 4px 8px;
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.btn:hover {
+  background: var(--ink);
+  color: var(--ink-inv);
+}
+
+.primary {
+  background: var(--text-emph);
+  color: var(--ink-inv);
+  border-color: var(--text-emph);
+}
+.primary:hover {
+  background: var(--text-emph-hover);
+  border-color: var(--text-emph-hover);
+  color: var(--ink);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--text-emph);
+  border-color: var(--text-emph);
+}
+.ghost:hover {
+  background: var(--text-highlight-2);
+  color: var(--text-emph);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn:disabled:hover {
+  color: var(--text-primary);
+  background: transparent;
+}

@@ -1,0 +1,17 @@
+/* Panel — ported from .panel / .panel-title / .panel--muted in 03_components.css */
+.panel {
+  border: var(--border);
+  padding: 10px;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: var(--font-xs);
+  font-weight: 600;
+  margin: 0 0 10px 0;
+}
+
+.muted {
+  background: var(--bg-muted);
+  border-color: var(--ink-muted);
+}

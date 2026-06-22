@@ -1,0 +1,18 @@
+/* Input — ported from .input in 03_components.css */
+.input {
+  border: var(--border);
+  background: transparent;
+  color: var(--text-primary);
+  padding: 4px 6px;
+  font-family: var(--font-sans);
+  font-size: var(--font-sm);
+}
+
+.input:focus {
+  outline: 2px solid var(--text-emph);
+  outline-offset: 1px;
+}
+
+.input::placeholder {
+  color: var(--text-secondary);
+}

@@ -1,0 +1,684 @@
+/* Specimen.module.css — page-specific styles for the Design Reference page.
+   Ported from 1_assets/styles/a_partials/00_specimen.css plus the page-only
+   scaffolding (.rule, .card*, .wip*) that the static page used from the global
+   component sheet but that has no @/ui equivalent. Class names are CSS-Module
+   scoped; all colors reference the existing global design tokens. */
+
+/* ========================================
+   SPECIMEN GRID LAYOUT
+   ======================================== */
+.specimenGrid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 16px;
+}
+
+.specimenGridMt {
+  margin-top: 32px;
+}
+
+.specDesc {
+  margin-top: 6px;
+}
+
+.specBlock {
+  margin-top: 40px;
+}
+
+/* ========================================
+   TABLE CAPTION (section header) — page scaffolding.
+   Ported from .table-caption* (03_components.css). The static page renders a
+   literal "Category | Title", so we keep local markup rather than the @/ui
+   TableCaption (which omits the pipe).
+   ======================================== */
+.tableCaption {
+  font-size: var(--font-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.tableCaptionLg {
+  font-size: var(--font-sm);
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.tableCaptionCategory {
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.tableCaptionTitle {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ========================================
+   RULES (horizontal dividers) — page scaffolding
+   ======================================== */
+.rule {
+  border: 0;
+  border-top: var(--border-muted);
+  height: 0;
+  margin: 10px 0;
+}
+
+.ruleSpaced {
+  margin-top: 32px;
+}
+
+/* ========================================
+   FONT WEIGHT TABLE CELLS
+   ======================================== */
+.fontSans {
+  font-family: var(--font-sans);
+  font-size: var(--font-md);
+  line-height: 1.4;
+}
+
+.fontSansI {
+  font-family: var(--font-sans);
+  font-size: var(--font-md);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.fontMono {
+  font-family: var(--font-mono);
+  font-size: var(--font-md);
+  line-height: 1.4;
+}
+
+.fontMonoI {
+  font-family: var(--font-mono);
+  font-size: var(--font-md);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* ========================================
+   FONT SIZE TABLE CELLS
+   ======================================== */
+.sizeSans {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.sizeSansI {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.05;
+}
+
+.sizeMono {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.sizeMonoI {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.05;
+}
+
+/* ========================================
+   FONT WEIGHT UTILITIES (specimen-scoped)
+   ======================================== */
+.fw100 { font-weight: 100; }
+.fw200 { font-weight: 200; }
+.fw300 { font-weight: 300; }
+.fw400 { font-weight: 400; }
+.fw450 { font-weight: 450; }
+.fw500 { font-weight: 500; }
+.fw600 { font-weight: 600; }
+.fw700 { font-weight: 700; }
+
+/* ========================================
+   FONT SIZE UTILITIES (specimen-scoped)
+   ======================================== */
+.fs4xl  { font-size: var(--font-4xl); }
+.fs3xl  { font-size: var(--font-3xl); }
+.fs2xl  { font-size: var(--font-2xl); }
+.fsXl   { font-size: var(--font-xl); }
+.fsLg   { font-size: var(--font-lg); }
+.fsMd   { font-size: var(--font-md); }
+.fsBase { font-size: var(--font-base); }
+.fsSm   { font-size: var(--font-sm); }
+.fsXs   { font-size: var(--font-xs); }
+
+/* ========================================
+   COLOR PALETTE GRID (Full Palette)
+   ======================================== */
+.colorGrid {
+  display: grid;
+  grid-template-columns: 120px repeat(12, 1fr);
+  gap: 0;
+  border: var(--border-muted);
+  border-top: none;
+}
+
+.colorGridHeader {
+  background: var(--text-highlight);
+  padding: 6px 8px;
+  font-weight: 600;
+  border: var(--border-muted);
+  border-top-width: 2px;
+  border-top-style: dotted;
+  border-bottom: var(--border);
+}
+
+.colorGridHeaderLabel {
+  background: var(--text-highlight);
+  padding: 6px 2px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  border: var(--border-muted);
+  border-top-width: 2px;
+  border-top-style: dotted;
+  border-bottom: var(--border);
+}
+
+.colorGridRowLabel {
+  background: var(--bg);
+  padding: 8px;
+  font-size: var(--font-sm);
+  font-weight: 600;
+  border-right: var(--border-muted);
+}
+
+.colorGridSwatch {
+  height: 40px;
+}
+
+.colorGridSwatchNa {
+  background: var(--bg);
+  height: 40px;
+}
+
+/* ========================================
+   PLOT PALETTE GRID (Light + Dark)
+   ======================================== */
+.plotGrid {
+  display: grid;
+  grid-template-columns: auto repeat(4, 1fr);
+  gap: 0;
+  border-top: none;
+}
+
+.plotGridLabel {
+  background: var(--text-highlight);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  border: var(--border-muted);
+  font-weight: 600;
+  padding: 12px;
+}
+
+.plotGridLabelBasic {
+  grid-row: 1 / 4;
+  border-bottom-width: 2px;
+  border-bottom-style: dotted;
+}
+
+.plotGridLabelDark {
+  grid-row: 4 / 6;
+  border-bottom-width: 2px;
+}
+
+.plotGridSwatch {
+  height: 80px;
+  border: var(--border-muted);
+  position: relative;
+}
+
+.plotGridSwatchTop {
+  border-top-width: 2px;
+  border-top-style: dotted;
+}
+
+.plotGridSwatchRowTop {
+  border-top-width: 2px;
+}
+
+.plotColorLabel {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-size: var(--font-sm);
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: right;
+}
+
+.plotColorLabelLight {
+  color: var(--white);
+}
+
+.plotColorLabelDark {
+  color: var(--black);
+}
+
+/* ========================================
+   CONTRAST CHECKER (WCAG overlay)
+   ======================================== */
+.contrastControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.contrastBgSwitch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: var(--border);
+}
+
+.contrastBgSwitchCaption {
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+}
+
+.contrastBgSwitchOption {
+  border: none;
+  border-left: var(--border);
+  background: transparent;
+  color: var(--text-primary);
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.contrastBgSwitchOption:hover {
+  background: var(--bg-muted);
+}
+
+.contrastBgSwitchOptionActive,
+.contrastBgSwitchOptionActive:hover {
+  background: var(--ink);
+  color: var(--ink-inv);
+}
+
+/* Legend / key (shown only while overlay is active) */
+.contrastKey {
+  border: var(--border-muted);
+  padding: var(--pad);
+  margin-bottom: 16px;
+}
+
+.contrastKeyLegend {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 24px;
+}
+
+.contrastKeyItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--font-sm);
+}
+
+.contrastKeyDot {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  border: var(--border-muted);
+}
+
+.contrastKeyDotAaa      { background: var(--atlGreen500); }
+.contrastKeyDotAa       { background: var(--atlBlue700); }
+.contrastKeyDotAaLarge  { background: var(--atlGold200); }
+.contrastKeyDotFail     { background: var(--atlDanger); }
+
+.contrastKeyNotes {
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.contrastKeyFootnote {
+  margin-top: 8px;
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Per-swatch ratio pill */
+.contrastBadge {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  padding: 1px 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.2;
+  border: var(--border-muted);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.contrastBadgeAaa      { background: var(--atlGreen500); color: var(--white); }
+.contrastBadgeAa       { background: var(--atlBlue700);  color: var(--white); }
+.contrastBadgeAaLarge  { background: var(--atlGold200);  color: var(--black); }
+.contrastBadgeFail     { background: var(--atlDanger);   color: var(--white); }
+
+/* Anchor badges inside the (otherwise unpositioned) full-palette swatches.
+   In the static page this was scoped under body.contrast-active; here the
+   modifier lives on the grid container itself. */
+.contrastActive .colorGridSwatch {
+  position: relative;
+}
+
+/* ========================================
+   TOKEN GRID (Color token + Inline text token tables)
+   ======================================== */
+.tokenGrid {
+  display: grid;
+  grid-template-columns: 200px repeat(2, 1fr);
+  gap: 0;
+  border: var(--border-muted);
+  border-top: none;
+}
+
+.tokenGridHeader {
+  background: var(--text-highlight);
+  padding: 12px;
+  font-weight: 600;
+  border: var(--border-muted);
+  border-top-width: 2px;
+  border-top-style: dotted;
+}
+
+.tokenGridHeaderCenter {
+  color: var(--ink);
+  text-align: center;
+}
+
+.tokenGridLabel {
+  background: var(--bg);
+  padding: 16px;
+  border: var(--border-muted);
+}
+
+.tokenGridDemo {
+  padding: 16px;
+  border: var(--border-muted);
+}
+
+/* ========================================
+   UI SPECIMEN SECTIONS
+   ======================================== */
+.uiSpecSection {
+  margin-bottom: 32px;
+}
+
+.uiSpecSectionNarrow {
+  margin-bottom: 32px;
+  max-width: 720px;
+}
+
+/* ========================================
+   UI SPECIMEN BUTTON/LABEL GRID
+   ======================================== */
+.uiSpecGrid {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 16px;
+  border: var(--border-muted);
+}
+
+.uiSpecGridLabel {
+  background: var(--bg);
+  padding: 16px;
+  border: var(--border-muted);
+  display: flex;
+  align-items: center;
+}
+
+.uiSpecGridDemo {
+  background: var(--bg);
+  padding: 16px;
+  border: var(--border-muted);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ========================================
+   CARDS — page scaffolding (no @/ui equivalent)
+   ======================================== */
+.card {
+  border: var(--border);
+  border-left: 15px solid light-dark(var(--darkGray), var(--lightGray));
+  padding: var(--pad);
+  margin-bottom: var(--pad);
+}
+
+.cardTitle {
+  font-weight: 600;
+  font-size: var(--font-sm);
+  margin-bottom: 4px;
+}
+
+.cardMeta {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.cardBody {
+  font-size: var(--font-sm);
+}
+
+.cardTitleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 4px;
+}
+
+.cardBadges {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cardActions {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cardActions button {
+  min-width: 6rem;
+}
+
+.cardAction {
+  margin-top: 12px;
+}
+
+.cardDate {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  margin-left: 16px;
+}
+
+/* ========================================
+   TEXT HIERARCHY (specimen demo)
+   ======================================== */
+.h1 {
+  font-size: var(--font-3xl);
+  font-weight: 400;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.h2 {
+  font-size: var(--font-2xl);
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+
+.h3 {
+  font-size: var(--font-xl);
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.h4 {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.p {
+  font-size: var(--font-base);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.pMb16 {
+  margin-bottom: 16px;
+}
+
+.blockquote {
+  border-left: 3px solid var(--blockquote-border);
+  padding-left: 16px;
+  margin: 16px 0;
+  font-style: italic;
+  color: var(--blockquote-text);
+}
+
+.blockquoteAttr {
+  margin-top: 8px;
+  font-style: normal;
+  font-size: var(--font-sm);
+}
+
+.blockquoteDemo {
+  border-left: 3px solid var(--blockquote-border);
+  padding-left: 12px;
+  margin: 0;
+  font-style: italic;
+  color: var(--blockquote-text);
+  font-size: var(--font-sm);
+}
+
+.list {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.listItem {
+  margin-bottom: 6px;
+}
+
+/* ========================================
+   CODE BLOCKS SECTION (specimen demo)
+   ======================================== */
+.subhead {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.subheadSpaced {
+  margin-top: 16px;
+}
+
+.flush {
+  margin: 0;
+}
+
+/* ========================================
+   BADGE GROUPS (specimen demo)
+   ======================================== */
+.badgeGroup {
+  margin-bottom: 16px;
+}
+
+.badgeGroup:last-child {
+  margin-bottom: 0;
+}
+
+.badgeGroupLabel {
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: var(--font-sm);
+}
+
+.badgeGroupItems {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ========================================
+   WORK IN PROGRESS SIGN — page scaffolding
+   (ported from .panel.wip / .wip-banner / .wip-label)
+   ======================================== */
+.wipPanel {
+  border: var(--border);
+  padding: 10px;
+  margin-bottom: 16px;
+  display: grid;
+  min-height: 450px;
+}
+
+.wipBanner {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--atlDanger);
+  background: repeating-linear-gradient(
+    135deg,
+    var(--atlDanger) 0 18px,
+    var(--bg) 18px 36px
+  );
+}
+
+.wipLabel {
+  padding: 0.2em 0.4em;
+  font-family: var(--font-mono);
+  font-size: clamp(var(--font-lg), var(--font-3xl), var(--font-3xl));
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  background: var(--bg);
+  border: 2px dashed var(--ink);
+}
+
+/* ========================================
+   MOBILE RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+  .specimenGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}

@@ -1,0 +1,11 @@
+/* CodeBlock — ported from .code-block in 03_components.css */
+.codeBlock {
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  background: var(--code-block-bg);
+  color: var(--code-text);
+  border: var(--border);
+  padding: var(--pad-sm);
+  overflow-x: auto;
+  white-space: pre;
+}

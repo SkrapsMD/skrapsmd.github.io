@@ -1,0 +1,35 @@
+/* Badge — ported from .badge in 03_components.css */
+.badge {
+  display: inline-block;
+  padding: 2px 6px;
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  font-weight: 600;
+  border: var(--border);
+  cursor: default;
+  user-select: none;
+  pointer-events: none;
+}
+
+.highlight {
+  background: var(--text-highlight);
+}
+.info {
+  background: var(--text-highlight-2);
+}
+.success {
+  background: var(--text-highlight-3);
+}
+.failure {
+  background: var(--atlDanger);
+  color: var(--white);
+}
+.warning {
+  background: var(--text-highlight-warning);
+  color: var(--black);
+}
+.unsure {
+  opacity: 0.5;
+  background: var(--bg-muted);
+  color: var(--ink);
+}

@@ -1,0 +1,82 @@
+/* Table — ported from .table* and .table-caption* in 03_components.css */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-xs);
+}
+
+.table th,
+.table td {
+  border: var(--border-muted);
+  padding: 6px 8px;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.table thead th {
+  background: var(--text-highlight);
+  font-weight: 600;
+  border: var(--border-muted);
+  border-top-style: dotted;
+  border-top-width: 2px;
+  border-bottom: var(--border);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: var(--border-muted);
+}
+
+/* hoverable */
+.hoverable tbody tr:hover {
+  background: var(--bg-muted);
+}
+
+/* compact (declared after .table th so equal-specificity override wins) */
+.compact th,
+.compact td {
+  padding: 4px 6px;
+}
+
+/* borderless: vertical lines only (including edges) */
+.borderless th,
+.borderless td {
+  border-top: none;
+  border-bottom: none;
+  border-left: var(--border-muted);
+  border-right: none;
+}
+.borderless th:last-child,
+.borderless td:last-child {
+  border-right: var(--border-muted);
+}
+.borderless thead th {
+  border-left: var(--border-muted);
+  border-right: none;
+}
+.borderless thead th:last-child {
+  border-right: var(--border-muted);
+}
+.borderless tbody tr:last-child td {
+  border-bottom: var(--border-muted);
+}
+
+/* Caption (from .table-caption*) */
+.caption {
+  font-size: var(--font-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.captionLg {
+  font-size: var(--font-sm);
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+.captionCategory {
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+.captionTitle {
+  color: var(--text-primary);
+  font-weight: 600;
+}
