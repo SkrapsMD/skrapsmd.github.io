@@ -1,4 +1,4 @@
-import { Suspense, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import styles from './Layout.module.css'
 
@@ -8,6 +8,7 @@ const NAV: { to: string; label: string; end?: boolean }[] = [
   { to: '/code', label: 'Code & Data' },
   { to: '/applications', label: 'PhD App. Tracker' },
   { to: '/people', label: 'People' },
+  { to: '/calendar', label: 'Calendar' },
   { to: '/specimen', label: 'Design Reference' },
   { to: '/sitemap', label: 'Sitemap' },
 ]
@@ -16,9 +17,28 @@ export default function Layout() {
   const [menuOpen, setMenuOpen] = useState(false)
   const closeMenu = () => setMenuOpen(false)
 
+  // Publish the sticky masthead's height as --masthead-h so pages can pin their
+  // own content directly beneath it (the calendar's day-detail bar). The nav
+  // wraps at some widths, so the height is measured, not hard-coded.
+  const mastheadRef = useRef<HTMLElement>(null)
+  useEffect(() => {
+    const el = mastheadRef.current
+    if (!el) return
+    const setH = () =>
+      document.documentElement.style.setProperty('--masthead-h', `${el.offsetHeight}px`)
+    setH()
+    const ro = new ResizeObserver(setH)
+    ro.observe(el)
+    window.addEventListener('resize', setH)
+    return () => {
+      ro.disconnect()
+      window.removeEventListener('resize', setH)
+    }
+  }, [])
+
   return (
     <div className={styles.frame}>
-      <header className={styles.masthead}>
+      <header ref={mastheadRef} className={styles.masthead}>
         <div className={styles.mastheadTop}>
           <Link to="/" className={styles.brand} onClick={closeMenu}>
             <img

@@ -21,6 +21,7 @@ import Specimen from '@/pages/Specimen'
 import Applications from '@/pages/Applications'
 import Code from '@/pages/Code'
 import Geocoder from '@/pages/Geocoder'
+import Calendar from '@/pages/Calendar'
 import Sitemap from '@/pages/Sitemap'
 import Licensing from '@/pages/Licensing'
 
@@ -61,6 +62,9 @@ check('Code', () => render(React.createElement(Code), ['/']), {
   tools: 'Tools', geocoderLink: '/geocoder',
 })
 check('Geocoder', () => render(React.createElement(Geocoder), ['/']), {})
+check('Calendar', () => render(React.createElement(Calendar), ['/']), {
+  title: 'Layered Life Calendar', term: 'Fall Quarter',
+})
 check('Sitemap', () => render(React.createElement(Sitemap), ['/']), {
   wip: 'WORK IN PROGRESS',
 })

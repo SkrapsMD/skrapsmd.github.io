@@ -11,9 +11,11 @@ import Sitemap from './pages/Sitemap'
 import Licensing from './pages/Licensing'
 
 // Heavy routes are code-split so their weight (the Specimen palette grids; the
-// geocoder's xlsx dependency) stays out of the initial bundle.
+// geocoder's xlsx dependency; the calendar's bundled event data) stays out of
+// the initial bundle.
 const Specimen = lazy(() => import('./pages/Specimen'))
 const Geocoder = lazy(() => import('./pages/Geocoder'))
+const Calendar = lazy(() => import('./pages/Calendar'))
 
 export default function App() {
   return (
@@ -28,6 +30,7 @@ export default function App() {
           <Route path="people" element={<People />} />
           <Route path="person/:slug" element={<PersonProfile />} />
           <Route path="specimen" element={<Specimen />} />
+          <Route path="calendar" element={<Calendar />} />
           <Route path="sitemap" element={<Sitemap />} />
           <Route path="geocoder" element={<Geocoder />} />
           <Route path="licensing" element={<Licensing />} />
