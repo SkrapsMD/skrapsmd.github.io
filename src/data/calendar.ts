@@ -10,7 +10,7 @@
 // the week/lane arithmetic.
 import rawData from './calendar.json'
 
-export type Scope = 'university' | 'personal_academic' | 'personal'
+export type Scope = 'university' | 'personal_academic' | 'fellowship' | 'personal'
 
 export type EventType =
   | 'term_start'

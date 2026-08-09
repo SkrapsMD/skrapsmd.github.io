@@ -1,10 +1,12 @@
-import { useMemo, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import type { CSSProperties } from 'react'
 import { Badge, Panel } from '@/ui'
 import type { BadgeVariant } from '@/ui'
 import { calendarData } from '@/data/calendar'
 import type { Scope } from '@/data/calendar'
 import {
+  blockProgress,
+  blockWindow,
   buildBlocks,
   buildModel,
   breakRangesOf,
@@ -15,19 +17,26 @@ import {
   dow,
   eventMeta,
   holName,
+  nextUp,
+  relativeWhen,
   scopeColor,
   SCOPE_LABEL,
   SCOPES,
   shortDate,
+  shortDateY,
   spanLabel,
   toDay,
+  weekStartOf,
 } from './calendarModel'
-import type { EventI } from './calendarModel'
+import type { BlockSpec, EventI } from './calendarModel'
 import styles from './Calendar.module.css'
 
 // Gaps shorter than this are administrative changeovers, not breaks — mirrors
 // MIN_REAL_BREAK_DAYS / is_major in the Python pipeline.
 const MIN_BREAK_DAYS = 3
+
+// How many items the "Up next" strip shows.
+const UPNEXT_COUNT = 4
 
 // ── View-model shapes (built per render from the current filters/options) ────
 interface ChipVM {
@@ -39,9 +48,11 @@ interface CellVM {
   key: number
   day: number
   inRange: boolean
+  isToday: boolean
   dayLabel: string
   style: CSSProperties
   dnColor: string
+  holColor: string
   chips: ChipVM[]
   title: string
   hasHoliday: boolean
@@ -54,6 +65,7 @@ interface SpanVM {
 }
 interface WeekVM {
   key: number
+  isCurrentWeek: boolean
   cells: CellVM[]
   spans: SpanVM[]
   overlayStyle: CSSProperties
@@ -75,33 +87,70 @@ interface Seg {
 const SCOPE_BADGE: Record<Scope, BadgeVariant> = {
   university: 'info',
   personal_academic: 'warning',
+  // Muted on purpose: fellowship sessions are real, but they should not read as
+  // heavily as coursework and exams.
+  fellowship: 'unsure',
   personal: 'success',
 }
-const SCOPE_ORDER: Record<Scope, number> = { university: 0, personal_academic: 1, personal: 2 }
+const SCOPE_ORDER: Record<Scope, number> = {
+  university: 0,
+  personal_academic: 1,
+  fellowship: 2,
+  personal: 3,
+}
 
 export default function Calendar() {
   const [filters, setFilters] = useState<Record<Scope, boolean>>({
     university: true,
     personal_academic: true,
+    fellowship: true,
     personal: true,
   })
-  const [selected, setSelected] = useState<number | null>(null)
 
   const model = useMemo(() => buildModel(calendarData), [])
   const today = useMemo(() => toDay(new Date().toISOString().slice(0, 10)), [])
+  // The Sunday of the current week is the cut line between past and present.
+  const weekStart = weekStartOf(today)
+
+  const specs = useMemo(
+    () => buildBlocks(model.terms, { showBreaks: true, minBreakDays: MIN_BREAK_DAYS }),
+    [model],
+  )
+  const aheadSpecs = useMemo(() => specs.filter((s) => s.b >= weekStart), [specs, weekStart])
+  const pastSpecs = useMemo(() => specs.filter((s) => s.b < weekStart), [specs, weekStart])
+  // A quarter ending mid-week and the break starting the next day both draw
+  // that shared week, so the "this week" seam is pinned to the first of them.
+  const markerSpec = useMemo(
+    () =>
+      aheadSpecs.find((s) => {
+        const w = blockWindow(s)
+        return weekStart >= w.a && weekStart <= w.b
+      }) ?? null,
+    [aheadSpecs, weekStart],
+  )
+
+  // The detail panel opens on today rather than on an empty prompt.
+  const [selected, setSelected] = useState<number | null>(today)
+  // Once the calendar data runs out there is nothing but history left to show,
+  // so the archive starts open in that case.
+  const [showPast, setShowPast] = useState(aheadSpecs.length === 0)
 
   // Comfortable density: extra cell height reserved below the day number.
   const cellExtra = 38
 
   // ── Build the block/week/cell/span geometry from current state ────────────
-  const blocks = useMemo<BlockVM[]>(() => {
-    const specs = buildBlocks(model.terms, { showBreaks: true, minBreakDays: MIN_BREAK_DAYS })
-
-    return specs.map((bl) => {
+  // One builder serves both lists, so the archive and the live grid can never
+  // drift apart. Past blocks are only built while the disclosure is open.
+  const { ahead, past } = useMemo<{ ahead: BlockVM[]; past: BlockVM[] }>(() => {
+    const buildBlockVM = (bl: BlockSpec): BlockVM => {
       const isBreak = bl.kind === 'break'
       const weeks: WeekVM[] = []
-      const ws = bl.a - dow(bl.a)
-      const we = bl.b + (6 - dow(bl.b))
+      const win = blockWindow(bl)
+      // A block straddling the current week starts at it instead of at its own
+      // first week; the per-cell inRange test already greys any leading days
+      // that fall before the block itself.
+      const clipped = weekStart > win.a && weekStart <= win.b
+      const ws = clipped ? weekStart : win.a
 
       // The university holiday (if any) shown on a given in-range day. Used both
       // for the gold treatment and to detect adjacent holiday days so the outline
@@ -111,7 +160,7 @@ export default function Calendar() {
           ? (model.eventsOn.get(day) ?? []).find((e) => e.type === 'holiday')
           : undefined
 
-      for (let s = ws; s <= we; s += 7) {
+      for (let s = ws; s <= win.b; s += 7) {
         // Multi-day spans clipped to this week ∩ block, greedily laned.
         const segs: Seg[] = model.barEvents
           .filter((e) => filters[e.scope])
@@ -131,6 +180,9 @@ export default function Calendar() {
           const startCol = g.segS - s
           const w = g.segE - g.segS + 1
           const scol = scopeColor(g.e.scope)
+          // Only a fully elapsed segment fades; a bar still running keeps its
+          // fill, so nothing has to be split at the today boundary.
+          const gone = g.segE < today
           return {
             key: `${g.e.a}-${g.e.type}-${i}`,
             label: g.e.label,
@@ -138,8 +190,9 @@ export default function Calendar() {
               left: `${(startCol / 7) * 100}%`,
               width: `${(w / 7) * 100}%`,
               top: `${lane * 20}px`,
-              background: `color-mix(in srgb, ${scol} 24%, var(--bg))`,
-              borderLeft: `3px solid ${scol}`,
+              background: gone ? 'transparent' : `color-mix(in srgb, ${scol} 24%, var(--bg))`,
+              borderLeft: `3px solid ${gone ? `color-mix(in srgb, ${scol} 55%, var(--bg))` : scol}`,
+              color: gone ? 'var(--cal-ink-past)' : undefined,
             },
           }
         })
@@ -154,6 +207,9 @@ export default function Calendar() {
           const inRange = day >= bl.a && day <= bl.b
           const dw = dow(day)
           const weekend = dw === 0 || dw === 6
+          // Strictly before today — today itself is never "past".
+          const gone = inRange && day < today
+          const isToday = inRange && day === today
 
           let bg: string
           let dnColor: string
@@ -161,13 +217,16 @@ export default function Calendar() {
             bg = 'color-mix(in srgb, var(--ink) 3%, var(--bg))'
             dnColor = 'color-mix(in srgb, var(--ink) 28%, var(--bg))'
           } else {
-            let base = 'var(--bg)'
+            let base = gone ? 'var(--cal-surface-past)' : 'var(--bg)'
             const bd = isBreak ? 'break' : dayBand(day, model.terms, [])
-            if (bd === 'instruction') base = 'var(--cal-tint-instruction)'
-            else if (bd === 'exam') base = 'var(--cal-tint-finals)'
+            if (bd === 'instruction')
+              base = gone ? 'var(--cal-tint-instruction-past)' : 'var(--cal-tint-instruction)'
+            else if (bd === 'exam')
+              base = gone ? 'var(--cal-tint-finals-past)' : 'var(--cal-tint-finals)'
             else if (bd === 'break') base = 'var(--bg-muted)'
             bg = weekend ? `color-mix(in srgb, var(--ink) 8%, ${base})` : base
-            dnColor = weekend ? 'var(--text-secondary)' : 'var(--text-primary)'
+            if (gone) dnColor = weekend ? 'var(--cal-ink-past-faint)' : 'var(--cal-ink-past)'
+            else dnColor = weekend ? 'var(--text-secondary)' : 'var(--text-primary)'
           }
 
           const dayEvents = model.eventsOn.get(day) ?? []
@@ -179,14 +238,18 @@ export default function Calendar() {
           const selHi = inRange && selected === day
 
           const shadows: string[] = []
+          // Today's rail is listed first so it paints over the holiday outline
+          // and the selection ring rather than under them.
+          if (isToday) shadows.push('inset 4px 0 0 0 var(--active-indicator)')
           if (holEv) {
-            const g = 'var(--gold)'
+            const g = gone ? 'var(--cal-gold-past)' : 'var(--gold)'
             shadows.push(`inset 0 2px 0 0 ${g}`, `inset 0 -2px 0 0 ${g}`) // top + bottom
             if (!leftIsHol) shadows.push(`inset 2px 0 0 0 ${g}`) // left cap of the run
             if (!rightIsHol) shadows.push(`inset -2px 0 0 0 ${g}`) // right cap of the run
           }
           if (selHi) shadows.push('inset 0 0 0 2px var(--ink)')
-          if (holEv) dnColor = 'var(--cal-holiday-text)'
+          if (holEv) dnColor = gone ? 'var(--cal-ink-past)' : 'var(--cal-holiday-text)'
+          if (isToday) dnColor = 'var(--active-indicator)'
 
           const style: CSSProperties = {
             minHeight: `${cellH}px`,
@@ -207,10 +270,18 @@ export default function Calendar() {
                   return {
                     key: `${e.type}-${e.label}-${ci}`,
                     label: chipLabel(e),
-                    style: {
-                      background: `color-mix(in srgb, ${scol} 14%, var(--bg))`,
-                      borderLeft: `3px solid ${scol}`,
-                    },
+                    // Elapsed chips drop their fill but keep the scope border,
+                    // so the layer stays identifiable without competing.
+                    style: gone
+                      ? {
+                          background: 'transparent',
+                          borderLeft: `3px solid color-mix(in srgb, ${scol} 55%, var(--bg))`,
+                          color: 'var(--cal-ink-past)',
+                        }
+                      : {
+                          background: `color-mix(in srgb, ${scol} 14%, var(--bg))`,
+                          borderLeft: `3px solid ${scol}`,
+                        },
                   }
                 })
             : []
@@ -225,9 +296,11 @@ export default function Calendar() {
             key: day,
             day,
             inRange,
+            isToday,
             dayLabel: shortDate(day),
             style,
             dnColor,
+            holColor: gone ? 'var(--cal-ink-past)' : 'var(--cal-holiday-text)',
             chips,
             title,
             hasHoliday: isSingleHol,
@@ -237,6 +310,7 @@ export default function Calendar() {
 
         weeks.push({
           key: s,
+          isCurrentWeek: s === weekStart && bl === markerSpec,
           cells,
           spans,
           overlayStyle: {
@@ -252,28 +326,37 @@ export default function Calendar() {
 
       const ip = bl.instr
       const ep = bl.exam
-      const meta =
-        !isBreak && ip && ep
-          ? `Instruction ${shortDate(ip.a)}–${shortDate(ip.b)}   ·   Finals ${shortDate(ep.a)}–${shortDate(ep.b)}`
-          : isBreak
-            ? `${bl.days}-day break`
-            : ''
+      const metaParts: string[] = []
+      if (!isBreak && ip && ep) {
+        metaParts.push(
+          `Instruction ${shortDate(ip.a)}–${shortDate(ip.b)}   ·   Finals ${shortDate(ep.a)}–${shortDate(ep.b)}`,
+        )
+      } else if (isBreak) {
+        metaParts.push(`${bl.days}-day break`)
+      }
+      if (clipped) {
+        metaParts.push(
+          `In progress — week ${Math.floor((weekStart - win.a) / 7) + 1} of ${(win.b - win.a + 1) / 7}`,
+        )
+      }
 
       return {
         key: `${bl.kind}-${bl.a}`,
         isBreak,
         name: bl.name,
         range: spanLabel(bl.a, bl.b),
-        meta,
+        meta: metaParts.join('   ·   '),
         weeks,
       }
-    })
-  }, [model, filters, selected])
+    }
 
-  const breakRanges = useMemo(
-    () => breakRangesOf(buildBlocks(model.terms, { showBreaks: true, minBreakDays: MIN_BREAK_DAYS })),
-    [model],
-  )
+    return {
+      ahead: aheadSpecs.map(buildBlockVM),
+      past: showPast ? pastSpecs.map(buildBlockVM) : [],
+    }
+  }, [model, filters, selected, today, weekStart, aheadSpecs, pastSpecs, showPast, markerSpec])
+
+  const breakRanges = useMemo(() => breakRangesOf(specs), [specs])
 
   // ── Detail panel for the selected day ─────────────────────────────────────
   const detail = useMemo(() => {
@@ -295,36 +378,129 @@ export default function Calendar() {
   const toggleFilter = (scope: Scope) =>
     setFilters((f) => ({ ...f, [scope]: !f[scope] }))
 
+  // ── "Now" summaries ───────────────────────────────────────────────────────
+  const upcoming = useMemo(
+    () => nextUp(model.events, today, filters, UPNEXT_COUNT),
+    [model, today, filters],
+  )
+  // Counted under the active layers so the bar agrees with what expanding shows.
+  const pastCount = useMemo(
+    () => model.events.filter((e) => e.b < today && filters[e.scope]).length,
+    [model, today, filters],
+  )
+  const pastTerms = pastSpecs.filter((s) => s.kind === 'term').length
+  const progress = useMemo(() => blockProgress(today, specs), [today, specs])
+  const lastDay = specs.length ? specs[specs.length - 1].b : model.lastEnd
+
   // ── Static-ish control data ───────────────────────────────────────────────
   const legend: { key: string; style: CSSProperties; label: string }[] = [
     { key: 'instr', label: 'Instruction', style: tintSwatch('var(--cal-tint-instruction)') },
     { key: 'fin', label: 'Finals', style: tintSwatch('var(--cal-tint-finals)') },
     { key: 'brk', label: 'Break', style: tintSwatch('var(--bg-muted)') },
     { key: 'wknd', label: 'Weekend', style: tintSwatch('color-mix(in srgb, var(--ink) 8%, var(--bg))') },
+    { key: 'past', label: 'Elapsed', style: tintSwatch('var(--cal-tint-instruction-past)') },
   ]
 
-  const daysOut = model.firstStart - today
+  const pastToggle = (atBottom: boolean) => (
+    <button
+      type="button"
+      className={styles.pastBar}
+      aria-expanded={showPast}
+      onClick={() => setShowPast((v) => !v)}
+    >
+      <span aria-hidden="true">{showPast ? '▾' : '▸'}</span>
+      <span className={styles.pastBarLabel}>Past</span>
+      {/* The archive spans years, and spanLabel only carries the end year. */}
+      <span>{`${shortDateY(pastSpecs[0].a)} – ${shortDateY(weekStart - 1)}`}</span>
+      <span className={styles.pastBarMeta}>
+        {pastCount} {pastCount === 1 ? 'item' : 'items'}
+        {'  ·  '}
+        {pastTerms} {pastTerms === 1 ? 'quarter' : 'quarters'}
+        {'  ·  '}
+        {showPast ? (atBottom ? 'collapse ▴' : 'collapse') : 'expand'}
+      </span>
+    </button>
+  )
+
+  const renderBlock = (b: BlockVM) => (
+    <div key={b.key}>
+      <div className={b.isBreak ? styles.blockHeaderBreak : styles.blockHeaderTerm}>
+        <div className={styles.blockTitleRow}>
+          <span className={b.isBreak ? styles.blockNameBreak : styles.blockNameTerm}>
+            {b.name}
+          </span>
+          <span className={styles.blockRange}>{b.range}</span>
+        </div>
+        {b.meta && <div className={styles.blockMeta}>{b.meta}</div>}
+      </div>
+
+      <div className={styles.weekdayRow}>
+        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((d) => (
+          <span key={d} className={styles.weekday}>
+            {d}
+          </span>
+        ))}
+      </div>
+
+      <div className={styles.weeksBox}>
+        {b.weeks.map((w) => (
+          <Fragment key={w.key}>
+            {w.isCurrentWeek && <div className={styles.weekMarker}>This week</div>}
+            <div className={styles.week}>
+              <div className={styles.weekGrid}>
+                {w.cells.map((c) => (
+                  <div
+                    key={c.key}
+                    className={styles.cell}
+                    style={c.style}
+                    title={c.title}
+                    aria-current={c.isToday ? 'date' : undefined}
+                    onClick={c.inRange ? () => setSelected(c.day) : undefined}
+                  >
+                    <span
+                      className={c.isToday ? `${styles.dayNum} ${styles.dayNumToday}` : styles.dayNum}
+                      style={{ color: c.dnColor }}
+                    >
+                      {c.dayLabel}
+                    </span>
+                    {c.hasHoliday ? (
+                      <span className={styles.holLabel} style={{ color: c.holColor }}>
+                        {c.holidayLabel}
+                      </span>
+                    ) : c.isToday ? (
+                      <span className={styles.todayTag}>Today</span>
+                    ) : null}
+                    <div className={styles.chips}>
+                      {c.chips.map((ch) => (
+                        <span key={ch.key} className={styles.chip} style={ch.style}>
+                          {ch.label}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className={styles.overlay} style={w.overlayStyle}>
+                {w.spans.map((sp) => (
+                  <div key={sp.key} className={styles.spanBar} style={sp.style}>
+                    {sp.label}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Fragment>
+        ))}
+      </div>
+    </div>
+  )
 
   return (
     <section className={styles.page}>
       <div className={styles.header}>
-        <span className={styles.eyebrow}>Academic Calendar · UC San Diego Economics PhD</span>
-        <h2 className={styles.title}>Layered Life Calendar</h2>
-        <p className={styles.intro}>
-          A year-at-a-glance view that overlays three layers onto one continuous, week-per-row
-          grid: the <strong>university</strong> structure (quarters, instruction, finals, and
-          holidays), my <strong>academic</strong> obligations (course deadlines, exams, referee
-          reports, and conference travel), and <strong>personal</strong> life (trips, vacations,
-          and a cross-country move). University structure tints the days underneath; academic and
-          personal items sit on top as chips and multi-day bars.
-        </p>
         <span className={styles.todayLine}>
           Today is {dateLabel(today)}
-          {daysOut > 0
-            ? `  ·  the calendar opens ${shortDate(model.firstStart)}, ${daysOut} days out`
-            : ''}
-          {'  ·  '}
-          spans {spanLabel(model.firstStart, model.lastEnd)}
+          {progress ? `  ·  ${progress.name}, week ${progress.week} of ${progress.weeks}` : ''}
+          {`  ·  calendar runs through ${shortDateY(lastDay)}`}
         </span>
       </div>
 
@@ -360,6 +536,30 @@ export default function Calendar() {
           ))}
         </div>
       </div>
+
+      {upcoming.length > 0 && (
+        <div className={styles.upNext}>
+          <span className={styles.upNextLabel}>Up next</span>
+          {upcoming.map((e, i) => (
+            <button
+              key={`${e.a}-${e.type}-${i}`}
+              type="button"
+              className={styles.upNextRow}
+              onClick={() => setSelected(e.a)}
+            >
+              <span className={styles.upNextDot} style={{ background: scopeColor(e.scope) }} />
+              <span className={styles.upNextItem}>
+                {e.type === 'holiday' ? holName(e.label) : e.label}
+              </span>
+              <span className={styles.upNextWhen}>
+                {e.b > e.a ? `${shortDate(e.a)} – ${shortDate(e.b)}` : shortDate(e.a)}
+                {'  ·  '}
+                {relativeWhen(e, today)}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
 
       <div className={styles.detailWrap}>
         <Panel title={detail ? detail.label : 'Details'}>
@@ -397,72 +597,29 @@ export default function Calendar() {
         </Panel>
       </div>
 
-      <div className={styles.blocks}>
-        {blocks.map((b) => (
-          <div key={b.key}>
-            <div className={b.isBreak ? styles.blockHeaderBreak : styles.blockHeaderTerm}>
-              <div className={styles.blockTitleRow}>
-                <span className={b.isBreak ? styles.blockNameBreak : styles.blockNameTerm}>
-                  {b.name}
-                </span>
-                <span className={styles.blockRange}>{b.range}</span>
-              </div>
-              {b.meta && <div className={styles.blockMeta}>{b.meta}</div>}
-            </div>
+      {pastSpecs.length > 0 && pastToggle(false)}
+      {past.length > 0 && (
+        <>
+          <div className={styles.pastSection}>{past.map(renderBlock)}</div>
+          {pastToggle(true)}
+        </>
+      )}
 
-            <div className={styles.weekdayRow}>
-              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((d) => (
-                <span key={d} className={styles.weekday}>
-                  {d}
-                </span>
-              ))}
-            </div>
-
-            <div className={styles.weeksBox}>
-              {b.weeks.map((w) => (
-                <div key={w.key} className={styles.week}>
-                  <div className={styles.weekGrid}>
-                    {w.cells.map((c) => (
-                      <div
-                        key={c.key}
-                        className={styles.cell}
-                        style={c.style}
-                        title={c.title}
-                        onClick={c.inRange ? () => setSelected(c.day) : undefined}
-                      >
-                        <span className={styles.dayNum} style={{ color: c.dnColor }}>
-                          {c.dayLabel}
-                        </span>
-                        {c.hasHoliday && <span className={styles.holLabel}>{c.holidayLabel}</span>}
-                        <div className={styles.chips}>
-                          {c.chips.map((ch) => (
-                            <span key={ch.key} className={styles.chip} style={ch.style}>
-                              {ch.label}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className={styles.overlay} style={w.overlayStyle}>
-                    {w.spans.map((sp) => (
-                      <div key={sp.key} className={styles.spanBar} style={sp.style}>
-                        {sp.label}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
+      {ahead.length === 0 ? (
+        <div className={styles.pastNote}>
+          The calendar runs through {shortDateY(lastDay)}; nothing is scheduled beyond it.
+        </div>
+      ) : (
+        <div className={styles.blocks}>{ahead.map(renderBlock)}</div>
+      )}
 
       <div className={styles.footnote}>
-        Each quarter block runs from its start to its final-exam day; interquarter breaks fill the
-        gap until the next quarter opens. Weekends and break blocks are inferred from the calendar,
-        not stored in the source data. Structure comes from UC San Diego's published academic
-        calendar; academic and personal items are my own.
+        The grid opens on the week containing today; earlier quarters stay available under
+        <em> Past</em>. Days that have already elapsed are drawn in a faded treatment wherever
+        they appear. Each quarter block runs from its start to its final-exam day; interquarter
+        breaks fill the gap until the next quarter opens. Weekends and break blocks are inferred
+        from the calendar, not stored in the source data. Structure comes from UC San Diego's
+        published academic calendar; academic and personal items are my own.
       </div>
     </section>
   )

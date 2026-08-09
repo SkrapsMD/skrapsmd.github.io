@@ -27,6 +27,10 @@ export function fromDay(day: number): Date {
 export function dow(day: number): number {
   return fromDay(day).getUTCDay()
 }
+/** Sunday of the week containing `day` — the boundary between past and present. */
+export function weekStartOf(day: number): number {
+  return day - dow(day)
+}
 export function dayNum(day: number): string {
   return String(fromDay(day).getUTCDate())
 }
@@ -34,6 +38,11 @@ export function dayNum(day: number): string {
 export function shortDate(day: number): string {
   const d = fromDay(day)
   return `${MON[d.getUTCMonth()]} ${d.getUTCDate()}`
+}
+/** "Sep 6, 2027" */
+export function shortDateY(day: number): string {
+  const d = fromDay(day)
+  return `${MON[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`
 }
 /** "Sep 21 – Dec 12, 2026" */
 export function spanLabel(a: number, b: number): string {
@@ -48,11 +57,12 @@ export function dateLabel(day: number): string {
 }
 
 // ── Vocabulary helpers ──────────────────────────────────────────────────────
-export const SCOPES: Scope[] = ['university', 'personal_academic', 'personal']
+export const SCOPES: Scope[] = ['university', 'personal_academic', 'fellowship', 'personal']
 
 export const SCOPE_LABEL: Record<Scope, string> = {
   university: 'University',
   personal_academic: 'Academic',
+  fellowship: 'Fellowship',
   personal: 'Personal',
 }
 
@@ -83,7 +93,9 @@ export function scopeColor(s: Scope): string {
     ? 'var(--primaryBlue)'
     : s === 'personal_academic'
       ? 'var(--Res-orange1)'
-      : 'var(--shamrockGreen)'
+      : s === 'fellowship'
+        ? 'var(--integrityIndigo)'
+        : 'var(--shamrockGreen)'
 }
 
 /** Trim UCSD's trailing category word for display. Pipeline labels are already
@@ -252,4 +264,69 @@ export function eventMeta(e: EventI): string {
   const dateStr = e.b > e.a ? `${shortDate(e.a)} – ${shortDate(e.b)}` : shortDate(e.a)
   const timeStr = e.startTime ? `  ·  ${e.startTime}${e.endTime ? '–' + e.endTime : ''}` : ''
   return `${prettyType(e.type)}  ·  ${dateStr}${timeStr}`
+}
+
+// ── "Now" helpers: where today sits, and what is coming up ──────────────────
+/** A block's week-aligned window — the rows the grid actually draws for it. */
+export function blockWindow(bl: BlockSpec): Range {
+  return { a: bl.a - dow(bl.a), b: bl.b + (6 - dow(bl.b)) }
+}
+
+export interface BlockProgress {
+  name: string
+  /** 1-based index of the week containing `day`. */
+  week: number
+  weeks: number
+}
+
+/** Which block `day` falls in, and how far into it we are. Null in the short
+ *  administrative gaps that no block covers, and outside the calendar entirely. */
+export function blockProgress(day: number, blocks: BlockSpec[]): BlockProgress | null {
+  const bl = blocks.find((x) => day >= x.a && day <= x.b)
+  if (!bl) return null
+  const win = blockWindow(bl)
+  return {
+    name: bl.name,
+    week: Math.floor((weekStartOf(day) - win.a) / 7) + 1,
+    weeks: (win.b - win.a + 1) / 7,
+  }
+}
+
+/** Structural types are already legible from the block headers. */
+export const UPNEXT_EXCLUDE: EventType[] = [
+  'term_start',
+  'term_end',
+  'instruction_start',
+  'instruction_end',
+  'exam_period',
+]
+
+/** The next `n` actionable items still running on or after `today`, in date
+ *  order. A repeating series (a course meeting twelve times) collapses to its
+ *  next occurrence, so one commitment cannot crowd out the rest of the list. */
+export function nextUp(
+  events: EventI[],
+  today: number,
+  filters: Record<Scope, boolean>,
+  n: number,
+): EventI[] {
+  const seen = new Set<string>()
+  return events
+    .filter((e) => e.b >= today && filters[e.scope] && !UPNEXT_EXCLUDE.includes(e.type))
+    .sort((x, y) => x.a - y.a || x.b - y.b)
+    .filter((e) => {
+      const key = `${e.scope}|${e.type}|${e.label}`
+      if (seen.has(key)) return false
+      seen.add(key)
+      return true
+    })
+    .slice(0, n)
+}
+
+/** "in progress" / "today" / "tomorrow" / "in 12 days" */
+export function relativeWhen(e: EventI, today: number): string {
+  if (e.a <= today) return e.b > today ? 'in progress' : 'today'
+  const d = e.a - today
+  if (d === 1) return 'tomorrow'
+  return `in ${d} days`
 }

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-23T10:59:28",
+  "generated_at": "2026-08-09T17:27:45",
   "source": "data/working/calendar_events.xlsx",
   "academic_years": [
     "2024-2025",
@@ -15,6 +15,7 @@
     "scopes": [
       "university",
       "personal_academic",
+      "fellowship",
       "personal"
     ],
     "types": {
@@ -1202,13 +1203,52 @@
       "end": "2026-08-10",
       "days": 1,
       "start_time": "10:00",
+      "end_time": "11:00",
+      "all_day": false,
+      "scope": "fellowship",
+      "type": "course",
+      "label": "Welcome and Introductions",
+      "academic_year": "2025-2026",
+      "notes": "RRC Room 104"
+    },
+    {
+      "start": "2026-08-10",
+      "end": "2026-08-10",
+      "days": 1,
+      "start_time": "11:00",
+      "end_time": "12:00",
+      "all_day": false,
+      "scope": "fellowship",
+      "type": "course",
+      "label": "Health and Well-being Services and UC SHIP Student Health Insurance",
+      "academic_year": "2025-2026",
+      "notes": "Multipurpose Room - Triton Health & Well-Being Building"
+    },
+    {
+      "start": "2026-08-10",
+      "end": "2026-08-10",
+      "days": 1,
+      "start_time": "12:00",
+      "end_time": "12:15",
+      "all_day": false,
+      "scope": "fellowship",
+      "type": "course",
+      "label": "Lunch",
+      "academic_year": "2025-2026",
+      "notes": "RRC Room 104"
+    },
+    {
+      "start": "2026-08-10",
+      "end": "2026-08-10",
+      "days": 1,
+      "start_time": "12:15",
       "end_time": "13:30",
       "all_day": false,
-      "scope": "personal_academic",
+      "scope": "fellowship",
       "type": "course",
-      "label": "Fellowship Course",
+      "label": "Communicating your Research Overview",
       "academic_year": "2025-2026",
-      "notes": "Placeholder - course title TBD"
+      "notes": "RRC Room 104"
     },
     {
       "start": "2026-08-11",
@@ -1217,24 +1257,24 @@
       "start_time": "11:00",
       "end_time": "12:30",
       "all_day": false,
-      "scope": "personal_academic",
+      "scope": "fellowship",
       "type": "course",
-      "label": "Fellowship Course",
+      "label": "Building your Support Network in Grad School",
       "academic_year": "2025-2026",
-      "notes": "Placeholder - course title TBD"
+      "notes": "RRC Room 104"
     },
     {
       "start": "2026-08-12",
       "end": "2026-08-12",
       "days": 1,
-      "start_time": "10:00",
+      "start_time": "11:00",
       "end_time": "14:00",
       "all_day": false,
-      "scope": "personal_academic",
+      "scope": "fellowship",
       "type": "course",
-      "label": "Fellowship Course",
+      "label": "Challenge Course",
       "academic_year": "2025-2026",
-      "notes": "Placeholder - course title TBD"
+      "notes": ""
     },
     {
       "start": "2026-08-18",
@@ -1243,11 +1283,11 @@
       "start_time": "11:00",
       "end_time": "12:30",
       "all_day": false,
-      "scope": "personal_academic",
+      "scope": "fellowship",
       "type": "course",
-      "label": "Fellowship Course",
+      "label": "Getting to know your Research - Research Showcase",
       "academic_year": "2025-2026",
-      "notes": "Placeholder - course title TBD"
+      "notes": "RRC Room 104"
     },
     {
       "start": "2026-08-19",
@@ -1256,11 +1296,11 @@
       "start_time": "11:00",
       "end_time": "12:30",
       "all_day": false,
-      "scope": "personal_academic",
+      "scope": "fellowship",
       "type": "course",
-      "label": "Fellowship Course",
+      "label": "Successful Mentorship Lunch Roundtable",
       "academic_year": "2025-2026",
-      "notes": "Placeholder - course title TBD"
+      "notes": "RRC Room 104"
     },
     {
       "start": "2026-08-20",
@@ -1269,11 +1309,11 @@
       "start_time": "11:00",
       "end_time": "12:30",
       "all_day": false,
-      "scope": "personal_academic",
+      "scope": "fellowship",
       "type": "course",
-      "label": "Fellowship Course",
+      "label": "Managing Professional Relationships + CAPS Services",
       "academic_year": "2025-2026",
-      "notes": "Placeholder - course title TBD"
+      "notes": "RRC Room 104"
     },
     {
       "start": "2026-08-25",
@@ -1282,11 +1322,11 @@
       "start_time": "11:00",
       "end_time": "12:30",
       "all_day": false,
-      "scope": "personal_academic",
+      "scope": "fellowship",
       "type": "course",
-      "label": "Fellowship Course",
+      "label": "How People Learn",
       "academic_year": "2025-2026",
-      "notes": "Placeholder - course title TBD"
+      "notes": "RRC Room 104"
     },
     {
       "start": "2026-08-26",
@@ -1295,11 +1335,11 @@
       "start_time": "11:00",
       "end_time": "12:30",
       "all_day": false,
-      "scope": "personal_academic",
+      "scope": "fellowship",
       "type": "course",
-      "label": "Fellowship Course",
+      "label": "Birch Aquarium",
       "academic_year": "2025-2026",
-      "notes": "Placeholder - course title TBD"
+      "notes": "RRC Room 104"
     },
     {
       "start": "2026-08-27",
@@ -1308,11 +1348,24 @@
       "start_time": "11:00",
       "end_time": "12:30",
       "all_day": false,
-      "scope": "personal_academic",
+      "scope": "fellowship",
       "type": "course",
-      "label": "Fellowship Course",
+      "label": "My Skills, My Stories, My Career",
       "academic_year": "2025-2026",
-      "notes": "Placeholder - course title TBD"
+      "notes": "RRC Room 104"
+    },
+    {
+      "start": "2026-08-28",
+      "end": "2026-08-28",
+      "days": 1,
+      "start_time": "14:00",
+      "end_time": "16:00",
+      "all_day": false,
+      "scope": "personal_academic",
+      "type": "event",
+      "label": "ECON New Graduate Student Orientation",
+      "academic_year": "2025-2026",
+      "notes": ""
     },
     {
       "start": "2026-08-31",
@@ -1321,11 +1374,24 @@
       "start_time": "11:00",
       "end_time": "12:30",
       "all_day": false,
+      "scope": "fellowship",
+      "type": "course",
+      "label": "How to work with \"The Literature\": What every new grad student should know about reading in Graduate School",
+      "academic_year": "2025-2026",
+      "notes": "RRC Room 104"
+    },
+    {
+      "start": "2026-08-31",
+      "end": "2026-08-31",
+      "days": 1,
+      "start_time": "11:00",
+      "end_time": "13:00",
+      "all_day": false,
       "scope": "personal_academic",
       "type": "course",
-      "label": "Fellowship Course",
+      "label": "Math Camp",
       "academic_year": "2025-2026",
-      "notes": "Placeholder - course title TBD"
+      "notes": ""
     },
     {
       "start": "2026-09-01",
@@ -1334,11 +1400,24 @@
       "start_time": "11:00",
       "end_time": "12:30",
       "all_day": false,
+      "scope": "fellowship",
+      "type": "course",
+      "label": "First Year's Graduate Writing Essentials",
+      "academic_year": "2025-2026",
+      "notes": "RRC Room 104"
+    },
+    {
+      "start": "2026-09-01",
+      "end": "2026-09-01",
+      "days": 1,
+      "start_time": "11:00",
+      "end_time": "13:00",
+      "all_day": false,
       "scope": "personal_academic",
       "type": "course",
-      "label": "Fellowship Course",
+      "label": "Math Camp",
       "academic_year": "2025-2026",
-      "notes": "Placeholder - course title TBD"
+      "notes": ""
     },
     {
       "start": "2026-09-02",
@@ -1347,11 +1426,37 @@
       "start_time": "11:00",
       "end_time": "13:30",
       "all_day": false,
+      "scope": "fellowship",
+      "type": "course",
+      "label": "UCSD Craft Center Closing Activity",
+      "academic_year": "2025-2026",
+      "notes": "UCSD Craft Center"
+    },
+    {
+      "start": "2026-09-02",
+      "end": "2026-09-02",
+      "days": 1,
+      "start_time": "11:00",
+      "end_time": "13:00",
+      "all_day": false,
       "scope": "personal_academic",
       "type": "course",
-      "label": "Fellowship Course",
+      "label": "Math Camp",
       "academic_year": "2025-2026",
-      "notes": "Placeholder - course title TBD"
+      "notes": ""
+    },
+    {
+      "start": "2026-09-03",
+      "end": "2026-09-03",
+      "days": 1,
+      "start_time": "11:00",
+      "end_time": "13:00",
+      "all_day": false,
+      "scope": "personal_academic",
+      "type": "course",
+      "label": "Math Camp",
+      "academic_year": "2025-2026",
+      "notes": ""
     },
     {
       "start": "2026-09-04",
@@ -1376,6 +1481,19 @@
       "scope": "university",
       "type": "instruction_end",
       "label": "Summer Session II Instruction Ends",
+      "academic_year": "2025-2026",
+      "notes": ""
+    },
+    {
+      "start": "2026-09-04",
+      "end": "2026-09-04",
+      "days": 1,
+      "start_time": "11:00",
+      "end_time": "13:00",
+      "all_day": false,
+      "scope": "personal_academic",
+      "type": "course",
+      "label": "Math Camp",
       "academic_year": "2025-2026",
       "notes": ""
     },
@@ -1406,6 +1524,123 @@
       "notes": ""
     },
     {
+      "start": "2026-09-08",
+      "end": "2026-09-08",
+      "days": 1,
+      "start_time": "11:00",
+      "end_time": "13:00",
+      "all_day": false,
+      "scope": "personal_academic",
+      "type": "course",
+      "label": "Math Camp",
+      "academic_year": "2025-2026",
+      "notes": ""
+    },
+    {
+      "start": "2026-09-09",
+      "end": "2026-09-09",
+      "days": 1,
+      "start_time": "11:00",
+      "end_time": "13:00",
+      "all_day": false,
+      "scope": "personal_academic",
+      "type": "course",
+      "label": "Math Camp",
+      "academic_year": "2025-2026",
+      "notes": ""
+    },
+    {
+      "start": "2026-09-10",
+      "end": "2026-09-10",
+      "days": 1,
+      "start_time": "11:00",
+      "end_time": "13:00",
+      "all_day": false,
+      "scope": "personal_academic",
+      "type": "course",
+      "label": "Math Camp",
+      "academic_year": "2025-2026",
+      "notes": ""
+    },
+    {
+      "start": "2026-09-11",
+      "end": "2026-09-11",
+      "days": 1,
+      "start_time": "11:00",
+      "end_time": "13:00",
+      "all_day": false,
+      "scope": "personal_academic",
+      "type": "course",
+      "label": "Math Camp",
+      "academic_year": "2025-2026",
+      "notes": ""
+    },
+    {
+      "start": "2026-09-14",
+      "end": "2026-09-14",
+      "days": 1,
+      "start_time": "11:00",
+      "end_time": "13:00",
+      "all_day": false,
+      "scope": "personal_academic",
+      "type": "course",
+      "label": "Math Camp",
+      "academic_year": "2025-2026",
+      "notes": ""
+    },
+    {
+      "start": "2026-09-15",
+      "end": "2026-09-15",
+      "days": 1,
+      "start_time": "11:00",
+      "end_time": "13:00",
+      "all_day": false,
+      "scope": "personal_academic",
+      "type": "course",
+      "label": "Math Camp",
+      "academic_year": "2025-2026",
+      "notes": ""
+    },
+    {
+      "start": "2026-09-16",
+      "end": "2026-09-16",
+      "days": 1,
+      "start_time": "11:00",
+      "end_time": "13:00",
+      "all_day": false,
+      "scope": "personal_academic",
+      "type": "course",
+      "label": "Math Camp",
+      "academic_year": "2025-2026",
+      "notes": ""
+    },
+    {
+      "start": "2026-09-17",
+      "end": "2026-09-17",
+      "days": 1,
+      "start_time": "11:00",
+      "end_time": "13:00",
+      "all_day": false,
+      "scope": "personal_academic",
+      "type": "course",
+      "label": "Math Camp",
+      "academic_year": "2025-2026",
+      "notes": ""
+    },
+    {
+      "start": "2026-09-18",
+      "end": "2026-09-18",
+      "days": 1,
+      "start_time": "11:00",
+      "end_time": "13:00",
+      "all_day": false,
+      "scope": "personal_academic",
+      "type": "course",
+      "label": "Math Camp",
+      "academic_year": "2025-2026",
+      "notes": ""
+    },
+    {
       "start": "2026-09-21",
       "end": "2026-09-21",
       "days": 1,
@@ -1419,6 +1654,19 @@
       "notes": ""
     },
     {
+      "start": "2026-09-21",
+      "end": "2026-09-21",
+      "days": 1,
+      "start_time": "08:00",
+      "end_time": "12:00",
+      "all_day": false,
+      "scope": "personal_academic",
+      "type": "exam",
+      "label": "Math Camp Final Examination",
+      "academic_year": "2025-2026",
+      "notes": ""
+    },
+    {
       "start": "2026-09-24",
       "end": "2026-09-24",
       "days": 1,
@@ -1428,19 +1676,6 @@
       "scope": "university",
       "type": "instruction_start",
       "label": "Fall Instruction Begins",
-      "academic_year": "2026-2027",
-      "notes": ""
-    },
-    {
-      "start": "2026-10-09",
-      "end": "2026-10-09",
-      "days": 1,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "deadline",
-      "label": "Econometrics III: Problem Set 1 Due",
       "academic_year": "2026-2027",
       "notes": ""
     },
@@ -1458,32 +1693,6 @@
       "notes": ""
     },
     {
-      "start": "2026-10-23",
-      "end": "2026-10-23",
-      "days": 1,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "deadline",
-      "label": "Econometrics III: Problem Set 2 Due",
-      "academic_year": "2026-2027",
-      "notes": ""
-    },
-    {
-      "start": "2026-10-30",
-      "end": "2026-10-30",
-      "days": 1,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "exam",
-      "label": "Econometrics III: Midterm",
-      "academic_year": "2026-2027",
-      "notes": ""
-    },
-    {
       "start": "2026-11-11",
       "end": "2026-11-11",
       "days": 1,
@@ -1495,32 +1704,6 @@
       "label": "Veterans Day",
       "academic_year": "2026-2027",
       "notes": ""
-    },
-    {
-      "start": "2026-11-20",
-      "end": "2026-11-20",
-      "days": 1,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "deadline",
-      "label": "Econometrics III: Problem Set 4 Due",
-      "academic_year": "2026-2027",
-      "notes": ""
-    },
-    {
-      "start": "2026-11-26",
-      "end": "2026-11-29",
-      "days": 4,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal",
-      "type": "travel",
-      "label": "Thanksgiving with family (Chicago)",
-      "academic_year": "2026-2027",
-      "notes": "Extends the 2-day university holiday"
     },
     {
       "start": "2026-11-26",
@@ -1562,19 +1745,6 @@
       "notes": ""
     },
     {
-      "start": "2026-12-09",
-      "end": "2026-12-09",
-      "days": 1,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "exam",
-      "label": "Econometrics III: Final Exam",
-      "academic_year": "2026-2027",
-      "notes": "Sits inside the university exam period"
-    },
-    {
       "start": "2026-12-12",
       "end": "2026-12-12",
       "days": 1,
@@ -1584,19 +1754,6 @@
       "scope": "university",
       "type": "term_end",
       "label": "Fall Quarter Ends",
-      "academic_year": "2026-2027",
-      "notes": ""
-    },
-    {
-      "start": "2026-12-18",
-      "end": "2026-12-24",
-      "days": 7,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal",
-      "type": "vacation",
-      "label": "London with Felix and Sonya",
       "academic_year": "2026-2027",
       "notes": ""
     },
@@ -1653,19 +1810,6 @@
       "notes": ""
     },
     {
-      "start": "2027-01-15",
-      "end": "2027-01-15",
-      "days": 1,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "deadline",
-      "label": "R&R due: Journal of International Economics",
-      "academic_year": "2026-2027",
-      "notes": "Submitted 2026-10-17; 90-day window"
-    },
-    {
       "start": "2027-01-18",
       "end": "2027-01-18",
       "days": 1,
@@ -1692,32 +1836,6 @@
       "notes": ""
     },
     {
-      "start": "2027-01-29",
-      "end": "2027-01-29",
-      "days": 1,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "deadline",
-      "label": "SED 2027: Submission Deadline",
-      "academic_year": "2026-2027",
-      "notes": ""
-    },
-    {
-      "start": "2027-02-05",
-      "end": "2027-02-05",
-      "days": 1,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "deadline",
-      "label": "Industrial Organization: Referee Report Due",
-      "academic_year": "2026-2027",
-      "notes": ""
-    },
-    {
       "start": "2027-02-15",
       "end": "2027-02-15",
       "days": 1,
@@ -1727,32 +1845,6 @@
       "scope": "university",
       "type": "holiday",
       "label": "Presidents Day",
-      "academic_year": "2026-2027",
-      "notes": ""
-    },
-    {
-      "start": "2027-02-19",
-      "end": "2027-02-19",
-      "days": 1,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "deadline",
-      "label": "Midwest International Trade Meetings: Submission Deadline",
-      "academic_year": "2026-2027",
-      "notes": ""
-    },
-    {
-      "start": "2027-03-01",
-      "end": "2027-03-01",
-      "days": 1,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "deadline",
-      "label": "NBER Summer Institute: Submission Deadline",
       "academic_year": "2026-2027",
       "notes": ""
     },
@@ -1783,19 +1875,6 @@
       "notes": ""
     },
     {
-      "start": "2027-03-16",
-      "end": "2027-03-16",
-      "days": 1,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "exam",
-      "label": "Industrial Organization: Final Exam",
-      "academic_year": "2026-2027",
-      "notes": ""
-    },
-    {
       "start": "2027-03-20",
       "end": "2027-03-20",
       "days": 1,
@@ -1807,19 +1886,6 @@
       "label": "Winter Quarter Ends",
       "academic_year": "2026-2027",
       "notes": ""
-    },
-    {
-      "start": "2027-03-22",
-      "end": "2027-03-23",
-      "days": 2,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal",
-      "type": "vacation",
-      "label": "Joshua Tree long weekend",
-      "academic_year": "2026-2027",
-      "notes": "Inside Spring Break"
     },
     {
       "start": "2027-03-24",
@@ -1862,19 +1928,6 @@
     },
     {
       "start": "2027-04-16",
-      "end": "2027-04-18",
-      "days": 3,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "travel",
-      "label": "Midwest International Trade Meetings (Ann Arbor)",
-      "academic_year": "2026-2027",
-      "notes": "Falls during Spring instruction"
-    },
-    {
-      "start": "2027-04-16",
       "end": "2027-04-16",
       "days": 1,
       "start_time": null,
@@ -1883,45 +1936,6 @@
       "scope": "university",
       "type": "milestone",
       "label": "Fifteenth Day of Spring Instruction",
-      "academic_year": "2026-2027",
-      "notes": ""
-    },
-    {
-      "start": "2027-04-30",
-      "end": "2027-04-30",
-      "days": 1,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal",
-      "type": "deadline",
-      "label": "Lease renewal decision due",
-      "academic_year": "2026-2027",
-      "notes": ""
-    },
-    {
-      "start": "2027-05-14",
-      "end": "2027-05-14",
-      "days": 1,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "deadline",
-      "label": "Referee report due: Review of Economic Studies",
-      "academic_year": "2026-2027",
-      "notes": ""
-    },
-    {
-      "start": "2027-05-21",
-      "end": "2027-05-21",
-      "days": 1,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "event",
-      "label": "Third-Year Paper Presentation (Trade Workshop)",
       "academic_year": "2026-2027",
       "notes": ""
     },
@@ -1991,19 +2005,6 @@
       "notes": ""
     },
     {
-      "start": "2027-06-16",
-      "end": "2027-06-16",
-      "days": 1,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "exam",
-      "label": "Field Exam: International Trade",
-      "academic_year": "2026-2027",
-      "notes": ""
-    },
-    {
       "start": "2027-06-18",
       "end": "2027-06-18",
       "days": 1,
@@ -2013,19 +2014,6 @@
       "scope": "university",
       "type": "holiday",
       "label": "Juneteenth",
-      "academic_year": "2026-2027",
-      "notes": ""
-    },
-    {
-      "start": "2027-06-24",
-      "end": "2027-06-26",
-      "days": 3,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "travel",
-      "label": "SED Annual Meeting (Barcelona)",
       "academic_year": "2026-2027",
       "notes": ""
     },
@@ -2065,19 +2053,6 @@
       "scope": "university",
       "type": "holiday",
       "label": "Independence Day",
-      "academic_year": "2026-2027",
-      "notes": ""
-    },
-    {
-      "start": "2027-07-12",
-      "end": "2027-07-14",
-      "days": 3,
-      "start_time": null,
-      "end_time": null,
-      "all_day": true,
-      "scope": "personal_academic",
-      "type": "travel",
-      "label": "NBER Summer Institute: Trade and Macro (Cambridge)",
       "academic_year": "2026-2027",
       "notes": ""
     },

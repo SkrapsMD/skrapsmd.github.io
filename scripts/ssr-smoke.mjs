@@ -62,8 +62,11 @@ check('Code', () => render(React.createElement(Code), ['/']), {
   tools: 'Tools', geocoderLink: '/geocoder',
 })
 check('Geocoder', () => render(React.createElement(Geocoder), ['/']), {})
+// The grid now opens on the current week, so which quarter is on screen depends
+// on the run date. Assert on date-independent anchors instead: the header line,
+// the layer filters, and the weekday row that every rendered block emits.
 check('Calendar', () => render(React.createElement(Calendar), ['/']), {
-  title: 'Layered Life Calendar', term: 'Fall Quarter',
+  today: 'Today is', layers: 'Layers', grid: '>Sun<',
 })
 check('Sitemap', () => render(React.createElement(Sitemap), ['/']), {
   wip: 'WORK IN PROGRESS',
