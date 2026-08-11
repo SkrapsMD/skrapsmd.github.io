@@ -43,7 +43,7 @@ export default function Code() {
         <div className={styles.body}>
           Every office in the Post Office Department&rsquo;s Item 95 statement of free city
           delivery, mapped year by year, with a second view laying the offices over the railroad
-          network they posted mail onto. Opens standalone in a new tab.
+          network they posted mail onto.
         </div>
         <div className={styles.badges}>
           <Badge variant="info">Tools</Badge>
@@ -61,7 +61,7 @@ export default function Code() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Open Explorer &rarr;
+            Use Tool &rarr;
           </a>
         </div>
       </div>
