@@ -127,10 +127,12 @@
   margin-bottom: 20px;
   border-bottom: 1px solid var(--ink-muted);
 }
-/* On mobile the masthead is not sticky (it scrolls away), so pin to the top. */
+/* Below this breakpoint .detailWrap is not rendered at all — the same rows go
+   into DayDetailModal instead, where the narrow column needs the trailing scope
+   badge to wrap rather than crush the label column. */
 @media (max-width: 768px) {
-  .detailWrap {
-    top: 0;
+  .detailRow {
+    flex-wrap: wrap;
   }
 }
 .detailBadgeWrap {

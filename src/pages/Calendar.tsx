@@ -1,7 +1,8 @@
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 import type { CSSProperties } from 'react'
 import { Badge, Panel } from '@/ui'
 import type { BadgeVariant } from '@/ui'
+import { DayDetailModal } from '@/components/DayDetailModal/DayDetailModal'
 import { calendarData } from '@/data/calendar'
 import type { Scope } from '@/data/calendar'
 import {
@@ -99,6 +100,28 @@ const SCOPE_ORDER: Record<Scope, number> = {
   personal: 3,
 }
 
+// Matches the mobile breakpoint used in Calendar.module.css and Layout.module.css.
+const NARROW_QUERY = '(max-width: 768px)'
+
+// True while the viewport is at phone width. Guarded for the SSR smoke test,
+// which renders every route without a window.
+function useIsNarrow(): boolean {
+  const [narrow, setNarrow] = useState(
+    () => typeof window !== 'undefined' && !!window.matchMedia?.(NARROW_QUERY).matches,
+  )
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return
+    const mq = window.matchMedia(NARROW_QUERY)
+    const onChange = () => setNarrow(mq.matches)
+    onChange()
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  return narrow
+}
+
 export default function Calendar() {
   const [filters, setFilters] = useState<Record<Scope, boolean>>({
     university: true,
@@ -131,6 +154,28 @@ export default function Calendar() {
 
   // The detail panel opens on today rather than on an empty prompt.
   const [selected, setSelected] = useState<number | null>(today)
+
+  // On phones the sticky detail panel would swallow the viewport, so the same
+  // content is shown in a modal instead. It starts closed so the `today`
+  // preselect above does not pop a modal on first paint.
+  const isNarrow = useIsNarrow()
+  const [modalOpen, setModalOpen] = useState(false)
+  const closeModal = useCallback(() => setModalOpen(false), [])
+
+  // Selecting a day always updates the panel; on mobile it also opens the modal.
+  const openDay = useCallback(
+    (day: number) => {
+      setSelected(day)
+      if (isNarrow) setModalOpen(true)
+    },
+    [isNarrow],
+  )
+
+  // Resizing up to desktop hands the content back to the sticky panel.
+  useEffect(() => {
+    if (!isNarrow) setModalOpen(false)
+  }, [isNarrow])
+
   // Once the calendar data runs out there is nothing but history left to show,
   // so the archive starts open in that case.
   const [showPast, setShowPast] = useState(aheadSpecs.length === 0)
@@ -375,6 +420,45 @@ export default function Calendar() {
     return { label: dateLabel(selected), band, events }
   }, [selected, model, filters, breakRanges])
 
+  // Rendered by the sticky panel on desktop and by the modal on mobile, so the
+  // two presentations can never drift apart.
+  const detailTitle = detail ? detail.label : 'Details'
+  const detailBody = (
+    <>
+      {!detail && (
+        <div className={styles.detailEmpty}>
+          Click any day to see its full detail — university structure, academic obligations, and
+          personal life, including notes.
+        </div>
+      )}
+      {detail && detail.band && (
+        <div className={styles.detailBadgeWrap}>
+          <Badge variant={detail.band.variant}>{detail.band.label}</Badge>
+        </div>
+      )}
+      {detail && detail.events.length > 0 && (
+        <div>
+          {detail.events.map((e, i) => (
+            <div key={`${e.type}-${e.label}-${i}`} className={styles.detailRow}>
+              <div className={styles.detailDot} style={{ background: scopeColor(e.scope) }} />
+              <div className={styles.detailBody}>
+                <div className={styles.detailItemLabel}>
+                  {e.type === 'holiday' ? holName(e.label) : e.label}
+                </div>
+                <div className={styles.detailMeta}>{eventMeta(e)}</div>
+                {e.notes && <div className={styles.detailNotes}>{e.notes}</div>}
+              </div>
+              <Badge variant={SCOPE_BADGE[e.scope]}>{SCOPE_LABEL[e.scope]}</Badge>
+            </div>
+          ))}
+        </div>
+      )}
+      {detail && detail.events.length === 0 && !detail.band && (
+        <div className={styles.detailEmpty}>No scheduled items on this day.</div>
+      )}
+    </>
+  )
+
   const toggleFilter = (scope: Scope) =>
     setFilters((f) => ({ ...f, [scope]: !f[scope] }))
 
@@ -455,7 +539,7 @@ export default function Calendar() {
                     style={c.style}
                     title={c.title}
                     aria-current={c.isToday ? 'date' : undefined}
-                    onClick={c.inRange ? () => setSelected(c.day) : undefined}
+                    onClick={c.inRange ? () => openDay(c.day) : undefined}
                   >
                     <span
                       className={c.isToday ? `${styles.dayNum} ${styles.dayNumToday}` : styles.dayNum}
@@ -545,7 +629,7 @@ export default function Calendar() {
               key={`${e.a}-${e.type}-${i}`}
               type="button"
               className={styles.upNextRow}
-              onClick={() => setSelected(e.a)}
+              onClick={() => openDay(e.a)}
             >
               <span className={styles.upNextDot} style={{ background: scopeColor(e.scope) }} />
               <span className={styles.upNextItem}>
@@ -561,41 +645,15 @@ export default function Calendar() {
         </div>
       )}
 
-      <div className={styles.detailWrap}>
-        <Panel title={detail ? detail.label : 'Details'}>
-          {!detail && (
-            <div className={styles.detailEmpty}>
-              Click any day to see its full detail — university structure, academic obligations,
-              and personal life, including notes.
-            </div>
-          )}
-          {detail && detail.band && (
-            <div className={styles.detailBadgeWrap}>
-              <Badge variant={detail.band.variant}>{detail.band.label}</Badge>
-            </div>
-          )}
-          {detail && detail.events.length > 0 && (
-            <div>
-              {detail.events.map((e, i) => (
-                <div key={`${e.type}-${e.label}-${i}`} className={styles.detailRow}>
-                  <div className={styles.detailDot} style={{ background: scopeColor(e.scope) }} />
-                  <div className={styles.detailBody}>
-                    <div className={styles.detailItemLabel}>
-                      {e.type === 'holiday' ? holName(e.label) : e.label}
-                    </div>
-                    <div className={styles.detailMeta}>{eventMeta(e)}</div>
-                    {e.notes && <div className={styles.detailNotes}>{e.notes}</div>}
-                  </div>
-                  <Badge variant={SCOPE_BADGE[e.scope]}>{SCOPE_LABEL[e.scope]}</Badge>
-                </div>
-              ))}
-            </div>
-          )}
-          {detail && detail.events.length === 0 && !detail.band && (
-            <div className={styles.detailEmpty}>No scheduled items on this day.</div>
-          )}
-        </Panel>
-      </div>
+      {!isNarrow && (
+        <div className={styles.detailWrap}>
+          <Panel title={detailTitle}>{detailBody}</Panel>
+        </div>
+      )}
+
+      <DayDetailModal open={isNarrow && modalOpen} title={detailTitle} onClose={closeModal}>
+        {detailBody}
+      </DayDetailModal>
 
       {pastSpecs.length > 0 && pastToggle(false)}
       {past.length > 0 && (

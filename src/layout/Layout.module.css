@@ -113,6 +113,47 @@
   background: var(--active-indicator);
 }
 
+/* Nav groups (dropdown). The panel is absolutely positioned so opening it does
+   not change the masthead's height — pages pin sticky content to --masthead-h
+   (see the ResizeObserver in Layout.tsx and the calendar's day-detail bar). */
+.navGroup {
+  position: relative;
+  display: inline-flex;
+}
+
+.navGroupBtn {
+  cursor: pointer;
+  font-family: inherit;
+}
+.navGroupBtn:focus-visible {
+  outline: 2px solid var(--text-emph);
+  outline-offset: 1px;
+}
+
+.caret {
+  font-size: var(--font-xs);
+  line-height: 1;
+}
+
+.navGroupPanel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: max-content;
+  padding: var(--pad-sm);
+  background: var(--bg);
+  border: var(--border);
+}
+
+.navGroupItem {
+  justify-content: flex-start;
+  white-space: nowrap;
+}
+
 /* Rules (dividers) */
 .rule {
   border: 0;
@@ -173,6 +214,17 @@
   }
   .navbtn {
     justify-content: flex-start;
+  }
+  /* Inside the hamburger drawer the group expands inline rather than overlaying
+     the stacked links. */
+  .navGroup {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .navGroupPanel {
+    position: static;
+    border: none;
+    padding: 4px 0 0 var(--pad);
   }
 }
 
