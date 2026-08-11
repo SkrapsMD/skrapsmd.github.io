@@ -60,6 +60,7 @@ check('Applications', () => render(React.createElement(Applications), ['/']), {
 })
 check('Code', () => render(React.createElement(Code), ['/']), {
   tools: 'Tools', geocoderLink: '/geocoder',
+  postOfficesLink: '/tools/post-offices/index.html',
 })
 check('Geocoder', () => render(React.createElement(Geocoder), ['/']), {})
 // The grid now opens on the current week, so which quarter is on screen depends

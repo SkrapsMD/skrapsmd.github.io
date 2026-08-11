@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20th Century Post Offices &mdash; Free city delivery, 1896&ndash;1910</title>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/IBMPlexSans-Regular.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/IBMPlexMono-Regular.woff2" crossorigin>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <a class="backlink" href="/#/code">&larr; skrapsmd.github.io / Code &amp; Data</a>
+  <h1>Free city delivery post offices, 1896&ndash;1910</h1>
+  <p class="sub">Every office in the Post Office Department's Item 95 statistical statement of free
+  delivery, mapped year by year. Pick a measure to size and colour the offices, click one to follow it
+  through the period, and read the coverage strip before you read the map. The second tab lays the
+  same offices over the railroad network they posted mail onto.</p>
+  <div class="facts">
+    <div class="fact"><span class="n" id="f-offices">&mdash;</span><span class="l">Offices</span></div>
+    <div class="fact"><span class="n" id="f-rows">&mdash;</span><span class="l">Office-year records</span></div>
+    <div class="fact"><span class="n" id="f-years">&mdash;</span><span class="l">Years</span></div>
+    <div class="fact"><span class="n" id="f-growth">&mdash;</span><span class="l">Offices in 1896 &rarr; 1910</span></div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab on" id="tab-btn-explorer" data-tab="explorer">Explorer</button>
+  <button class="tab" id="tab-btn-rail" data-tab="rail">Railroads &amp; mail</button>
+</nav>
+
+<section class="tab-panel" id="tab-explorer">
+
+<div class="controls">
+  <div class="ctl-row">
+    <div class="ctl year-block">
+      <div class="year-head">
+        <span class="year-now" id="year-now">1900</span>
+        <span class="year-n" id="year-n"></span>
+      </div>
+      <div class="slider-row">
+        <button id="play" title="Play through the years">&#9654; Play</button>
+        <input type="range" id="year" min="0" max="14" step="1" value="4" aria-label="Year">
+      </div>
+    </div>
+    <div class="ctl">
+      <label for="size-var">Size offices by</label>
+      <select id="size-var"></select>
+    </div>
+    <div class="ctl">
+      <label for="color-var">Colour offices by</label>
+      <select id="color-var"></select>
+    </div>
+    <div class="ctl">
+      <label for="state-filter">State</label>
+      <select id="state-filter"></select>
+    </div>
+    <div class="ctl">
+      <label>&nbsp;</label>
+      <label class="check"><input type="checkbox" id="hide-missing"> Hide offices missing the measure</label>
+    </div>
+  </div>
+  <div class="coverage">
+    <div class="coverage-lab" id="coverage-lab"></div>
+    <svg id="coverage-svg" viewBox="0 0 900 52"></svg>
+  </div>
+  <div class="note" id="var-note" hidden></div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2 id="map-title">Offices</h2>
+        <p class="cap" id="map-cap"></p>
+      </div>
+    </div>
+    <svg id="map" viewBox="0 0 975 600"></svg>
+    <div class="legend" id="map-legend"></div>
+  </div>
+
+  <div class="card" id="detail">
+    <h2>Selected office</h2>
+    <p class="cap">Click any office on the map, the scatter, or the table.</p>
+    <div id="detail-body"><p class="empty">No office selected.</p></div>
+  </div>
+</div>
+
+<div class="charts">
+  <div class="card">
+    <h2 id="ts-title">National total</h2>
+    <p class="cap" id="ts-cap"></p>
+    <svg id="ts" viewBox="0 0 420 230"></svg>
+  </div>
+  <div class="card">
+    <h2 id="hist-title">Distribution</h2>
+    <p class="cap" id="hist-cap"></p>
+    <svg id="hist" viewBox="0 0 420 230"></svg>
+  </div>
+  <div class="card">
+    <h2 id="top-title">Largest offices</h2>
+    <p class="cap" id="top-cap"></p>
+    <svg id="top" viewBox="0 0 420 470"></svg>
+  </div>
+</div>
+
+<div class="duo">
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2>Two measures against each other</h2>
+        <p class="cap" id="scatter-cap"></p>
+      </div>
+    </div>
+    <div class="ctl-row" style="margin-bottom:10px">
+      <div class="ctl">
+        <label for="sx">Horizontal</label>
+        <select id="sx"></select>
+      </div>
+      <div class="ctl"><label>&nbsp;</label>
+        <label class="check"><input type="checkbox" id="sx-log" checked> Log</label></div>
+      <div class="ctl">
+        <label for="sy">Vertical</label>
+        <select id="sy"></select>
+      </div>
+      <div class="ctl"><label>&nbsp;</label>
+        <label class="check"><input type="checkbox" id="sy-log" checked> Log</label></div>
+    </div>
+    <svg id="scatter" viewBox="0 0 460 400"></svg>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2>Office records</h2>
+        <p class="cap" id="table-cap"></p>
+      </div>
+      <input type="search" id="search" placeholder="Search city or state">
+    </div>
+    <div class="table-scroll">
+      <table id="table"><thead></thead><tbody></tbody></table>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p><b>Source.</b> Built from the Post Office Department's Item 95 statistical statement workbook,
+  the post office crosswalk, and the Aneja &amp; Xu (2024) office map and errors panel.</p>
+  <p><b>Coverage.</b> The panel records an office only in the years it appears in the statement, so
+  the growth from 629 offices in 1896 to 1,487 in 1910 is the spread of free city delivery. A measure
+  can still be blank in a year an office is present: 1910 carries receipts for only about a quarter of
+  offices, and horses and cars were recorded through 1902. Offices present but missing the chosen
+  measure are drawn as hollow grey rings.</p>
+  <p><b>Boundaries.</b> State outlines are the modern Census 20m generalized file, an approximation for
+  this period &mdash; Oklahoma was admitted in 1907, Arizona and New Mexico in 1912. Hawaii and Puerto
+  Rico are drawn as insets; they hold four offices (Honolulu, San Juan, Ponce and Mayag&uuml;ez).</p>
+</footer>
+
+</section>
+
+<section class="tab-panel" id="tab-rail" hidden>
+
+<div class="controls">
+  <div class="ctl-row">
+    <div class="ctl year-block">
+      <div class="year-head">
+        <span class="year-now" id="r-year-now">1900</span>
+        <span class="year-n" id="r-year-n"></span>
+      </div>
+      <div class="slider-row">
+        <button id="r-play" title="Play through the years">&#9654; Play</button>
+        <input type="range" id="r-year" min="0" max="14" step="1" value="4" aria-label="Year">
+      </div>
+    </div>
+    <div class="ctl">
+      <label for="r-size-var">Size offices by</label>
+      <select id="r-size-var"></select>
+    </div>
+    <div class="ctl">
+      <label for="r-color-var">Colour offices by</label>
+      <select id="r-color-var"></select>
+    </div>
+    <div class="ctl">
+      <label for="r-state-filter">State</label>
+      <select id="r-state-filter"></select>
+    </div>
+    <div class="ctl">
+      <label>&nbsp;</label>
+      <label class="check"><input type="checkbox" id="r-hide-missing"> Hide offices missing the measure</label>
+    </div>
+  </div>
+  <div class="facts" style="margin-top:12px">
+    <div class="fact"><span class="n" id="r-f-miles">&mdash;</span><span class="l">Route-miles in operation</span></div>
+    <div class="fact"><span class="n" id="r-f-seg">&mdash;</span><span class="l">Track segments</span></div>
+    <div class="fact"><span class="n" id="r-f-new">&mdash;</span><span class="l">Route-miles added since 1896</span></div>
+    <div class="fact"><span class="n" id="r-f-offices">&mdash;</span><span class="l">Offices on the map</span></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div>
+      <h2 id="rmap-title">Post offices and the railroad network</h2>
+      <p class="cap" id="rmap-cap"></p>
+    </div>
+  </div>
+  <svg id="rmap" viewBox="0 0 975 600"></svg>
+  <div class="legend" id="rmap-legend"></div>
+</div>
+
+<footer>
+  <p><b>Railroads.</b> Suggested citation for the network data: Jeremy Atack,
+  &ldquo;Historical Geographic Information Systems (GIS) database of U.S. Railroads for
+  1830&ndash;1910&rdquo; (May 2016; revised October 2023). The bracketed selection in Atack's
+  suggested citation is filled from the criterion used here: every segment whose <code>InOpBy</code>
+  field is 1910 or earlier &mdash; 69,476 segments and 195,509 route-miles out of the 76,849 in
+  Atack's full Railroads shapefile.</p>
+  <p><b>The layer is cumulative, and it is not annual.</b> Each year shows the track in operation that
+  year plus every earlier year's, so the network only ever grows. But <code>InOpBy</code> is
+  cross-sectional: Atack digitised a set of map years, so within this window the network really moves
+  only twice &mdash; 1898 adds 11,325 route-miles and 1903 adds 14,937. The remaining years add a
+  handful of segments each, and 1899, 1901 and 1902 add none. The caption above always names the
+  vintage actually drawn, which is why it can lag the year on the slider.</p>
+  <p><b>Reading the map.</b> Track already in operation when the panel opens in 1896 is drawn in grey;
+  track added between 1897 and 1910 is drawn in orange. Post offices sit on top, sized and coloured by
+  the same measures as the Explorer tab, and the two tabs share one year and one selection. Choosing a
+  state zooms both the offices and the network; track continuing across the state line is drawn as it
+  runs.</p>
+</footer>
+
+</section>
+
+</div>
+
+<div id="tip" role="tooltip"></div>
+
+<script src="data/us_geo.js"></script>
+<script src="data/panel.js"></script>
+<script src="data/rail.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

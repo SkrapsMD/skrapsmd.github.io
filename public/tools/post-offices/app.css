@@ -1,0 +1,427 @@
+/* Post office explorer — styled in the skrapsmd.github.io design language.
+
+   The site's cascade is replicated here in the same order styles.css uses:
+   FRBA primitives -> semantic tokens -> fonts -> page rules. Primitives must come
+   first, or light-dark(var(--charcoal), ...) resolves to nothing.
+
+   Three things define the look and are worth stating up front:
+     * Sharp corners everywhere. tokens.css sets --border-radius: 0 and comments
+       it "engineering aesthetic"; nothing on this page rounds.
+     * Full-contrast 1px borders on panels (--border), muted hairlines inside
+       them (--border-muted). That is exactly what ui/Panel and ui/Table do.
+     * light-dark() throughout, so the page follows the reader's OS theme the
+       way the rest of the site does.
+
+   The data ramps below (--po-*) are read back by app.js through a probe element,
+   so this file stays the single source of truth for every colour on the page. */
+
+/* ============================================================================
+   1. FRBA primitives — values copied from src/styles/palettes/FRBA_scheme.css
+   ============================================================================ */
+
+:root {
+  --white: #ffffff;
+  --black: #000000;
+
+  --charcoal: #1A1A1A;
+  --darkGray: #323232;
+  --medGray: #D0D0D0;
+  --lightGray: #C0C0C0;
+  --marbleColumn: #F6F6F6;
+  /* Not in FRBA_scheme.css: the neutrals jump straight from #323232 to #D0D0D0,
+     and a few marks here need a step in between that reads on both grounds. */
+  --midGray: #5a5a5a;
+
+  --atlBlue200: #a6c7de;
+  --atlBlue100: #c2D9e8;
+  --atlBlue300: #88b7d4;
+  --atlBlue400: #6da4c9;
+  --atlBlue600: #3581b4;
+  --atlBlue700: #176FA9;
+  --atlBlue800: #005d9b;
+  --atlBlue900: #004c7f;
+  --atlBlue1000: #003c65;
+
+  --atlRed300: #e49fa2;
+  --atlRed900: #93151b;
+
+  --atlOrange200: #f6b588;
+  --atlOrange300: #f39d61;
+  --atlOrange600: #ca590c;
+  --atlOrange900: #7a3607;
+
+  --atlGold100: #ffd138;
+  --atlGold800: #715600;
+}
+
+/* ============================================================================
+   2. Semantic tokens — from src/styles/tokens.css
+   ============================================================================ */
+
+:root {
+  color-scheme: light dark;
+
+  --font-sans: "IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+  --font-xs: 12px;
+  --font-sm: 14px;
+  --font-base: 16px;
+  --font-md: 18px;
+  --font-lg: 24px;
+
+  --bg:        light-dark(var(--white), var(--charcoal));
+  --bg-muted:  light-dark(var(--marbleColumn), var(--darkGray));
+  --ink:       light-dark(var(--black), var(--white));
+  --ink-muted: light-dark(var(--darkGray), var(--medGray));
+  --ink-inv:   light-dark(var(--white), var(--black));
+
+  --text-primary:   var(--ink);
+  --text-secondary: var(--ink-muted);
+  --text-emph:      light-dark(var(--atlBlue900), var(--atlBlue300));
+  --text-emph-2:    light-dark(var(--atlOrange900), var(--atlOrange300));
+
+  --text-highlight:   light-dark(var(--atlGold100), var(--atlGold800));
+  --text-highlight-2: light-dark(var(--atlBlue100), var(--atlBlue600));
+
+  --pad: 14px;
+  --pad-sm: 8px;
+  --border: 1px solid var(--ink);
+  --border-muted: 1px solid var(--ink-muted);
+  --border-radius: 0;
+}
+
+/* ============================================================================
+   3. Local aliases — the vocabulary this page was written against, now sourced
+      from the tokens above rather than from raw hex.
+      (The page's own foreground token is --fg, not --ink: --ink already means
+      something different one block up.)
+   ============================================================================ */
+
+:root {
+  --surface:   var(--bg);
+  --panel:     var(--bg);
+  --rule:      var(--ink);
+  --rule-soft: var(--ink-muted);
+
+  --fg:     var(--text-primary);
+  --ink-2:  var(--text-secondary);
+  --ink-3:  var(--text-secondary);
+
+  --c1: var(--text-emph);
+  --c2: var(--text-emph-2);
+
+  --missing: var(--ink-muted);
+
+  --sans: var(--font-sans);
+  --mono: var(--font-mono);
+}
+
+/* ============================================================================
+   4. Data-visualisation ramps — read by app.js via getComputedStyle on a probe.
+
+      Both ramps invert on dark. A sequential ramp that runs pale -> dark reads
+      "more is stronger" on white and exactly backwards on charcoal, so the dark
+      ramp runs dark -> pale. The diverging ramp does the same: saturated ends
+      and a neutral middle in both modes, but the middle darkens so it recedes
+      into the page rather than glowing on it.
+   ============================================================================ */
+
+:root {
+  --po-seq-1: light-dark(#e2edf4, var(--atlBlue1000));
+  --po-seq-2: light-dark(var(--atlBlue200), var(--atlBlue800));
+  --po-seq-3: light-dark(var(--atlBlue400), var(--atlBlue600));
+  --po-seq-4: light-dark(var(--atlBlue600), var(--atlBlue400));
+  --po-seq-5: light-dark(var(--atlBlue900), var(--atlBlue200));
+
+  --po-div-1: light-dark(var(--atlBlue900), var(--atlBlue200));
+  --po-div-2: light-dark(var(--atlBlue400), var(--atlBlue600));
+  --po-div-3: light-dark(var(--medGray), var(--midGray));
+  --po-div-4: light-dark(var(--atlOrange300), var(--atlOrange600));
+  --po-div-5: light-dark(var(--atlOrange900), var(--atlOrange200));
+
+  /* Coverage strip: all offices (backdrop), offices reporting in an off year,
+     and the label on a year where nothing is reported. The off-year blue has to
+     sit further from the ground than --c1 does in both modes, or the selected
+     year stops being the most prominent bar: pale against white, dim against
+     charcoal. */
+  --po-cov-all:  light-dark(var(--medGray), var(--darkGray));
+  --po-cov-off:  light-dark(var(--atlBlue200), var(--atlBlue900));
+  --po-cov-none: light-dark(var(--atlRed900), var(--atlRed300));
+
+  --po-rail-old: light-dark(var(--lightGray), var(--midGray));
+  --po-pin-row:  var(--text-highlight-2);
+}
+
+/* ============================================================================
+   5. Fonts — copied from src/styles/fonts.css. Absolute /fonts/ paths resolve
+      because vite.config.ts sets base: '/'. Opened over file:// they 404 and
+      the stack falls back to the system UI font, as it did before.
+   ============================================================================ */
+
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: local("IBM Plex Sans Light"), local("IBMPlexSans-Light"),
+       url("/fonts/IBMPlexSans-Light.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("IBM Plex Sans"), local("IBMPlexSans"),
+       url("/fonts/IBMPlexSans-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local("IBM Plex Sans Italic"), local("IBMPlexSans-Italic"),
+       url("/fonts/IBMPlexSans-Italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local("IBM Plex Sans SemiBold"), local("IBMPlexSans-SemiBold"),
+       url("/fonts/IBMPlexSans-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("IBM Plex Mono"), local("IBMPlexMono"),
+       url("/fonts/IBMPlexMono-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: local("IBM Plex Mono Light"), local("IBMPlexMono-Light"),
+       url("/fonts/IBMPlexMono-Light.woff2") format("woff2");
+}
+
+/* ============================================================================
+   6. Page
+   ============================================================================ */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--fg);
+  font-family: var(--sans);
+  font-size: var(--font-sm);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Wider than the site's 980px --frame-width, which is sized for prose. This is
+   a six-panel dashboard and needs the room. */
+.wrap { max-width: 1560px; margin: 0 auto; padding: 24px 28px 64px; }
+
+/* --- Header ---------------------------------------------------------------- */
+
+header { border-bottom: var(--border); padding-bottom: 18px; margin-bottom: 20px; }
+h1 { font-size: var(--font-lg); font-weight: 600; margin: 0 0 4px; letter-spacing: -0.01em; }
+.sub { color: var(--ink-2); margin: 0; max-width: 76ch; }
+
+/* The page opens in a bare tab with no site chrome, so it carries its own way back. */
+.backlink {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-family: var(--mono);
+  font-size: var(--font-xs);
+  color: var(--text-emph);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.backlink:hover { border-bottom-color: var(--text-emph); }
+
+.facts { display: flex; gap: 28px; margin-top: 14px; flex-wrap: wrap; }
+.fact .n { font-family: var(--mono); font-size: var(--font-md); font-weight: 500; display: block; }
+.fact .l { color: var(--ink-3); font-size: var(--font-xs); text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* --- Tabs ------------------------------------------------------------------ */
+
+/* The tab strip's own rule replaces the header's, so the two do not stack. */
+header:has(+ .tabs) { border-bottom: 0; margin-bottom: 0; }
+.tabs { display: flex; margin-bottom: 18px; border-bottom: var(--border); }
+.tab {
+  border: 0; border-bottom: 2px solid transparent; border-radius: var(--border-radius);
+  background: none; padding: 9px 2px; margin-right: 22px; margin-bottom: -1px;
+  font-family: var(--sans); font-size: var(--font-xs); color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer;
+}
+.tab:hover { color: var(--fg); border-color: var(--ink-muted); }
+.tabs .tab.on, .tabs .tab.on:hover {
+  background: none; color: var(--fg); border-color: var(--c1); font-weight: 600;
+}
+.tab-panel[hidden] { display: none; }
+
+/* --- Controls -------------------------------------------------------------- */
+
+.controls {
+  background: var(--panel); border: var(--border); border-radius: var(--border-radius);
+  padding: var(--pad); margin-bottom: 18px;
+}
+.ctl-row { display: flex; gap: 18px; align-items: flex-end; flex-wrap: wrap; }
+.ctl { display: flex; flex-direction: column; gap: 4px; }
+.ctl label { font-size: var(--font-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); }
+select, input[type="search"] {
+  font-family: var(--sans); font-size: var(--font-xs); color: var(--fg);
+  background: var(--panel); border: var(--border-muted);
+  border-radius: var(--border-radius); padding: 5px 8px; min-width: 150px;
+}
+select:focus, input:focus { outline: 2px solid var(--c1); outline-offset: 1px; }
+
+.year-block { flex: 1 1 380px; min-width: 320px; }
+.year-head { display: flex; align-items: baseline; gap: 10px; }
+.year-now { font-family: var(--mono); font-size: var(--font-lg); font-weight: 500; line-height: 1; }
+.year-n { color: var(--ink-2); font-size: var(--font-xs); }
+.slider-row { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+input[type="range"] { flex: 1; accent-color: var(--c1); }
+
+/* Ghost button, matching .linkBtn / ui/Button on the site: mono, 12px, 4px 8px,
+   full-contrast border, inverting on hover. */
+button {
+  font-family: var(--mono); font-size: var(--font-xs); color: var(--fg);
+  background: transparent; border: var(--border);
+  border-radius: var(--border-radius); padding: 4px 8px; line-height: 1.35; cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+button:hover { background: var(--ink); color: var(--ink-inv); }
+button.on, button.on:hover { background: var(--c1); border-color: var(--c1); color: var(--ink-inv); }
+
+.check { display: flex; align-items: center; gap: 6px; font-size: var(--font-xs); color: var(--ink-2); }
+.check input { accent-color: var(--c1); }
+
+.coverage { margin-top: 12px; }
+.coverage-lab { font-size: var(--font-xs); color: var(--ink-3); margin-bottom: 3px; }
+.note {
+  margin-top: var(--pad-sm); font-size: var(--font-xs); color: var(--ink-2);
+  border-left: 3px solid var(--c2); padding-left: 9px;
+}
+
+/* --- Panels ---------------------------------------------------------------- */
+
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 18px; align-items: start; }
+.charts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 18px; }
+.duo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; margin-top: 18px; }
+
+.card {
+  background: var(--panel); border: var(--border);
+  border-radius: var(--border-radius); padding: var(--pad);
+}
+/* Panel headings echo ui/TableCaption: uppercase, letter-spaced, 600. */
+.card h2 {
+  font-size: var(--font-xs); font-weight: 600; margin: 0;
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+.card .cap { color: var(--ink-3); font-size: var(--font-xs); margin: 4px 0 10px; }
+.card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+
+svg { display: block; width: 100%; height: auto; overflow: visible; }
+.axis text { font-family: var(--mono); font-size: 10px; fill: var(--ink-3); }
+.axis line, .axis path { stroke: var(--rule-soft); }
+.grid-line { stroke: var(--rule-soft); stroke-width: 1; opacity: 0.35; }
+.mark-label { font-family: var(--mono); font-size: 10px; fill: var(--ink-2); }
+.ax-title { font-size: 11px; fill: var(--ink-3); }
+
+.state-fill { fill: var(--bg-muted); stroke: var(--bg); stroke-width: 1; }
+.inset-frame { fill: var(--bg); stroke: var(--rule-soft); stroke-width: 1; }
+.inset-lab { font-size: 9.5px; fill: var(--ink-3); }
+/* Railroads: everything already running when the panel opens sits back as a
+   muted base; track that arrives during 1896-1910 comes forward in the palette
+   orange, so the cumulative build-out reads at a glance. */
+/* A state view still draws the neighbouring network, so this one map has to clip
+   to its frame — the sheet-wide `svg { overflow: visible }` would let the track
+   run across the page. */
+#rmap { overflow: hidden; }
+.rail { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.rail-old { stroke: var(--po-rail-old); stroke-width: 0.7; }
+.rail-new { stroke: var(--c2); stroke-width: 1.1; }
+.rail-key { width: 26px; height: 0; border-top-style: solid; }
+.rail-key.old { border-top: 2px solid var(--po-rail-old); }
+.rail-key.new { border-top: 2px solid var(--c2); }
+
+.office { stroke: var(--bg); stroke-width: 2; cursor: pointer; }
+.office.miss { fill: none; stroke: var(--missing); stroke-width: 1.5; }
+.office.pin { stroke: var(--fg); stroke-width: 2.5; }
+.office.dim { opacity: 0.18; }
+
+.legend { display: flex; gap: 22px; flex-wrap: wrap; margin-top: var(--pad-sm); align-items: flex-end; }
+.legend-lab { font-size: var(--font-xs); color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+.swatches { display: flex; align-items: center; gap: 0; border: var(--border-muted); width: max-content; }
+.sw { width: 34px; height: 11px; }
+.sw-ticks { display: flex; font-family: var(--mono); font-size: 9.5px; color: var(--ink-3); }
+.sw-ticks span { width: 34px; text-align: center; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: var(--font-xs); color: var(--ink-2); }
+
+/* --- Detail panel ---------------------------------------------------------- */
+
+#detail .empty { color: var(--ink-3); font-size: var(--font-xs); padding: 26px 0; text-align: center; }
+.dt-name { font-size: var(--font-base); font-weight: 600; margin: 0; }
+.dt-meta { color: var(--ink-3); font-size: var(--font-xs); margin: 2px 0 12px; }
+.dt-meta span { font-family: var(--mono); }
+.spark { margin-bottom: var(--pad); }
+.spark-head { display: flex; justify-content: space-between; font-size: var(--font-xs); color: var(--ink-2); }
+.spark-head b { font-family: var(--mono); font-weight: 500; color: var(--fg); }
+
+/* --- Table ----------------------------------------------------------------- */
+
+/* Fully ruled, like ui/Table: --border-muted on the cells, --border under the
+   head. */
+.table-scroll { max-height: 460px; overflow: auto; margin-top: 10px; border: var(--border-muted); }
+table { border-collapse: collapse; width: 100%; font-size: var(--font-xs); }
+th, td { padding: 5px 9px; text-align: right; white-space: nowrap; }
+th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) { text-align: left; }
+thead th {
+  position: sticky; top: 0; background: var(--text-highlight); cursor: pointer;
+  font-weight: 600; font-size: var(--font-xs); color: var(--ink);
+  border-bottom: var(--border); user-select: none;
+  white-space: normal; max-width: 130px; vertical-align: bottom;
+}
+thead th:hover { text-decoration: underline; }
+thead th .dir { color: var(--ink); }
+tbody td { border-bottom: var(--border-muted); font-family: var(--mono); }
+tbody td:first-child, tbody td:nth-child(2) { font-family: var(--sans); }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: var(--bg-muted); }
+tbody tr.pin { background: var(--po-pin-row); }
+td.na { color: var(--ink-3); }
+
+/* --- Tooltip --------------------------------------------------------------- */
+
+#tip {
+  position: fixed; pointer-events: none; opacity: 0; z-index: 50;
+  background: var(--panel); border: var(--border);
+  border-radius: var(--border-radius); padding: 8px 10px; font-size: var(--font-xs);
+  box-shadow: light-dark(0 3px 14px rgba(0, 0, 0, 0.16), 0 3px 14px rgba(0, 0, 0, 0.55));
+  max-width: 280px;
+}
+#tip .t-name { font-weight: 600; }
+#tip .t-sub { color: var(--ink-3); font-size: 11px; margin-bottom: 5px; }
+#tip table { font-size: 11.5px; }
+#tip td { padding: 1px 0; border: 0; }
+#tip td:first-child { padding-right: 12px; color: var(--ink-2); }
+#tip td:last-child { font-family: var(--mono); text-align: right; }
+
+/* --- Footer ---------------------------------------------------------------- */
+
+footer { margin-top: 32px; padding-top: 16px; border-top: var(--border);
+         color: var(--ink-3); font-size: var(--font-xs); }
+footer p { margin: 0 0 6px; max-width: 92ch; }
+footer code { font-family: var(--mono); font-size: 11.5px; }
+
+@media (max-width: 1180px) {
+  .grid, .charts, .duo { grid-template-columns: minmax(0, 1fr); }
+}

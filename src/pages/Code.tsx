@@ -35,6 +35,37 @@ export default function Code() {
         </div>
       </div>
 
+      <div className={styles.card}>
+        <div className={styles.titleRow}>
+          <div className={styles.title}>20th Century Post Offices &mdash; 1896&ndash;1910</div>
+          <span className={`mono ${styles.date}`}>2026-08-10</span>
+        </div>
+        <div className={styles.body}>
+          Every office in the Post Office Department&rsquo;s Item 95 statement of free city
+          delivery, mapped year by year, with a second view laying the offices over the railroad
+          network they posted mail onto. Opens standalone in a new tab.
+        </div>
+        <div className={styles.badges}>
+          <Badge variant="info">Tools</Badge>
+          <Badge variant="info">Geospatial</Badge>
+          <Badge variant="info">Economic History</Badge>
+        </div>
+        <div className={styles.action}>
+          {/* A real path, not a router Link: the explorer is a standalone page in
+              public/, opened in its own tab. Name index.html explicitly — the dev
+              server does not resolve a directory to its index, so the bare
+              /tools/post-offices/ form falls through to the SPA and lands on Home. */}
+          <a
+            className={styles.linkBtn}
+            href="/tools/post-offices/index.html"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open Explorer &rarr;
+          </a>
+        </div>
+      </div>
+
       <TableCaption category="Code & Data |" title="Code Packages" size="lg" />
       {/* Code packages such as sparklib will be listed here. */}
       <WipBanner />
