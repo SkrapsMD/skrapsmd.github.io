@@ -1267,12 +1267,38 @@
       "start": "2026-08-12",
       "end": "2026-08-12",
       "days": 1,
-      "start_time": "11:00",
-      "end_time": "14:00",
+      "start_time": "09:40",
+      "end_time": "13:00",
       "all_day": false,
       "scope": "fellowship",
       "type": "course",
       "label": "Challenge Course",
+      "academic_year": "2025-2026",
+      "notes": "Giesel Library"
+    },
+    {
+      "start": "2026-08-12",
+      "end": "2026-08-12",
+      "days": 1,
+      "start_time": "15:00",
+      "end_time": "16:00",
+      "all_day": false,
+      "scope": "personal",
+      "type": "event",
+      "label": "Virtual meeting with Lauren Villareal",
+      "academic_year": "2025-2026",
+      "notes": "Virtual"
+    },
+    {
+      "start": "2026-08-13",
+      "end": "2026-08-13",
+      "days": 1,
+      "start_time": "13:30",
+      "end_time": "14:00",
+      "all_day": false,
+      "scope": "personal",
+      "type": "event",
+      "label": "1:1 with Edgar",
       "academic_year": "2025-2026",
       "notes": ""
     },
@@ -1287,7 +1313,7 @@
       "type": "course",
       "label": "Getting to know your Research - Research Showcase",
       "academic_year": "2025-2026",
-      "notes": "RRC Room 104"
+      "notes": "RRC Room 104 — prepare a 2-3 minute presentation"
     },
     {
       "start": "2026-08-19",
@@ -1339,7 +1365,7 @@
       "type": "course",
       "label": "Birch Aquarium",
       "academic_year": "2025-2026",
-      "notes": "RRC Room 104"
+      "notes": "Meet at the shuttle stop or at the Birch Aquarium"
     },
     {
       "start": "2026-08-27",
