@@ -34,6 +34,7 @@
   <button class="tab" id="tab-btn-rail" data-tab="rail">Railroads &amp; mail</button>
   <button class="tab" id="tab-btn-counties" data-tab="counties">Counties &amp; outcomes</button>
   <button class="tab" id="tab-btn-votes" data-tab="votes">Voting &amp; radical parties</button>
+  <button class="tab" id="tab-btn-econ" data-tab="econ">Economy &amp; timing</button>
 </nav>
 
 <section class="tab-panel" id="tab-explorer">
@@ -559,6 +560,118 @@
 
 </section>
 
+<section class="tab-panel" id="tab-econ" hidden>
+
+<div class="controls">
+  <div class="ctl-row">
+    <div class="ctl">
+      <label for="e-outcome">Economic indicator</label>
+      <select id="e-outcome"></select>
+    </div>
+    <div class="ctl">
+      <label for="e-event">Arrival of</label>
+      <select id="e-event"></select>
+    </div>
+    <div class="ctl">
+      <label for="e-treatment">Lead&ndash;lag margin</label>
+      <select id="e-treatment"></select>
+    </div>
+  </div>
+  <p class="cap" id="e-verdict"></p>
+</div>
+
+<div class="facts">
+  <div class="fact"><b id="e-f-est">&mdash;</b><span>specifications estimated</span></div>
+  <div class="fact"><b id="e-f-out">&mdash;</b><span>economic indicators</span></div>
+  <div class="fact"><b id="e-f-top">&mdash;</b><span>of the surplus from ten offices</span></div>
+  <div class="fact"><b id="e-f-flag">&mdash;</b><span>indicators the estimators dispute</span></div>
+</div>
+
+<div class="card" id="e-lp-card">
+  <div class="card-head">
+    <div>
+      <h2>Year by year around the arrival</h2>
+      <p class="cap" id="elp-cap"></p>
+    </div>
+  </div>
+  <svg id="elp" viewBox="0 0 975 320"></svg>
+  <p class="cap src" id="elp-foot"></p>
+</div>
+
+<div class="card" id="e-event-card">
+  <div class="card-head">
+    <div>
+      <h2>Three estimators, one sample</h2>
+      <p class="cap" id="eev-cap"></p>
+    </div>
+  </div>
+  <svg id="eevent" viewBox="0 0 975 320"></svg>
+  <table id="eev" class="reg static"><thead></thead><tbody></tbody></table>
+  <p class="cap src" id="eev-foot"></p>
+</div>
+
+<div class="card" id="e-granger-card">
+  <div class="card-head">
+    <div>
+      <h2>Did the office come before the growth, or after it?</h2>
+      <p class="cap" id="egr-cap"></p>
+    </div>
+  </div>
+  <div class="table-scroll">
+    <table id="egr" class="reg"><thead></thead><tbody></tbody></table>
+  </div>
+  <p class="cap src" id="egr-foot"></p>
+</div>
+
+<div class="card" id="e-conc-card">
+  <div class="card-head">
+    <div>
+      <h2>How much of the surplus the largest offices produced</h2>
+      <p class="cap" id="econc-cap"></p>
+    </div>
+  </div>
+  <svg id="econc" viewBox="0 0 975 300"></svg>
+  <p class="cap src" id="econc-foot"></p>
+</div>
+
+<div class="tables" id="t-econ"></div>
+
+<footer>
+  <p><b>What this tab is asking.</b> Some post offices were very large and very
+  profitable, and the surplus they threw off is what paid for service everywhere else.
+  The question is one of ordering: did those offices <i>arrive before</i> the local
+  economy grew, or did they follow growth that had already happened? That is a
+  question about timing, not about cause, and it is answerable without an instrument
+  &mdash; which is fortunate, because there is no instrument to be had.</p>
+  <p><b>Nothing here is a causal estimate.</b> Free city delivery was granted on a
+  statutory threshold: a place needed ten thousand people, or from 1887 ten thousand
+  dollars of gross receipts. That makes adoption mechanically correlated with prior
+  growth, and it would make an ideal instrument &mdash; except that neither arm can be
+  built from the surviving record. No NHGIS dataset publishes place-level population
+  before 1930, and the receipts ledger covers only offices that had <i>already</i>
+  adopted, so there is no untreated side of the cutoff. The table &ldquo;Why there is
+  no instrument&rdquo; below states it plainly.</p>
+  <p><b>Read the pre-period, not the post-period.</b> Because adoption was triggered by
+  growth, a rising pre-trend is the finding rather than a broken assumption: it says
+  the office followed. A flat pre-period with a break at arrival says the opposite.
+  The local projection above absorbs state-by-year shocks, which matters &mdash; much
+  of the apparent pre-trend in the event study is regional rather than local.</p>
+  <p><b>There is no household income before 1940.</b> The census did not ask. Everything
+  here labelled as a household measure is a proxy: home ownership and mortgage status
+  from 1890, illiteracy from 1900, farm land value per acre, and crowding. And there is
+  no county Census of Manufactures for 1910, so the decade windows are unevenly spaced
+  and the code divides each by its own span rather than pretending they are all ten
+  years.</p>
+  <p><b>Sources.</b> Receipts, cost and surplus from the Post Office Department's Item
+  95 statistical statement (NARA RG 28), 1896&ndash;1910; the post office network from
+  Blevins and Helbock; county census aggregates and the household proxies from NHGIS;
+  patents from HistPat. Estimates are written by <code>code/o_leadlag_regs.py</code> to
+  <code>data/final/leadlag_specs.parquet</code> and bundled for this page by
+  <code>code/p_econ_web.py</code>; the tables below are the LaTeX fragments themselves.</p>
+</footer>
+
+</section>
+
 </div>
 
 <div id="tip" role="tooltip"></div>
@@ -569,6 +682,7 @@
 <script src="data/county_geo.js"></script>
 <script src="data/counties.js"></script>
 <script src="data/votes.js"></script>
+<script src="data/econ.js"></script>
 <script src="data/tables.js"></script>
 <script src="app.js"></script>
 </body>

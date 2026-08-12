@@ -27,6 +27,14 @@ const HAS_COUNTY = !!(CD && CG);
    point is that a result cannot exist in the paper and be missing from the site. */
 const TB = window.PO_TABLES || null;
 
+/* The economic-indicator surface: o_leadlag_regs estimates it, p_econ_web bundles
+   it. Absent bundle means the tab hides itself rather than the page failing, the
+   same contract the other optional tabs have. */
+const EC = window.PO_ECON || null;
+const HAS_ECON = !!(EC && EC.outcomes && EC.outcomes.length
+                    && (Object.keys(EC.lp || {}).length
+                        || Object.keys(EC.event || {}).length));
+
 const VT = window.PO_VOTES || null;
 const HAS_VOTES = (() => {
   if (!VT || !HAS_COUNTY) return false;
@@ -2354,6 +2362,14 @@ function readHash() {
   if (h.get("tab") === "rail" && R) S.tab = "rail";
   if (h.get("tab") === "counties" && HAS_COUNTY) S.tab = "counties";
   if (h.get("tab") === "votes" && HAS_VOTES) S.tab = "votes";
+  if (h.get("tab") === "econ" && HAS_ECON) S.tab = "econ";
+  if (HAS_ECON) {
+    // Flagged so initEcon's "open on something drawable" default does not
+    // silently override an indicator the reader put in the URL.
+    if (h.has("eoutcome")) { SE.outcome = h.get("eoutcome"); SE.pinned = true; }
+    if (h.has("eevent")) SE.event = h.get("eevent");
+    if (h.has("etreat")) SE.treatment = h.get("etreat");
+  }
   if (HAS_VOTES) {
     if (h.has("vyear")) {
       const i = VYEARS.indexOf(+h.get("vyear"));
@@ -2405,12 +2421,402 @@ function writeHash() {
     h.set("vmeasure", SV.measure);
     if (SV.state) h.set("vstate", SV.state);
   }
+  if (S.tab === "econ") {
+    h.set("eoutcome", SE.outcome);
+    h.set("eevent", SE.event);
+    h.set("etreat", SE.treatment);
+  }
   // Chrome rejects replaceState from a file:// document (its origin is null), so
   // the hash stays readable on load but is not written back there.
   if (hashWritable) {
     try { history.replaceState(null, "", "#" + h.toString()); }
     catch (e) { hashWritable = false; }
   }
+}
+
+/* --- Economy & timing ------------------------------------------------------
+   The tab exists because o_leadlag_regs estimates 3,672 specifications and no
+   single one of them is the answer. A printed table has to choose; a selector
+   does not, so the reader picks an indicator and sees what every design says
+   about it — including where the designs disagree, which is itself a result.
+
+   Nothing drawn here is causal. Free city delivery was granted on a population
+   or receipts threshold, so adoption is mechanically correlated with prior
+   growth; m_table2 records why neither arm of that threshold can be used as an
+   instrument. The pre-period is therefore the estimand, not a diagnostic. */
+
+const SE = {
+  outcome: (EC && EC.headline) || "ln_value_added",
+  event: "fd_year",
+  treatment: "ln_post_offices",
+  pinned: false,   // true once the reader has named an indicator in the URL
+};
+
+const eOut = key => (EC.outcomes || []).find(o => o.key === key) || null;
+const eLabel = key => (eOut(key) || {}).label || key;
+const eSpread = key => (EC.spread || []).find(s => s.key === key) || null;
+
+/* The event labels read as sentences ("Free city delivery arrives"), which is right
+   for a selector and wrong mid-clause. This is the noun form. */
+function eEventNoun(key) {
+  const e = (EC.events || []).find(x => x.key === key);
+  return (e ? e.label : key).replace(/\s+arrives$/i, "").toLowerCase();
+}
+
+/* The event studies are keyed by the grid they were estimated on: an annual
+   outcome has twenty-one relative periods, a decennial one seven. Ask for the
+   one this outcome actually has rather than guessing from the key. */
+function eEventBlock(outcome, event) {
+  for (const sample of ["annual", "census"]) {
+    const hit = (EC.event || {})[`${event}|${outcome}|${sample}`];
+    if (hit) return { ...hit, sample };
+  }
+  return null;
+}
+
+const eLpBlock = (outcome, event) => (EC.lp || {})[`${event}|${outcome}`] || null;
+
+/* One shared axis for a set of estimate paths, so the three estimators are drawn
+   against each other rather than each to its own scale. */
+function eBand(paths) {
+  let lo = Infinity, hi = -Infinity;
+  for (const rows of paths)
+    for (const d of rows) {
+      const s = d.se || 0;
+      lo = Math.min(lo, d.b - 1.96 * s);
+      hi = Math.max(hi, d.b + 1.96 * s);
+    }
+  if (!isFinite(lo) || !isFinite(hi) || lo === hi) { lo -= 1; hi += 1; }
+  return [lo, hi];
+}
+
+function eAxes(s, X, Y, lo, hi, taus, W, L, RG, T, B, H, zeroRule) {
+  for (const t of niceTicks(lo, hi, 5))
+    s += `<line class="grid-line" x1="${L}" x2="${W - RG}" y1="${Y(t)}" y2="${Y(t)}"/>` +
+         `<text class="mark-label" x="${L - 6}" y="${Y(t) + 3}" text-anchor="end">${
+           t.toFixed(3)}</text>`;
+  s += `<line class="ev-rule" x1="${L}" x2="${W - RG}" y1="${Y(0)}" y2="${Y(0)}"/>`;
+  if (zeroRule)
+    s += `<line class="ev-rule" x1="${X(-0.5)}" x2="${X(-0.5)}" y1="${T}" y2="${H - B}" ` +
+         `stroke-dasharray="3 3"/>`;
+  const step = taus.length > 14 ? 2 : 1;
+  taus.forEach((t, i) => {
+    if (i % step) return;
+    s += `<text class="mark-label" x="${X(t)}" y="${H - 12}" text-anchor="middle">${
+      t > 0 ? "+" + t : t}</text>`;
+  });
+  return s;
+}
+
+function ePath(rows, X, Y, colour, withBand) {
+  let s = "";
+  if (withBand) {
+    const band = rows.map(d => `${X(d.tau).toFixed(1)},${Y(d.b + 1.96 * (d.se || 0)).toFixed(1)}`)
+      .concat(rows.slice().reverse().map(d =>
+        `${X(d.tau).toFixed(1)},${Y(d.b - 1.96 * (d.se || 0)).toFixed(1)}`)).join(" ");
+    s += `<polygon class="ev-band" points="${band}" fill="${colour}" fill-opacity="0.14"/>`;
+  }
+  s += `<path class="ev-line" d="${rows.map((d, i) =>
+    (i ? "L" : "M") + X(d.tau).toFixed(1) + "," + Y(d.b).toFixed(1)).join("")}" ` +
+    `fill="none" stroke="${colour}" stroke-width="2"/>`;
+  return s;
+}
+
+/* Local projection: the change from the year before arrival to each horizon. The
+   negative horizons are the point of the chart — they say whether activity was
+   already climbing before the office showed up. */
+function drawEconLP() {
+  const W = 975, H = 320, L = 70, RG = 16, T = 14, B = 34;
+  const block = eLpBlock(SE.outcome, SE.event);
+  const evLab = eEventNoun(SE.event);
+
+  if (!block) {
+    $("elp").innerHTML = emptyNote(W, H);
+    $("elp-cap").textContent =
+      `No local projection for ${eLabel(SE.outcome)} around the arrival of ` +
+      `${eEventNoun(SE.event)}. This design runs at annual ` +
+      `frequency, and the census gives this indicator only once a decade — patents ` +
+      `are the one annual measure of local economic activity in the panel.`;
+    $("elp-foot").textContent = "";
+    return;
+  }
+
+  const rows = block.rows.slice().sort((a, b) => a.tau - b.tau);
+  const [lo, hi] = eBand([rows]);
+  const t0 = rows[0].tau, t1 = rows[rows.length - 1].tau;
+  const X = t => L + ((t - t0) / Math.max(t1 - t0, 1)) * (W - L - RG);
+  const Y = v => H - B - ((v - lo) / (hi - lo || 1)) * (H - T - B);
+
+  let s = eAxes("", X, Y, lo, hi, rows.map(d => d.tau), W, L, RG, T, B, H, true);
+  s += ePath(rows, X, Y, C1, true);
+  for (const d of rows)
+    s += `<circle cx="${X(d.tau).toFixed(1)}" cy="${Y(d.b).toFixed(1)}" r="2.5" fill="${C1}"/>`;
+  s += `<text class="ax-title" transform="translate(16,${(T + H - B) / 2}) rotate(-90)" ` +
+       `text-anchor="middle">Change since the year before arrival</text>`;
+  s += `<text class="ax-title" x="${(L + W - RG) / 2}" y="${H - 1}" ` +
+       `text-anchor="middle">Years since arrival</text>`;
+  $("elp").innerHTML = s;
+
+  const pre = rows.filter(d => d.tau < -1 && d.p != null && d.p < 0.05).length;
+  const post = rows.filter(d => d.tau > 0 && d.p != null && d.p < 0.05).length;
+  $("elp-cap").textContent =
+    `${eLabel(SE.outcome)} around the arrival of ${evLab}. County and state-by-year fixed ` +
+    `effects, clustered by county. ` +
+    (pre === 0 && post > 0
+      ? `Flat before arrival — no pre-period coefficient is significant — and ` +
+        `${post} of the post-arrival horizons are. On this design the office came first.`
+      : pre > 0 && post > 0
+        ? `${pre} pre-period and ${post} post-period coefficients are significant: ` +
+          `activity was already moving before the office arrived.`
+        : `Nothing reaches significance either side of arrival.`);
+  $("elp-foot").textContent =
+    `N = ${block.n.toLocaleString()} county-years, ${block.units.toLocaleString()} ` +
+    `counties. Absorbing state-by-year shocks matters here: much of the apparent ` +
+    `pre-trend in the event study below is regional rather than local. Printed as ` +
+    `output/tabs/o_table4.tex.`;
+}
+
+/* The same event study under all three estimators. Drawing them together is the
+   point: with staggered adoption two-way fixed effects uses already-treated
+   counties as controls and can invert a pre-trend, and the only way to see that
+   is to put the alternatives beside it. */
+function drawEconEvent() {
+  const W = 975, H = 320, L = 70, RG = 16, T = 14, B = 34;
+  const block = eEventBlock(SE.outcome, SE.event);
+  const card = $("e-event-card");
+  card.hidden = false;
+
+  if (!block) {
+    $("eevent").innerHTML = emptyNote(W, H);
+    $("eev").hidden = true;
+    $("eev-cap").textContent =
+      `No event study for ${eLabel(SE.outcome)} around the arrival of ` +
+      `${eEventNoun(SE.event)}.`;
+    $("eev-foot").textContent = "";
+    return;
+  }
+
+  const names = (EC.estimators || []).filter(e => block.est[e]);
+  const colours = [C1, C2, INK2];
+  const paths = names.map(n => block.est[n].slice().sort((a, b) => a.tau - b.tau));
+  const [lo, hi] = eBand(paths);
+  const taus = paths[0].map(d => d.tau);
+  const t0 = Math.min(...paths.flat().map(d => d.tau));
+  const t1 = Math.max(...paths.flat().map(d => d.tau));
+  const X = t => L + ((t - t0) / Math.max(t1 - t0, 1)) * (W - L - RG);
+  const Y = v => H - B - ((v - lo) / (hi - lo || 1)) * (H - T - B);
+
+  let s = eAxes("", X, Y, lo, hi, taus, W, L, RG, T, B, H, true);
+  paths.forEach((rows, i) => { s += ePath(rows, X, Y, colours[i % colours.length], i === 0); });
+  names.forEach((n, i) => {
+    const x = L + 12 + i * 210, y = T + 12;
+    s += `<line x1="${x}" x2="${x + 18}" y1="${y}" y2="${y}" stroke="${
+      colours[i % colours.length]}" stroke-width="2"/>` +
+      `<text class="mark-label" x="${x + 24}" y="${y + 4}">${esc(n)}</text>`;
+  });
+  const unit = block.sample === "annual" ? "Years" : "Decades";
+  s += `<text class="ax-title" transform="translate(16,${(T + H - B) / 2}) rotate(-90)" ` +
+       `text-anchor="middle">Coefficient</text>`;
+  s += `<text class="ax-title" x="${(L + W - RG) / 2}" y="${H - 1}" ` +
+       `text-anchor="middle">${unit} since arrival</text>`;
+  $("eevent").innerHTML = s;
+
+  /* The numbers behind the curves, estimator by estimator. */
+  const t = $("eev");
+  t.hidden = false;
+  t.querySelector("thead").innerHTML =
+    `<tr><th>${unit} since arrival</th>` +
+    names.map(n => `<th>${esc(n)}</th>`).join("") + "</tr>";
+  const allTaus = [...new Set(paths.flat().map(d => d.tau))].sort((a, b) => a - b);
+  t.querySelector("tbody").innerHTML = allTaus.map(tau => {
+    const omitted = tau === -1;
+    const cells = names.map((n, i) => {
+      const hit = paths[i].find(d => d.tau === tau);
+      if (!hit) return "<td>&mdash;</td>";
+      if (omitted) return "<td>0.0000</td>";
+      return `<td>${hit.b.toFixed(4)}${hit.p == null ? "" : star(hit.p)}` +
+             `<span class="se"> (${(hit.se || 0).toFixed(4)})</span></td>`;
+    }).join("");
+    return `<tr${omitted ? ' class="omit"' : ""}><td>${
+      tau > 0 ? "+" + tau : tau}</td>${cells}</tr>`;
+  }).join("");
+
+  const sp = eSpread(SE.outcome);
+  const warn = sp && sp.verdict === "unreliable"
+    ? ` These three differ by up to ${sp.seUnits} standard errors on this ` +
+      `indicator, which is far enough to support different readings — treat the ` +
+      `chart as suggestive.`
+    : sp ? ` They agree to within ${sp.seUnits} standard errors here.` : "";
+  $("eev-cap").textContent =
+    `${eLabel(SE.outcome)}, relative to the period before arrival. Adoption was ` +
+    `staggered across cohorts, so the estimators need not agree.${warn}`;
+  $("eev-foot").textContent =
+    `N = ${block.n.toLocaleString()}, ${block.units.toLocaleString()} counties. ` +
+    `*** p<0.01, ** p<0.05, * p<0.10. Standard errors in parentheses. Because ` +
+    `adoption was threshold-triggered, the pre-period coefficients are the finding ` +
+    `rather than a diagnostic: rising before arrival means the office followed the ` +
+    `growth. Printed as output/tabs/o_table3.tex.`;
+}
+
+/* Past against future postal expansion, one row per indicator. */
+function drawEconGranger() {
+  const rows = (EC.granger || {})[SE.treatment] || [];
+  const t = $("egr");
+  const tr = (EC.treatments || []).find(x => x.key === SE.treatment);
+  if (!rows.length) {
+    $("e-granger-card").hidden = true;
+    return;
+  }
+  $("e-granger-card").hidden = false;
+  t.querySelector("thead").innerHTML =
+    "<tr><th>Economic indicator</th><th>Past postal expansion</th>" +
+    "<th>Future postal expansion</th><th>N</th><th>Ordering</th></tr>";
+  t.querySelector("tbody").innerHTML = rows.map(r => {
+    const sel = r.outcome === SE.outcome;
+    return `<tr${sel ? ' class="omit"' : ""}><td>${esc(eLabel(r.outcome))}</td>` +
+      `<td>${r.lag.toFixed(4)}${r.lagP == null ? "" : star(r.lagP)}` +
+      `<span class="se"> (${r.lagSe.toFixed(4)})</span></td>` +
+      `<td>${r.lead.toFixed(4)}${r.leadP == null ? "" : star(r.leadP)}` +
+      `<span class="se"> (${r.leadSe.toFixed(4)})</span></td>` +
+      `<td>${r.n.toLocaleString()}</td>` +
+      `<td>${r.follows ? "office followed" : "office led"}</td></tr>`;
+  }).join("");
+
+  const followed = rows.filter(r => r.follows).length;
+  $("egr-cap").textContent =
+    `Annualised decade growth in each indicator, against the change in ` +
+    `${(tr ? tr.label : SE.treatment).toLowerCase()} over the previous window and ` +
+    `over the following one. On ${followed} of ${rows.length} indicators the ` +
+    `stronger correlation is with expansion that came later, which reads as the ` +
+    `office following the growth.`;
+  $("egr-foot").textContent =
+    "Each column is its own county-fixed-effects regression, because a single " +
+    "regression cannot hold county effects alongside both a lead and a lag on " +
+    "decennial data — there is only one window per county with both. The ordering " +
+    "column compares two t-statistics and is not a test. Printed as " +
+    "output/tabs/o_table2.tex and output/tabs/o_table5.tex.";
+}
+
+/* The premise: a handful of offices produced most of the surplus. */
+function drawEconConc() {
+  const W = 975, H = 300, L = 70, RG = 16, T = 14, B = 34;
+  const C = (EC.concentration || []).slice().sort((a, b) => a.year - b.year);
+  if (C.length < 2) { $("e-conc-card").hidden = true; return; }
+  $("e-conc-card").hidden = false;
+
+  const lo = 0, hi = Math.max(...C.map(d => Math.max(d.top10, d.top1pc))) * 1.15;
+  const y0 = C[0].year, y1 = C[C.length - 1].year;
+  const X = y => L + ((y - y0) / Math.max(y1 - y0, 1)) * (W - L - RG);
+  const Y = v => H - B - ((v - lo) / (hi - lo || 1)) * (H - T - B);
+
+  let s = "";
+  for (const v of niceTicks(lo, hi, 5))
+    s += `<line class="grid-line" x1="${L}" x2="${W - RG}" y1="${Y(v)}" y2="${Y(v)}"/>` +
+         `<text class="mark-label" x="${L - 6}" y="${Y(v) + 3}" text-anchor="end">${
+           (v * 100).toFixed(0)}%</text>`;
+  const series = [["top10", C1, "Ten largest offices"],
+                  ["top1pc", C2, "Largest one per cent"]];
+  for (const [key, colour, lab] of series)
+    s += `<path d="${C.map((d, i) => (i ? "L" : "M") + X(d.year).toFixed(1) + "," +
+      Y(d[key]).toFixed(1)).join("")}" fill="none" stroke="${colour}" stroke-width="2"/>`;
+  series.forEach(([, colour, lab], i) => {
+    const x = L + 12 + i * 230, y = T + 12;
+    s += `<line x1="${x}" x2="${x + 18}" y1="${y}" y2="${y}" stroke="${colour}" ` +
+         `stroke-width="2"/><text class="mark-label" x="${x + 24}" y="${y + 4}">${
+           esc(lab)}</text>`;
+  });
+  for (const d of C)
+    s += `<text class="mark-label" x="${X(d.year)}" y="${H - 12}" ` +
+         `text-anchor="middle">${d.year}</text>`;
+  s += `<text class="ax-title" transform="translate(16,${(T + H - B) / 2}) rotate(-90)" ` +
+       `text-anchor="middle">Share of total surplus</text>`;
+  $("econc").innerHTML = s;
+
+  const last = C[C.length - 1], best = C.reduce((a, b) => b.offices > a.offices ? b : a);
+  $("econc-cap").textContent =
+    `Gross receipts less the cost of delivery, across every free-delivery office. ` +
+    `In ${best.year}, ${best.offices.toLocaleString()} offices produced a surplus of ` +
+    `$${Math.round(best.surplus).toLocaleString()}, and the ten largest of them ` +
+    `accounted for ${(best.top10 * 100).toFixed(0)}% of it — as much as ` +
+    `${Math.round(best.medianEquiv).toLocaleString()} median offices put together.`;
+  $("econc-foot").textContent =
+    `${C.length} years, ${C[0].year}–${last.year}. The 1910 statement reports ` +
+    `receipts for only a quarter of its offices, so that year covers fewer offices ` +
+    `than the ones before it. Printed as output/tabs/o_table1.tex.`;
+}
+
+function drawEconFacts() {
+  const f = EC.facts || {};
+  const C = EC.concentration || [];
+  const best = C.length ? C.reduce((a, b) => b.offices > a.offices ? b : a) : null;
+  const flagged = (EC.spread || []).filter(s => s.verdict === "unreliable").length;
+  $("e-f-est").textContent = (f.estimates || 0).toLocaleString();
+  $("e-f-out").textContent = (f.outcomes || 0).toLocaleString();
+  $("e-f-top").textContent = best ? (best.top10 * 100).toFixed(0) + "%" : "—";
+  $("e-f-flag").textContent = flagged.toLocaleString() + " of " +
+    (EC.spread || []).length;
+
+  const sp = eSpread(SE.outcome);
+  $("e-verdict").textContent = sp
+    ? (sp.verdict === "unreliable"
+        ? `On ${sp.label.toLowerCase()} the three estimators land up to ${sp.seUnits} ` +
+          `standard errors apart, so read the charts below as suggestive. The split ` +
+          `is by frequency: the decennial designs have seven relative periods and a ` +
+          `handful of cohorts, the annual ones twenty-one periods and twenty-nine.`
+        : `On ${sp.label.toLowerCase()} the three estimators agree to within ` +
+          `${sp.seUnits} standard errors.`)
+    : "";
+}
+
+function renderEcon() {
+  drawEconFacts();
+  drawEconLP();
+  drawEconEvent();
+  drawEconGranger();
+  drawEconConc();
+}
+
+function initEcon() {
+  /* Indicators grouped the way the panel groups them, so a reader looking for a
+     household proxy is not scanning past eight manufacturing series. */
+  const groups = {};
+  for (const o of EC.outcomes) (groups[o.block] = groups[o.block] || []).push(o);
+  const GROUP_LAB = {
+    manufacturing: "Manufacturing", population: "Population",
+    household: "Household proxies (there is no income before 1940)",
+    annual: "Annual measures",
+  };
+  /* Open on an indicator both charts can draw. The paper's headline is value
+     added, but that is decennial and so has no local projection, which would
+     leave the first card on the tab showing an apology. Prefer the headline when
+     it has one, otherwise the first indicator that does. */
+  if (!eOut(SE.outcome)) SE.outcome = EC.headline;
+  if (!SE.pinned && !eLpBlock(SE.outcome, SE.event)) {
+    const withLp = EC.outcomes.find(o => eLpBlock(o.key, SE.event));
+    if (withLp) SE.outcome = withLp.key;
+  }
+  if (!eOut(SE.outcome)) SE.outcome = EC.outcomes[0].key;
+  $("e-outcome").innerHTML = Object.entries(groups).map(([b, list]) =>
+    `<optgroup label="${esc(GROUP_LAB[b] || b)}">` + list.map(o =>
+      `<option value="${esc(o.key)}"${o.key === SE.outcome ? " selected" : ""}>${
+        esc(o.label)}</option>`).join("") + "</optgroup>").join("");
+
+  const events = EC.events || [];
+  if (!events.some(e => e.key === SE.event) && events.length) SE.event = events[0].key;
+  $("e-event").innerHTML = events.map(e =>
+    `<option value="${esc(e.key)}"${e.key === SE.event ? " selected" : ""}>${
+      esc(e.label)}</option>`).join("");
+
+  const treats = EC.treatments || [];
+  if (!treats.some(t => t.key === SE.treatment) && treats.length)
+    SE.treatment = treats[0].key;
+  $("e-treatment").innerHTML = treats.map(t =>
+    `<option value="${esc(t.key)}"${t.key === SE.treatment ? " selected" : ""}>${
+      esc(t.label)}</option>`).join("");
+
+  $("e-outcome").addEventListener("change", e => { SE.outcome = e.target.value; render(); });
+  $("e-event").addEventListener("change", e => { SE.event = e.target.value; render(); });
+  $("e-treatment").addEventListener("change", e => { SE.treatment = e.target.value; render(); });
 }
 
 /* --- Render ---------------------------------------------------------------- */
@@ -2422,6 +2828,7 @@ function render() {
   // on its own and the office slice is never computed for it.
   if (S.tab === "counties") { renderCounties(); return; }
   if (S.tab === "votes") { renderVotes(); return; }
+  if (S.tab === "econ") { renderEcon(); return; }
 
   const rows = slice(), sc = scales(rows);
 
@@ -2483,6 +2890,7 @@ const TABS = [
   { name: "rail", ok: () => !!R },
   { name: "counties", ok: () => HAS_COUNTY },
   { name: "votes", ok: () => HAS_VOTES },
+  { name: "econ", ok: () => HAS_ECON },
 ];
 
 function setTab(name) {
@@ -2533,6 +2941,7 @@ function init() {
   }
   if (HAS_COUNTY) initCounties();
   if (HAS_VOTES) initVotes();
+  if (HAS_ECON) initEcon();
   drawTables();
 
   on("year", "input", e => setYear(+e.target.value));
