@@ -17,7 +17,10 @@
   <p class="sub">Every office in the Post Office Department's Item 95 statistical statement of free
   delivery, mapped year by year. Pick a measure to size and colour the offices, click one to follow it
   through the period, and read the coverage strip before you read the map. The second tab lays the
-  same offices over the railroad network they posted mail onto.</p>
+  same offices over the railroad network they posted mail onto. The third moves to the county, where
+  the outcomes live &mdash; patents, manufacturing, lynchings &mdash; and asks whether the arrival of
+  free delivery shows up in any of them. The fourth asks the political version of that question: as the
+  postal state arrives, does a county vote less for the parties running against it?</p>
   <div class="facts">
     <div class="fact"><span class="n" id="f-offices">&mdash;</span><span class="l">Offices</span></div>
     <div class="fact"><span class="n" id="f-rows">&mdash;</span><span class="l">Office-year records</span></div>
@@ -29,6 +32,8 @@
 <nav class="tabs">
   <button class="tab on" id="tab-btn-explorer" data-tab="explorer">Explorer</button>
   <button class="tab" id="tab-btn-rail" data-tab="rail">Railroads &amp; mail</button>
+  <button class="tab" id="tab-btn-counties" data-tab="counties">Counties &amp; outcomes</button>
+  <button class="tab" id="tab-btn-votes" data-tab="votes">Voting &amp; radical parties</button>
 </nav>
 
 <section class="tab-panel" id="tab-explorer">
@@ -129,6 +134,11 @@
         <label class="check"><input type="checkbox" id="sy-log" checked> Log</label></div>
     </div>
     <svg id="scatter" viewBox="0 0 460 400"></svg>
+    <table id="sfit" class="reg fit">
+      <thead><tr><th>Fit</th><th>N</th><th>Slope</th><th>R&sup2;</th></tr></thead>
+      <tbody id="sfit-body"></tbody>
+    </table>
+    <p class="cap" id="sfit-foot"></p>
   </div>
 
   <div class="card">
@@ -144,6 +154,8 @@
     </div>
   </div>
 </div>
+
+<div class="tables" id="t-explorer"></div>
 
 <footer>
   <p><b>Source.</b> Built from the Post Office Department's Item 95 statistical statement workbook,
@@ -210,6 +222,8 @@
   <div class="legend" id="rmap-legend"></div>
 </div>
 
+<div class="tables" id="t-rail"></div>
+
 <footer>
   <p><b>Railroads.</b> Suggested citation for the network data: Jeremy Atack,
   &ldquo;Historical Geographic Information Systems (GIS) database of U.S. Railroads for
@@ -232,6 +246,319 @@
 
 </section>
 
+<section class="tab-panel" id="tab-counties" hidden>
+
+<div class="controls">
+  <div class="ctl-row">
+    <div class="ctl year-block">
+      <div class="year-head">
+        <span class="year-now" id="c-year-now">1900</span>
+        <span class="year-n" id="c-year-n"></span>
+      </div>
+      <div class="slider-row">
+        <button id="c-play" title="Play through the years">&#9654; Play</button>
+        <input type="range" id="c-year" min="0" max="40" step="1" value="20" aria-label="Year">
+      </div>
+    </div>
+    <div class="ctl">
+      <label for="c-measure">Colour counties by</label>
+      <select id="c-measure"></select>
+    </div>
+    <div class="ctl">
+      <label for="c-state">State</label>
+      <select id="c-state"></select>
+    </div>
+    <div class="ctl">
+      <label>&nbsp;</label>
+      <label class="check"><input type="checkbox" id="c-percap"> Per 10,000 people</label>
+    </div>
+    <div class="ctl">
+      <label>Overlay</label>
+      <label class="check"><input type="checkbox" id="c-ov-rail"> Railroads</label>
+      <label class="check"><input type="checkbox" id="c-ov-city" checked> Free-delivery cities</label>
+    </div>
+  </div>
+  <div class="coverage">
+    <div class="coverage-lab" id="c-coverage-lab"></div>
+    <svg id="c-coverage-svg" viewBox="0 0 900 52"></svg>
+  </div>
+  <div class="note" id="c-note" hidden></div>
+  <div class="facts" style="margin-top:12px">
+    <div class="fact"><span class="n" id="c-f-counties">&mdash;</span><span class="l">Counties mapped</span></div>
+    <div class="fact"><span class="n" id="c-f-report">&mdash;</span><span class="l">Reporting the measure</span></div>
+    <div class="fact"><span class="n" id="c-f-total">&mdash;</span><span class="l">Total this year</span></div>
+    <div class="fact"><span class="n" id="c-f-treated">&mdash;</span><span class="l">Counties with free delivery</span></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div>
+      <h2 id="cmap-title">Counties</h2>
+      <p class="cap" id="cmap-cap"></p>
+    </div>
+  </div>
+  <svg id="cmap" viewBox="0 0 975 600"></svg>
+  <div class="legend" id="cmap-legend"></div>
+</div>
+
+<div class="duo">
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2>Around the arrival of free delivery</h2>
+        <p class="cap" id="cevent-cap"></p>
+      </div>
+    </div>
+    <svg id="cevent" viewBox="0 0 460 340"></svg>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2>Two county measures against each other</h2>
+        <p class="cap" id="cscatter-cap"></p>
+      </div>
+    </div>
+    <div class="ctl-row" style="margin-bottom:10px">
+      <div class="ctl">
+        <label for="c-sx">Horizontal</label>
+        <select id="c-sx"></select>
+      </div>
+      <div class="ctl"><label>&nbsp;</label>
+        <label class="check"><input type="checkbox" id="c-sx-log" checked> Log</label></div>
+      <div class="ctl">
+        <label for="c-sy">Vertical</label>
+        <select id="c-sy"></select>
+      </div>
+      <div class="ctl"><label>&nbsp;</label>
+        <label class="check"><input type="checkbox" id="c-sy-log" checked> Log</label></div>
+    </div>
+    <svg id="cscatter" viewBox="0 0 460 340"></svg>
+    <table id="cfit" class="reg fit">
+      <thead><tr><th>Fit</th><th>N</th><th>Slope</th><th>R&sup2;</th></tr></thead>
+      <tbody id="cfit-body"></tbody>
+    </table>
+    <p class="cap" id="cfit-foot"></p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div>
+      <h2 id="ctop-title">Twenty largest counties</h2>
+      <p class="cap" id="ctop-cap"></p>
+    </div>
+  </div>
+  <svg id="ctop" viewBox="0 0 975 420"></svg>
+</div>
+
+<div class="tables" id="t-counties"></div>
+
+<footer>
+  <p><b>What this tab is for.</b> The other two tabs are about what the Post Office Department did.
+  This one asks whether it mattered. Every source is joined onto the 1900 county map: the free-delivery
+  panel by its county FIPS, Blevins &amp; Helbock's post office gazetteer by coordinate, patents and the
+  non-Southern lynchings by FIPS, the Southern lynchings by county name, and the census tables by
+  NHGIS <code>GISJOIN</code>. Match rates for every join are printed in
+  <code>output/logs/g_county_panel*.log</code> and none of them is silent.</p>
+  <p><b>Adoption was threshold-triggered, so the event chart is not a causal estimate.</b> From July
+  1887 a town qualified for free city delivery with a population of 10,000 <i>or</i> gross receipts of
+  $10,000, at the Postmaster General's discretion &mdash; before that the bar was 20,000 and $20,000.
+  A county's adoption year is therefore mechanically correlated with how fast it was already growing,
+  and the chart's rise after year zero partly reflects the growth that earned the service in the first
+  place. The averages are also taken over an unbalanced set of counties, since which counties are
+  observed at a given event time depends on when they adopted.</p>
+  <p><b>Two measures of violence, and they are not the same thing.</b> Lynching is extralegal violence
+  &mdash; the state failing to hold its monopoly. Prison and jail inmates are the state exercising it.
+  If postal capacity marks the reach of the federal state, the two should move in opposite directions,
+  and the tab lets you put them side by side. But read the mismatch first: lynching is overwhelmingly
+  rural and Southern while free city delivery was urban by construction, so the two overlap less than
+  the map suggests. The Southern lynching inventory is Beck &amp; Tolnay's via the Project HAL
+  compilation, because the authors' own host is currently unreachable.</p>
+  <p><b>What the inmate counts are, and what they are not.</b> They are people enumerated in
+  correctional institutions on census day: 49,116 in 1880, 71,406 in 1900 and 76,898 in 1920, spread
+  over roughly 380 to 405 counties. That is 15&ndash;20% below the Census Bureau's own published
+  prisoner counts, as a one-day group-quarters enumeration should be &mdash; it misses small jails
+  holding nobody that night, and counts residents rather than commitments. Two things follow. Because
+  the counts sit in only about one county in seven, this is closer to <i>does this county hold a penal
+  institution</i> than to a local incarceration rate, and a county hosting a state penitentiary is not
+  thereby a more punitive place. And note the direction: inmates rise 1.6&times; while population
+  doubles, so incarceration per head slightly <i>fell</i> across the period even as the asylum and
+  poorhouse population grew much faster.</p>
+  <p><b>Coverage and its gaps.</b> Counts are annual; census measures exist only at benchmark years,
+  and the map carries the most recent census <i>that the measure was actually collected in</i> &mdash;
+  the caption always names which. Two gaps matter. There is <b>no county manufacturing census for
+  1910</b>, so establishments and value added skip from 1900 to 1920. And <b>incarceration exists for
+  1880, 1900 and 1920 only</b>: the 1910 census did not record the type of group quarters, coding
+  prisons, asylums, hotels and boarding houses alike, so its inmates cannot be separated from its
+  lodgers. Inmates are counted person by person in the complete-count census microdata, because no
+  published county crime or prisoner series exists for this period &mdash; NHGIS has none across all
+  271 of its datasets, and its county vital statistics carry no cause of death. Urban share exists for
+  1900 alone. Alaska and Hawaii are dropped from this tab.</p>
+  <p><b>Sources.</b> HistPat (Petralia, Balland &amp; Rigby 2016); US Post Offices (Blevins &amp;
+  Helbock 2021); Seguin &amp; Rigby (2019) and the Beck&ndash;Tolnay inventory; IPUMS NHGIS county
+  tables and 1900 boundaries; IPUMS USA complete-count censuses of 1880, 1900 and 1920; Atack's
+  railroad GIS; NBER decennial county population.</p>
+</footer>
+
+</section>
+
+<section class="tab-panel" id="tab-votes" hidden>
+
+<div class="controls">
+  <div class="ctl-row">
+    <div class="ctl year-block">
+      <div class="year-head">
+        <span class="year-now" id="v-year-now">1892</span>
+        <span class="year-n" id="v-year-n"></span>
+      </div>
+      <div class="slider-row">
+        <button id="v-play" title="Play through the elections">&#9654; Play</button>
+        <input type="range" id="v-year" min="0" max="10" step="1" value="3" aria-label="Election">
+      </div>
+    </div>
+    <div class="ctl">
+      <label for="v-measure">Colour counties by</label>
+      <select id="v-measure"></select>
+    </div>
+    <div class="ctl">
+      <label for="v-state">State</label>
+      <select id="v-state"></select>
+    </div>
+  </div>
+  <div class="coverage">
+    <div class="coverage-lab" id="v-coverage-lab"></div>
+    <svg id="v-coverage-svg" viewBox="0 0 900 52"></svg>
+  </div>
+  <div class="note" id="v-note" hidden></div>
+  <div class="facts" style="margin-top:12px">
+    <div class="fact"><span class="n" id="v-f-counties">&mdash;</span><span class="l">Counties reporting</span></div>
+    <div class="fact"><span class="n" id="v-f-share">&mdash;</span><span class="l">National share this election</span></div>
+    <div class="fact"><span class="n" id="v-f-max">&mdash;</span><span class="l">Highest county</span></div>
+    <div class="fact"><span class="n" id="v-f-votes">&mdash;</span><span class="l">Votes cast</span></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div>
+      <h2 id="vmap-title">Counties</h2>
+      <p class="cap" id="vmap-cap"></p>
+    </div>
+  </div>
+  <svg id="vmap" viewBox="0 0 975 600"></svg>
+  <div class="legend" id="vmap-legend"></div>
+</div>
+
+<div class="duo">
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2>Every party, election by election</h2>
+        <p class="cap" id="vseries-cap"></p>
+      </div>
+    </div>
+    <svg id="vseries" viewBox="0 0 460 340"></svg>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2>Postal density against the vote</h2>
+        <p class="cap" id="vscatter-cap"></p>
+      </div>
+    </div>
+    <svg id="vscatter" viewBox="0 0 460 340"></svg>
+    <table id="vfit" class="reg fit">
+      <thead><tr><th>Fit</th><th>N</th><th>Slope</th><th>R&sup2;</th></tr></thead>
+      <tbody id="vfit-body"></tbody>
+    </table>
+    <p class="cap" id="vfit-foot"></p>
+  </div>
+</div>
+
+<div class="card" id="v-reg-card">
+  <div class="card-head">
+    <div>
+      <h2>What the regressions say</h2>
+      <p class="cap" id="vreg-cap"></p>
+    </div>
+    <div class="ctl">
+      <label for="v-spec">Specification</label>
+      <select id="v-spec"></select>
+    </div>
+  </div>
+  <div class="table-scroll">
+    <table id="vreg" class="reg"><thead></thead><tbody></tbody></table>
+  </div>
+  <p class="cap" id="vreg-foot"></p>
+</div>
+
+<div class="card" id="v-event-card">
+  <div class="card-head">
+    <div>
+      <h2>Around the arrival of free delivery</h2>
+      <p class="cap" id="vevent-cap"></p>
+    </div>
+  </div>
+  <svg id="vevent" viewBox="0 0 975 300"></svg>
+  <table id="vev" class="reg static"><thead></thead><tbody></tbody></table>
+  <p class="cap src" id="vev-foot"></p>
+</div>
+
+<div class="tables" id="t-votes"></div>
+
+<footer>
+  <p><b>What this tab is asking.</b> If the post office is the federal government showing up in a
+  county &mdash; a building, a salaried official, a daily connection to the national press and the
+  national parties &mdash; then its arrival might reduce the appetite for parties organised against
+  the centre. The map shows each party's county vote share across the eleven presidential elections
+  from 1880 to 1920; the regression card reports what is left of the correlation once county and year
+  fixed effects have absorbed how radical a place simply was and what was happening nationally.</p>
+  <p><b>There is no rural free delivery in this data, and that matters.</b> Everything this project
+  calls free delivery is free <i>city</i> delivery, from the Post Office Department's Item 95
+  statement: 974 of 2,844 counties, urban by construction, observed 1896&ndash;1910 only. The
+  literature on mail and voting &mdash; Perlman and Sprick Schuster's <i>Delivering the Vote</i> &mdash;
+  is about <b>R</b>ural <b>F</b>ree <b>D</b>elivery, which reached the farm counties where Populism and
+  agrarian socialism actually lived. So the workhorse treatment here is the extensive margin instead:
+  post offices per 10,000 people, which is annual, universal, and covers every county in every year.
+  Free city delivery is reported beside it as a second, urban margin, and it is the weaker test of the
+  two.</p>
+  <p><b>None of these numbers is a causal estimate.</b> Post offices were not sprinkled at random:
+  they went where people were, and free city delivery was threshold-triggered on population and
+  receipts from 1887, so its arrival is mechanically correlated with how fast a county was already
+  growing. The fixed effects remove the part of that which is constant within a county or common to a
+  year; they do not remove the rest. Read the coefficients as conditional correlations with a sign,
+  and read the event study as a description of what happened around adoption rather than an estimate
+  of what adoption did.</p>
+  <p><b>Which parties count as radical, and which the source will not separate.</b> The insurgent-left
+  aggregate is Greenback, People's and Socialist &mdash; the parties running against the prevailing
+  economic order. Prohibition and the 1912 Progressives are deliberately <i>not</i> in it: both were
+  anti-establishment, neither was anti-capitalist, and the Progressives are shipped separately so you
+  can disagree. The real limit is the source. For 1880&ndash;1920 ICPSR 8611 carries only Democratic,
+  Republican, Greenback, Populist, Socialist, Progressive and a residual <i>other</i>; Prohibition,
+  Socialist Labor and Farmer-Labor are <b>inside that residual</b> and cannot be pulled out. So the
+  radical-left aggregate is a floor, not a total, and 1888 and 1900 carry no minor-party column at
+  all.</p>
+  <p><b>Three arithmetic warnings.</b> The People's share collapses in 1896 because the party fused
+  with the Democrats behind Bryan, not because the movement evaporated &mdash; that fusion vote is the
+  separate <i>Democratic (fusion)</i> series, which is counted with the major parties because the
+  platform was Bryan's. Turnout is ICPSR's, computed against the population estimated eligible to vote
+  under the era's age, race, sex and citizenship rules, so the jump at 1920 is partly women entering
+  the denominator rather than a surge of voting. And postal density is winsorised at its 99th
+  percentile: a handful of frontier counties have an interpolated population in single digits, which
+  turns one post office into two thousand per ten thousand people.</p>
+  <p><b>Sources.</b> County returns as named in the caption above the table &mdash; the pipeline
+  prefers ICPSR 8611 (Clubb, Flanigan &amp; Zingale), which carries minor parties separately, and falls
+  back to Algara and Amlani's open two-party file when that is not present. Which one produced these
+  numbers is recorded in <code>output/logs/i_election_data*.log</code> and printed in the caption,
+  because the two support different claims. Counties are put on the same 1900 boundary spine as the
+  other tabs, and the per-election match rates are in the same log.</p>
+</footer>
+
+</section>
+
 </div>
 
 <div id="tip" role="tooltip"></div>
@@ -239,6 +566,10 @@
 <script src="data/us_geo.js"></script>
 <script src="data/panel.js"></script>
 <script src="data/rail.js"></script>
+<script src="data/county_geo.js"></script>
+<script src="data/counties.js"></script>
+<script src="data/votes.js"></script>
+<script src="data/tables.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

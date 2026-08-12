@@ -151,6 +151,15 @@
 
   --po-rail-old: light-dark(var(--lightGray), var(--midGray));
   --po-pin-row:  var(--text-highlight-2);
+
+  /* County choropleth. The hairline between counties has to separate 2,842 shapes
+     without becoming the picture: it is the page ground, so at 0.3px it reads as a
+     seam in light mode and disappears into the fill in dark, which is what a
+     boundary should do when the fill is the data. A county with no value is drawn
+     in the muted ground rather than left blank, so the map stays a map. */
+  --po-county-line: var(--bg);
+  --po-county-none: light-dark(#eceff1, #24282b);
+  --po-city-dot:    var(--c2);
 }
 
 /* ============================================================================
@@ -353,6 +362,20 @@ svg { display: block; width: 100%; height: auto; overflow: visible; }
 .rail-key.old { border-top: 2px solid var(--po-rail-old); }
 .rail-key.new { border-top: 2px solid var(--c2); }
 
+/* The county map draws national geometry even in a state frame, so it clips for
+   the same reason #rmap does. The voting map reuses the same geometry and needs
+   the same clip. */
+#cmap, #vmap { overflow: hidden; }
+.county { stroke: var(--po-county-line); stroke-width: 0.3; cursor: pointer; }
+.county.none { fill: var(--po-county-none); }
+.county.hot { stroke: var(--fg); stroke-width: 1.4; }
+/* Free-delivery cities over the choropleth: small, unfilled, and never competing
+   with the fill underneath for attention. */
+.co-city { fill: none; stroke: var(--po-city-dot); stroke-width: 1.2; }
+.ev-rule { stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 3 3; }
+.ev-line { fill: none; stroke: var(--c1); stroke-width: 2; }
+.ev-band { fill: var(--c1); opacity: 0.12; }
+
 .office { stroke: var(--bg); stroke-width: 2; cursor: pointer; }
 .office.miss { fill: none; stroke: var(--missing); stroke-width: 1.5; }
 .office.pin { stroke: var(--fg); stroke-width: 2.5; }
@@ -398,6 +421,70 @@ tbody tr { cursor: pointer; }
 tbody tr:hover { background: var(--bg-muted); }
 tbody tr.pin { background: var(--po-pin-row); }
 td.na { color: var(--ink-3); }
+
+/* The regression table is a read-only report, not the sortable office grid, so it
+   takes back the affordances the generic rules hand out: no pointer, no hover
+   underline, no row highlight. Its first column is a long outcome name and every
+   other column is a number, so only the first is left-aligned — the generic rule
+   left-aligns the second as well, which would strand a coefficient under a
+   left-flush heading. */
+table.reg thead th { cursor: default; }
+table.reg thead th:hover { text-decoration: none; }
+table.reg tbody tr { cursor: default; }
+table.reg tbody tr:hover { background: none; }
+table.reg th:nth-child(2), table.reg td:nth-child(2) { text-align: right; }
+table.reg tbody td:nth-child(2) { font-family: var(--mono); }
+table.reg .se { color: var(--ink-3); }
+
+/* The row matching the measure selector. Same highlight the office table uses for
+   a pinned row, so "this is the one you picked" means one thing across the page —
+   and it has to beat the generic tbody rule, hence the table.reg prefix. */
+table.reg tbody tr.sel { background: var(--po-pin-row); }
+table.reg tbody tr.sel td:first-child { font-weight: 600; }
+
+/* --- Bundled LaTeX tables --------------------------------------------------
+   The printed fragments, rendered as they are printed. A static table has no
+   sortable columns and nothing to click, so it drops every affordance the office
+   grid hands out; alignment comes from the fragment's own colspec, set inline,
+   so the generic first-two-columns-left rule must not override it. */
+
+.tables { margin-top: 26px; }
+.tables-head {
+  font-size: var(--font-md); margin: 0 0 10px;
+  padding-bottom: 6px; border-bottom: var(--border);
+}
+.tbl-card + .tbl-card { margin-top: 14px; }
+.tbl-card .table-scroll { max-height: 520px; }
+.tbl-card .src {
+  margin-top: 6px; font-family: var(--mono); font-size: var(--font-xs);
+  color: var(--ink-3);
+}
+
+table.reg.static thead th,
+table.reg.static tbody td { text-align: inherit; }
+table.reg.static tbody tr { cursor: default; }
+table.reg.static tbody tr:hover { background: none; }
+table.reg.static tbody td { font-family: var(--mono); }
+table.reg.static tbody td:first-child { font-family: var(--sans); }
+/* A \midrule in the fragment. app.js tags only the row the rule falls above. */
+table.reg.static tbody tr.rule td { border-top: var(--border); }
+
+/* The event study's omitted category. Every other coefficient is measured against
+   it, so it is marked as the reference rather than read as an estimate of zero. */
+table.reg.static tbody tr.omit td { color: var(--ink-3); font-style: italic; }
+
+/* The scatter fit tables are three rows sitting directly under a chart, not a
+   report card of their own: tighter padding, no scroll box, and a key in the
+   first column drawn as a line rather than a chip, so it reads as the mark it
+   labels. The colour is set inline from the same string the path uses, because
+   it comes back off the probe as an rgb() and follows the OS theme with it. */
+table.reg.fit { margin-top: 10px; }
+table.reg.fit th, table.reg.fit td { padding: 3px 8px; }
+table.reg.fit thead th { position: static; }
+.fit-swatch {
+  display: inline-block; width: 13px; height: 0; margin-right: 7px;
+  vertical-align: middle; border-top: 2px solid currentColor;
+}
 
 /* --- Tooltip --------------------------------------------------------------- */
 

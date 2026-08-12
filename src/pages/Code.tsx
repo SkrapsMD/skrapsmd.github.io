@@ -42,8 +42,8 @@ export default function Code() {
         </div>
         <div className={styles.body}>
           Every office in the Post Office Department&rsquo;s Item 95 statement of free city
-          delivery, mapped year by year, with a second view laying the offices over the railroad
-          network they posted mail onto.
+          delivery, mapped year by year, alongside views laying the offices over the railroad
+          network they posted mail onto, county outcomes, and voting for radical parties.
         </div>
         <div className={styles.badges}>
           <Badge variant="info">Tools</Badge>
