@@ -3,6 +3,7 @@ import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Layout from './layout/Layout'
 import Home from './pages/Home'
 import Research from './pages/Research'
+import Presentations from './pages/Presentations'
 import Code from './pages/Code'
 import Applications from './pages/Applications'
 import People from './pages/People'
@@ -11,11 +12,12 @@ import Sitemap from './pages/Sitemap'
 import Licensing from './pages/Licensing'
 
 // Heavy routes are code-split so their weight (the Specimen palette grids; the
-// geocoder's xlsx dependency; the calendar's bundled event data) stays out of
-// the initial bundle.
+// geocoder's xlsx dependency; the calendar's bundled event data; the slide
+// decks) stays out of the initial bundle.
 const Specimen = lazy(() => import('./pages/Specimen'))
 const Geocoder = lazy(() => import('./pages/Geocoder'))
 const Calendar = lazy(() => import('./pages/Calendar'))
+const PresentationViewer = lazy(() => import('./pages/PresentationViewer'))
 
 export default function App() {
   return (
@@ -25,6 +27,8 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="home" element={<Navigate to="/" replace />} />
           <Route path="research" element={<Research />} />
+          <Route path="presentations" element={<Presentations />} />
+          <Route path="presentations/:slug" element={<PresentationViewer />} />
           <Route path="code" element={<Code />} />
           <Route path="applications" element={<Applications />} />
           <Route path="people" element={<People />} />

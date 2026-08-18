@@ -25,10 +25,11 @@ node scripts/ssr-smoke.mjs   # headless render check across every route (catches
 - `main.tsx` — React entry; imports `styles/styles.css`; runs the legacy-hash shim.
 - `App.tsx` — `HashRouter` + the route table. Heavy routes (`Specimen`, `Geocoder`) are `React.lazy` code-split.
 - `layout/` — `Layout` (masthead, nav, footer, frame; wraps routed pages via `<Outlet/>` inside `<Suspense>`).
-- `pages/` — one component per route (`Home`, `Research`, `People`, `PersonProfile`, `Specimen`, `Applications`, `Code`, `Geocoder`, `Sitemap`, `Licensing`).
+- `pages/` — one component per route (`Home`, `Research`, `Presentations`, `PresentationViewer`, `People`, `PersonProfile`, `Specimen`, `Applications`, `Code`, `Geocoder`, `Sitemap`, `Licensing`).
 - `ui/` — **the design-system component library** (`Button`, `Badge`, `Panel`, `Table`/`TableCaption`, `Field`, `Input`, `CodeBlock`). Typed props; re-exported from `ui/index.ts` (the barrel the design-sync reads).
 - `components/` — composite, app-specific components (`ResearchCard`, `StoryModal`, `PersonCard`, `AppTrackerTable`, `ProofModal`, `WipBanner`).
-- `data/` — content as typed data: `research.ts`, `people.ts`, `applications.ts`, `storyGroups.ts`. **Edit these to update content** — pages render from them; nothing is hardcoded per-card.
+- `data/` — content as typed data: `research.ts`, `people.ts`, `applications.ts`, `storyGroups.ts`, `presentations.ts`. **Edit these to update content** — pages render from them; nothing is hardcoded per-card.
+- `decks/` — slide decks, one component per talk (`BaumolCostDisease.tsx`). Each renders its slides through `components/DeckStage` and owns its own build/animation state.
 - `styles/` — global design language: `tokens.css`, `base.css`, `palettes/` (FRBA/USGC), `fonts.css`, and the `styles.css` `@import` root.
 
 `public/` holds static assets served at the site root: `fonts/` (IBM Plex woff2), `images/`, `docs/` (PDFs).
@@ -49,6 +50,13 @@ node scripts/ssr-smoke.mjs   # headless render check across every route (catches
 1. Create `src/pages/Name.tsx` (+ `Name.module.css` if needed).
 2. Add a `<Route>` to `App.tsx` (use `React.lazy` if the page is heavy).
 3. Add a nav entry to the `NAV` array in `src/layout/Layout.tsx`.
+
+**Add a presentation:**
+1. Add an entry to `presentations` in `src/data/presentations.ts` (slug, title, event, date, summary, badges).
+2. Build the deck as `src/decks/<Name>.tsx`: an array of `DeckSlide`s (`label`, `screenLabel`, `notes`, `content`) rendered by `<DeckStage>`. Slides are authored against a fixed 1920x1080 canvas that `DeckStage` scales to fit, so slide markup uses inline styles over design tokens.
+3. Register the deck component in the `DECKS` map in `src/pages/PresentationViewer.tsx`, keyed by slug.
+
+Decks imported from claude.ai/design (`.dc.html`) are **templates**, not standalone pages: they rely on the Claude Design runtime (`support.js`), which loads React/ReactDOM/Babel from a CDN and compiles `{{ }}` bindings in the browser. Port the slide markup and the `DCLogic` state to React rather than shipping the runtime.
 
 **Add a design-system component:** create `src/ui/<Name>/<Name>.tsx` + `.module.css`, give it typed props, and export it from `src/ui/index.ts`. Composite/page-specific pieces go in `src/components/` instead.
 

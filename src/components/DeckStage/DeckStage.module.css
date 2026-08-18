@@ -1,0 +1,139 @@
+/* DeckStage — a fixed design canvas (1920x1080 by default) scaled to fit the
+   box it is given, plus the presenting chrome: keyboard nav, an idle-fading
+   control overlay, full-screen, and speaker notes. */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pad-sm);
+  outline: none;
+}
+
+.root:focus-visible .frame {
+  outline: 2px solid var(--text-emph);
+  outline-offset: 2px;
+}
+
+.frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border: var(--border);
+  background: var(--bg);
+}
+
+/* The slide is laid out at its authored pixel size and scaled from its centre,
+   so slide CSS never has to know how big the stage is. */
+.canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+  cursor: pointer;
+}
+
+/* Full screen: fill the display and letterbox the canvas inside it. */
+.fullscreen {
+  gap: 0;
+  justify-content: center;
+  background: var(--bg);
+}
+
+.fullscreen .frame {
+  aspect-ratio: auto !important;
+  height: 100vh;
+  border: none;
+}
+
+.fullscreen .notes {
+  display: none;
+}
+
+/* Controls */
+.overlay {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--pad-sm);
+  padding: 6px 10px;
+  background: var(--bg);
+  border: var(--border);
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  opacity: 1;
+  transition: opacity 0.4s ease;
+  max-width: calc(100% - 24px);
+}
+
+.overlayIdle {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ctrl {
+  font: inherit;
+  color: var(--text-primary);
+  background: var(--bg);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  padding: 2px 8px;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.ctrl:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--ink-inv);
+}
+
+.ctrl:disabled {
+  color: var(--ink-muted);
+  cursor: default;
+}
+
+.ctrl[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--ink-inv);
+}
+
+.counter {
+  min-width: 46px;
+  text-align: center;
+}
+
+.slideLabel {
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 26ch;
+}
+
+/* Speaker notes */
+.notes {
+  border: var(--border-muted);
+  padding: var(--pad);
+  background: var(--bg-muted);
+}
+
+.notesHead {
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.notesBody {
+  margin: 0;
+  font-size: var(--font-sm);
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .slideLabel {
+    display: none;
+  }
+}

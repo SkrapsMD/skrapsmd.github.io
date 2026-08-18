@@ -11,6 +11,7 @@ const isGroup = (item: NavItem): item is NavGroupItem => 'items' in item
 const NAV: NavItem[] = [
   { to: '/', label: 'Home', end: true },
   { to: '/research', label: 'Research' },
+  { to: '/presentations', label: 'Presentations' },
   { to: '/code', label: 'Code & Data' },
   { to: '/people', label: 'People' },
   { to: '/specimen', label: 'Design Reference' },

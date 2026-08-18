@@ -1,0 +1,71 @@
+/* Presentations index — one card per talk, following the research card's
+   border/padding rhythm so the two indexes read as siblings. */
+
+.section {
+  margin-bottom: 32px;
+}
+
+.heading {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.card {
+  border: var(--border);
+  border-left: 15px solid var(--text-emph);
+  padding: var(--pad);
+  margin-bottom: var(--pad);
+}
+
+.title {
+  font-size: var(--font-md);
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.titleLink {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.titleLink:hover {
+  color: var(--text-link-hover);
+  text-decoration: underline;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+}
+
+.summary {
+  margin: var(--pad) 0;
+  font-size: var(--font-sm);
+  line-height: 1.6;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pad-sm);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pad-sm);
+}
+
+.open {
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  color: var(--text-link);
+  white-space: nowrap;
+}

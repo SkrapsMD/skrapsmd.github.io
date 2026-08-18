@@ -15,6 +15,8 @@ import ReactDOMServer from 'react-dom/server'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
 import Home from '@/pages/Home'
 import Research from '@/pages/Research'
+import Presentations from '@/pages/Presentations'
+import PresentationViewer from '@/pages/PresentationViewer'
 import People from '@/pages/People'
 import PersonProfile from '@/pages/PersonProfile'
 import Specimen from '@/pages/Specimen'
@@ -49,6 +51,17 @@ check('Home', () => render(React.createElement(Home), ['/']), {
 check('Research', () => render(React.createElement(Research), ['/']), {
   group: 'Federal Reserve Bank of Atlanta',
 })
+check('Presentations', () => render(React.createElement(Presentations), ['/']), {
+  heading: 'Talks &amp; Presentations', talk: 'Baumol', link: '/presentations/baumol-monetary-policy',
+})
+check('PresentationViewer', () =>
+  ReactDOMServer.renderToStaticMarkup(
+    React.createElement(
+      MemoryRouter, { initialEntries: ['/presentations/baumol-monetary-policy'] },
+      React.createElement(Routes, null,
+        React.createElement(Route, { path: 'presentations/:slug', element: React.createElement(PresentationViewer) }))
+    )
+  ), { title: 'Monetary Policy', event: 'Competitive Edge 2026', firstSlide: 'Michael Dwight Sparks' })
 check('People', () => render(React.createElement(People), ['/']), {
   person: 'Baslandze', link: '/person/',
 })

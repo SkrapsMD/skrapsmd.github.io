@@ -1,0 +1,53 @@
+/* Single presentation — masthead, the deck stage itself, then the keyboard
+   legend and topic tags. */
+
+.page {
+  margin-bottom: 32px;
+}
+
+.head {
+  margin-bottom: var(--pad);
+}
+
+.back {
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  color: var(--text-link);
+}
+
+.title {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  margin: 6px 0 4px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+}
+
+.hint {
+  margin: var(--pad) 0 0;
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.hint kbd {
+  font-family: var(--font-mono);
+  border: var(--border-muted);
+  border-radius: var(--border-radius);
+  padding: 0 5px;
+  background: var(--bg-muted);
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pad-sm);
+  margin-top: var(--pad);
+}
