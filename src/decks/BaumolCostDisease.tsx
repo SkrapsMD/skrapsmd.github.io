@@ -201,7 +201,7 @@ export default function BaumolCostDiseaseDeck() {
   const eqBorder = s2 >= 3 ? 'transparent' : 'var(--ink)'
   const v = {
     year,
-    eraBg: year >= 1950 ? 'var(--atlBlue50)' : 'var(--atlGold50)',
+    eraBg: year >= 1950 ? 'var(--deck-panel-cool)' : 'var(--deck-panel-warm)',
     aOp: s2 >= 2 ? 0 : 1,
     bOp: s2 >= 2 ? 1 : 0,
     wOp: s2 >= 2 ? 1 : 0,
@@ -278,8 +278,8 @@ export default function BaumolCostDiseaseDeck() {
               August 18, 2026
             </span>
           </div>
-          <div style={{ position: 'absolute', left: '0', right: '0', bottom: '0', height: '8px', background: 'var(--atlBlue100)' }}>
-            <div style={{ width: '14%', height: '100%', background: 'var(--primaryBlue)' }}>
+          <div style={{ position: 'absolute', left: '0', right: '0', bottom: '0', height: '8px', background: 'var(--deck-rail)' }}>
+            <div style={{ width: '14%', height: '100%', background: 'var(--deck-rail-fill)' }}>
             </div>
           </div>
         </section>
@@ -297,6 +297,7 @@ export default function BaumolCostDiseaseDeck() {
           <div style={{ fontSize: '33px', lineHeight: '1.45', maxWidth: '1620px', borderLeft: '4px solid var(--text-emph)', paddingLeft: '28px' }}>
             <span>
               The tools available to a central bank for controlling the money supply of an economy. There are several — the one we think about, and see most frequently, is the
+              {' '}
               <span style={{ fontWeight: '600' }}>
                 federal funds rate
               </span>
@@ -407,8 +408,8 @@ export default function BaumolCostDiseaseDeck() {
               </svg>
             </div>
           </div>
-          <div style={{ position: 'absolute', left: '0', right: '0', bottom: '0', height: '8px', background: 'var(--atlBlue100)' }}>
-            <div style={{ width: '29%', height: '100%', background: 'var(--primaryBlue)' }}>
+          <div style={{ position: 'absolute', left: '0', right: '0', bottom: '0', height: '8px', background: 'var(--deck-rail)' }}>
+            <div style={{ width: '29%', height: '100%', background: 'var(--deck-rail-fill)' }}>
             </div>
           </div>
         </section>
@@ -442,7 +443,7 @@ export default function BaumolCostDiseaseDeck() {
                   </path>
                   <ellipse cx="100" cy="86" rx="14" ry="24" fill="var(--gold)" transform="rotate(-50 100 86)">
                   </ellipse>
-                  <line x1="112" y1="70" x2="136" y2="42" stroke="var(--atlGold700)" strokeWidth="6">
+                  <line x1="112" y1="70" x2="136" y2="42" stroke="var(--deck-accent-warm)" strokeWidth="6">
                   </line>
                 </g>
                 <g transform="translate(150,10)">
@@ -452,7 +453,7 @@ export default function BaumolCostDiseaseDeck() {
                   </path>
                   <ellipse cx="100" cy="86" rx="14" ry="24" fill="var(--gold)" transform="rotate(-50 100 86)">
                   </ellipse>
-                  <line x1="112" y1="70" x2="136" y2="42" stroke="var(--atlGold700)" strokeWidth="6">
+                  <line x1="112" y1="70" x2="136" y2="42" stroke="var(--deck-accent-warm)" strokeWidth="6">
                   </line>
                 </g>
                 <g transform="translate(300,10)">
@@ -462,7 +463,7 @@ export default function BaumolCostDiseaseDeck() {
                   </path>
                   <ellipse cx="102" cy="90" rx="16" ry="27" fill="var(--gold)" transform="rotate(-50 102 90)">
                   </ellipse>
-                  <line x1="114" y1="72" x2="140" y2="42" stroke="var(--atlGold700)" strokeWidth="6">
+                  <line x1="114" y1="72" x2="140" y2="42" stroke="var(--deck-accent-warm)" strokeWidth="6">
                   </line>
                 </g>
                 <g transform="translate(450,10)">
@@ -472,7 +473,7 @@ export default function BaumolCostDiseaseDeck() {
                   </path>
                   <ellipse cx="60" cy="160" rx="28" ry="44" fill="var(--gold)">
                   </ellipse>
-                  <rect x="56" y="84" width="8" height="46" fill="var(--atlGold700)">
+                  <rect x="56" y="84" width="8" height="46" fill="var(--deck-accent-warm)">
                   </rect>
                 </g>
               </svg>
@@ -512,7 +513,7 @@ export default function BaumolCostDiseaseDeck() {
               </div>
             </div>
             <div style={{ position: 'absolute', inset: '0', display: 'grid', gridTemplateColumns: '1fr 1fr', opacity: v.bOp, transition: 'opacity .8s' }}>
-              <div style={{ background: 'var(--atlGold50)', border: '1px solid var(--ink)', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '34px 30px 130px', gap: '22px' }}>
+              <div style={{ background: 'var(--deck-panel-warm)', border: '1px solid var(--ink)', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '34px 30px 130px', gap: '22px' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '46px', fontWeight: '600' }}>
                   1776
                 </div>
@@ -524,7 +525,7 @@ export default function BaumolCostDiseaseDeck() {
                     </path>
                     <ellipse cx="100" cy="86" rx="14" ry="24" fill="var(--gold)" transform="rotate(-50 100 86)">
                     </ellipse>
-                    <line x1="112" y1="70" x2="136" y2="42" stroke="var(--atlGold700)" strokeWidth="6">
+                    <line x1="112" y1="70" x2="136" y2="42" stroke="var(--deck-accent-warm)" strokeWidth="6">
                     </line>
                   </g>
                   <g transform="translate(150,10)">
@@ -534,7 +535,7 @@ export default function BaumolCostDiseaseDeck() {
                     </path>
                     <ellipse cx="100" cy="86" rx="14" ry="24" fill="var(--gold)" transform="rotate(-50 100 86)">
                     </ellipse>
-                    <line x1="112" y1="70" x2="136" y2="42" stroke="var(--atlGold700)" strokeWidth="6">
+                    <line x1="112" y1="70" x2="136" y2="42" stroke="var(--deck-accent-warm)" strokeWidth="6">
                     </line>
                   </g>
                   <g transform="translate(300,10)">
@@ -544,7 +545,7 @@ export default function BaumolCostDiseaseDeck() {
                     </path>
                     <ellipse cx="102" cy="90" rx="16" ry="27" fill="var(--gold)" transform="rotate(-50 102 90)">
                     </ellipse>
-                    <line x1="114" y1="72" x2="140" y2="42" stroke="var(--atlGold700)" strokeWidth="6">
+                    <line x1="114" y1="72" x2="140" y2="42" stroke="var(--deck-accent-warm)" strokeWidth="6">
                     </line>
                   </g>
                   <g transform="translate(450,10)">
@@ -554,7 +555,7 @@ export default function BaumolCostDiseaseDeck() {
                     </path>
                     <ellipse cx="60" cy="160" rx="28" ry="44" fill="var(--gold)">
                     </ellipse>
-                    <rect x="56" y="84" width="8" height="46" fill="var(--atlGold700)">
+                    <rect x="56" y="84" width="8" height="46" fill="var(--deck-accent-warm)">
                     </rect>
                   </g>
                 </svg>
@@ -593,7 +594,7 @@ export default function BaumolCostDiseaseDeck() {
                   </div>
                 </div>
               </div>
-              <div style={{ background: 'var(--atlBlue50)', border: '1px solid var(--ink)', borderLeft: 'none', position: 'relative', display: 'flex', padding: '34px 30px 130px', overflow: 'hidden' }}>
+              <div style={{ background: 'var(--deck-panel-cool)', border: '1px solid var(--ink)', borderLeft: 'none', position: 'relative', display: 'flex', padding: '34px 30px 130px', overflow: 'hidden' }}>
                 <div style={{ flex: '1', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '22px', transform: `translateX(${v.qShift}px)`, transition: 'transform 1s ease' }}>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '46px', fontWeight: '600' }}>
                     2026
@@ -606,7 +607,7 @@ export default function BaumolCostDiseaseDeck() {
                       </path>
                       <ellipse cx="100" cy="86" rx="14" ry="24" fill="var(--gold)" transform="rotate(-50 100 86)">
                       </ellipse>
-                      <line x1="112" y1="70" x2="136" y2="42" stroke="var(--atlGold700)" strokeWidth="6">
+                      <line x1="112" y1="70" x2="136" y2="42" stroke="var(--deck-accent-warm)" strokeWidth="6">
                       </line>
                     </g>
                     <g transform="translate(150,10)" style={{ transition: 'opacity 1s', opacity: v.gB }}>
@@ -616,7 +617,7 @@ export default function BaumolCostDiseaseDeck() {
                       </path>
                       <ellipse cx="100" cy="86" rx="14" ry="24" fill="var(--gold)" transform="rotate(-50 100 86)">
                       </ellipse>
-                      <line x1="112" y1="70" x2="136" y2="42" stroke="var(--atlGold700)" strokeWidth="6">
+                      <line x1="112" y1="70" x2="136" y2="42" stroke="var(--deck-accent-warm)" strokeWidth="6">
                       </line>
                     </g>
                     <g transform="translate(300,10)" style={{ transition: 'opacity 1s', opacity: v.gC }}>
@@ -626,7 +627,7 @@ export default function BaumolCostDiseaseDeck() {
                       </path>
                       <ellipse cx="102" cy="90" rx="16" ry="27" fill="var(--gold)" transform="rotate(-50 102 90)">
                       </ellipse>
-                      <line x1="114" y1="72" x2="140" y2="42" stroke="var(--atlGold700)" strokeWidth="6">
+                      <line x1="114" y1="72" x2="140" y2="42" stroke="var(--deck-accent-warm)" strokeWidth="6">
                       </line>
                     </g>
                     <g transform="translate(450,10)">
@@ -636,7 +637,7 @@ export default function BaumolCostDiseaseDeck() {
                       </path>
                       <ellipse cx="60" cy="160" rx="28" ry="44" fill="var(--gold)">
                       </ellipse>
-                      <rect x="56" y="84" width="8" height="46" fill="var(--atlGold700)">
+                      <rect x="56" y="84" width="8" height="46" fill="var(--deck-accent-warm)">
                       </rect>
                     </g>
                   </svg>
@@ -684,17 +685,17 @@ export default function BaumolCostDiseaseDeck() {
                 </div>
                 <div style={{ width: '210px', position: 'absolute', right: '16px', top: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', gap: '8px', opacity: v.fOp, transition: 'opacity .9s' }}>
                   <svg viewBox="0 0 300 200" style={{ width: '200px' }}>
-                    <path d="M30 190 h240 v-85 h-240 z" fill="var(--integrityIndigo)">
+                    <path d="M30 190 h240 v-85 h-240 z" fill="var(--deck-figure-alt)">
                     </path>
-                    <path d="M30 105 l48 -38 v38 l48 -38 v38 l48 -38 v38 l48 -38 v38 z" fill="var(--integrityIndigo)">
+                    <path d="M30 105 l48 -38 v38 l48 -38 v38 l48 -38 v38 l48 -38 v38 z" fill="var(--deck-figure-alt)">
                     </path>
-                    <rect x="230" y="30" width="22" height="60" fill="var(--integrityIndigo)">
+                    <rect x="230" y="30" width="22" height="60" fill="var(--deck-figure-alt)">
                     </rect>
-                    <rect x="52" y="128" width="34" height="40" fill="var(--atlBlue100)">
+                    <rect x="52" y="128" width="34" height="40" fill="var(--deck-figure-alt-inset)">
                     </rect>
-                    <rect x="112" y="128" width="34" height="40" fill="var(--atlBlue100)">
+                    <rect x="112" y="128" width="34" height="40" fill="var(--deck-figure-alt-inset)">
                     </rect>
-                    <rect x="172" y="128" width="34" height="40" fill="var(--atlBlue100)">
+                    <rect x="172" y="128" width="34" height="40" fill="var(--deck-figure-alt-inset)">
                     </rect>
                     <line x1="20" y1="80" x2="110" y2="14" stroke="var(--shamrockGreen)" strokeWidth="7">
                     </line>
@@ -745,7 +746,7 @@ export default function BaumolCostDiseaseDeck() {
                 <span style={{ fontSize: '30px', lineHeight: '1.4' }}>
                   The quartet’s pay is not set by what it produces — it is set by what these four could earn elsewhere, and elsewhere got dramatically more productive.
                 </span>
-                <span style={{ fontSize: '26px', lineHeight: '1.4', color: 'var(--atlGold300)' }}>
+                <span style={{ fontSize: '26px', lineHeight: '1.4', color: 'var(--deck-accent-on-ink)' }}>
                   Output per hour is unchanged, so the higher wage can only be covered by a higher ticket price.
                 </span>
               </div>
@@ -754,8 +755,8 @@ export default function BaumolCostDiseaseDeck() {
           <HoverButton onClick={v.adv2} title="Advance build" style={{ position: 'absolute', right: '100px', bottom: '26px', fontFamily: 'var(--font-mono)', fontSize: '30px', lineHeight: '1', padding: '10px 18px', border: '1px solid var(--ink)', background: 'var(--gold)', color: 'var(--ink)', cursor: 'pointer', borderRadius: '0' }} hoverStyle={{ background: 'var(--ink)', color: 'var(--bg)' }}>
             {v.s2label}
           </HoverButton>
-          <div style={{ position: 'absolute', left: '0', right: '0', bottom: '0', height: '8px', background: 'var(--atlBlue100)' }}>
-            <div style={{ width: '43%', height: '100%', background: 'var(--primaryBlue)' }}>
+          <div style={{ position: 'absolute', left: '0', right: '0', bottom: '0', height: '8px', background: 'var(--deck-rail)' }}>
+            <div style={{ width: '43%', height: '100%', background: 'var(--deck-rail-fill)' }}>
             </div>
           </div>
         </section>
@@ -791,12 +792,14 @@ export default function BaumolCostDiseaseDeck() {
               <div style={{ fontSize: '25px', lineHeight: '1.5', textAlign: 'center', color: 'var(--text-secondary)' }}>
                 <div>
                   GDP / capita
+                  {' '}
                   <span style={{ color: 'var(--text-primary)', fontWeight: '600' }}>
                     $9,800
                   </span>
                 </div>
                 <div>
                   health
+                  {' '}
                   <span style={{ color: 'var(--atlOrange600)', fontWeight: '600' }}>
                     3.5% · $343
                   </span>
@@ -815,18 +818,21 @@ export default function BaumolCostDiseaseDeck() {
               <div style={{ fontSize: '25px', lineHeight: '1.5', textAlign: 'center', color: 'var(--text-secondary)' }}>
                 <div>
                   GDP / capita
+                  {' '}
                   <span style={{ color: 'var(--text-primary)', fontWeight: '600' }}>
                     $69,200
                   </span>
                 </div>
                 <div>
                   health
+                  {' '}
                   <span style={{ color: 'var(--atlOrange600)', fontWeight: '600' }}>
-                    18% · ~$12,460
+                    18% · $12,460
                   </span>
                 </div>
                 <div>
                   non-health $56,700
+                  {' '}
                   <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--shamrockGreen)' }}>
                     ×6.0
                   </span>
@@ -842,20 +848,23 @@ export default function BaumolCostDiseaseDeck() {
               <div style={{ fontSize: '25px', lineHeight: '1.5', textAlign: 'center', color: 'var(--text-secondary)' }}>
                 <div>
                   GDP / capita
+                  {' '}
                   <span style={{ color: 'var(--text-primary)', fontWeight: '600' }}>
                     $381,600
                   </span>
                 </div>
                 <div>
                   health
+                  {' '}
                   <span style={{ color: 'var(--atlOrange600)', fontWeight: '600' }}>
                     59.4% · $226,500
                   </span>
                 </div>
                 <div>
                   non-health $155,100
-                  <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--atlOrange600)' }}>
-                    only ×2.7
+                  {' '}
+                  <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--shamrockGreen)' }}>
+                    ×2.7
                   </span>
                 </div>
               </div>
@@ -880,8 +889,8 @@ export default function BaumolCostDiseaseDeck() {
               real $ per capita · pie area ∝ real GDP per capita
             </span>
           </div>
-          <div style={{ position: 'absolute', left: '0', right: '0', bottom: '0', height: '8px', background: 'var(--atlBlue100)' }}>
-            <div style={{ width: '57%', height: '100%', background: 'var(--primaryBlue)' }}>
+          <div style={{ position: 'absolute', left: '0', right: '0', bottom: '0', height: '8px', background: 'var(--deck-rail)' }}>
+            <div style={{ width: '57%', height: '100%', background: 'var(--deck-rail-fill)' }}>
             </div>
           </div>
         </section>
@@ -957,8 +966,8 @@ export default function BaumolCostDiseaseDeck() {
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '27px', color: 'var(--text-emph-2)' }}>
             All well documented — and none of them answers the monetary-policy question.
           </div>
-          <div style={{ position: 'absolute', left: '0', right: '0', bottom: '0', height: '8px', background: 'var(--atlBlue100)' }}>
-            <div style={{ width: '71%', height: '100%', background: 'var(--primaryBlue)' }}>
+          <div style={{ position: 'absolute', left: '0', right: '0', bottom: '0', height: '8px', background: 'var(--deck-rail)' }}>
+            <div style={{ width: '71%', height: '100%', background: 'var(--deck-rail-fill)' }}>
             </div>
           </div>
         </section>
@@ -973,9 +982,11 @@ export default function BaumolCostDiseaseDeck() {
         <section style={{ position: 'relative', width: '100%', height: '100%', background: 'var(--bg)', color: 'var(--text-primary)', fontFamily: 'var(--font-sans)', boxSizing: 'border-box', padding: '70px 100px 100px', display: 'flex', flexDirection: 'column', gap: '24px', overflow: 'hidden' }}>
           <h2 style={{ fontSize: '52px', margin: '0', fontWeight: '600', lineHeight: '1.2', flexShrink: '0', maxWidth: '1700px' }}>
             What happens when monetary policy is set on wages anchored to biased
+            {' '}
             <span style={{ fontStyle: 'italic' }}>
               expected
             </span>
+            {' '}
             productivity?
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '56px', flex: '1', minHeight: '0', alignItems: 'start' }}>
@@ -1070,8 +1081,8 @@ export default function BaumolCostDiseaseDeck() {
           <div style={{ fontSize: '36px', lineHeight: '1.4', fontWeight: '600', color: 'var(--text-emph)', maxWidth: '1750px' }}>
             In a model with Baumol’s cost disease, monetary policy’s ineffectiveness could be tied to the gap between expected and realized productivity growth.
           </div>
-          <div style={{ position: 'absolute', left: '0', right: '0', bottom: '0', height: '8px', background: 'var(--atlBlue100)' }}>
-            <div style={{ width: '86%', height: '100%', background: 'var(--primaryBlue)' }}>
+          <div style={{ position: 'absolute', left: '0', right: '0', bottom: '0', height: '8px', background: 'var(--deck-rail)' }}>
+            <div style={{ width: '86%', height: '100%', background: 'var(--deck-rail-fill)' }}>
             </div>
           </div>
         </section>

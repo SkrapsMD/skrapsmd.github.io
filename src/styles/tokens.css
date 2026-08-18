@@ -92,6 +92,28 @@ Michael Dwight Sparks
     --active-indicator: light-dark(var(--atlDanger), var(--atlDanger));
 
     /* ========================================
+       SLIDE DECKS (src/decks)
+       ======================================== */
+    /* Deck slides paint tinted panels and then draw figures on top of them with
+       --ink, which flips with the theme. These panels flip with it so the
+       figures, borders and body text keep their contrast in both modes. */
+    --deck-panel-warm: light-dark(var(--atlGold50), var(--atlGold900));
+    --deck-panel-cool: light-dark(var(--atlBlue50), var(--atlBlue1000));
+
+    /* Figure accents drawn onto those panels. */
+    --deck-accent-warm: light-dark(var(--atlGold700), var(--atlGold100));
+    --deck-figure-alt: light-dark(var(--integrityIndigo), var(--integrityIndigoLight));
+    --deck-figure-alt-inset: light-dark(var(--atlBlue100), var(--atlIndigo1000));
+
+    /* Accent text on a slide's inverted (--ink) callout bar. */
+    --deck-accent-on-ink: light-dark(var(--atlGold300), var(--atlGold900));
+
+    /* Slide progress rail: the fill must read as the emphasised part in both
+       modes, so both track and fill swap rather than just the track. */
+    --deck-rail: light-dark(var(--atlBlue100), var(--atlBlue1000));
+    --deck-rail-fill: light-dark(var(--primaryBlue), var(--atlBlue300));
+
+    /* ========================================
        SPACING & LAYOUT
        ======================================== */
     --frame-width: 980px;
